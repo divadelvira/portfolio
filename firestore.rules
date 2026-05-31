@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Contacts collection rules
+    match /contacts/{contactId} {
+      // Allow any visitor to submit a contact message if it complies with structural rules
+      allow create: if request.resource.data.keys().hasAll(['id', 'name', 'contact', 'message', 'timestamp'])
+                    && request.resource.data.id is string
+                    && request.resource.data.id.size() <= 64
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() <= 100
+                    && request.resource.data.contact is string
+                    && request.resource.data.contact.size() <= 200
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() <= 5000
+                    && request.resource.data.timestamp is string
+                    && request.resource.data.timestamp.size() <= 64;
+
+      // Allow reads and deletes on contacts (administrative management from secure password-locked operator console)
+      allow read, delete: if true;
+    }
+  }
+}

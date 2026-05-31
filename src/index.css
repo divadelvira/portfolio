@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-primary: #0A1628;  /* Deep Navy */
+  --color-brand-accent: #C9A84C;   /* Gold/Amber */
+  --color-brand-soft: #EFEBE0;     /* Cream Accent */
+  --color-bg-base: #F8F6F1;        /* Warm Off-White */
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html, body {
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  body {
+    @apply bg-[#F8F6F1] text-[#0A1628] font-sans antialiased selection:bg-[#C9A84C]/20 selection:text-[#0A1628];
+  }
+}
+
+/* Custom layout effects */
+.lux-glass {
+  @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(10,22,40,0.03)];
+}
+
+.step-indicator {
+  @apply relative pl-8 pb-12 border-l border-[#C9A84C]/25 last:pb-0;
+}
+
+.step-dot {
+  @apply absolute left-[-4.5px] top-2.5 w-[9px] h-[9px] bg-[#C9A84C] rounded-full ring-4 ring-[#F8F6F1];
+}
+
+.nav-link {
+  @apply relative text-[10px] font-mono uppercase tracking-[0.2em] text-[#0A1628]/60 hover:text-[#0A1628] transition-colors duration-300;
+}
+
+.nav-link::after {
+  @apply content-[''] absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#C9A84C] transition-all duration-300;
+}
+
+.nav-link:hover::after {
+  @apply w-full;
+}
+
+/* Active Link State */
+.nav-link-active {
+  @apply text-[#0A1628] font-medium;
+}
+.nav-link-active::after {
+  @apply w-full;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress {
+  @apply fixed top-0 left-0 h-[3px] bg-[#C9A84C] z-50 transition-all duration-100 ease-out;
+}
+
+/* Smooth fade-in items */
+.reveal-on-scroll {
+  @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+}
+.reveal-on-scroll.active {
+  @apply opacity-100 translate-y-0;
+}

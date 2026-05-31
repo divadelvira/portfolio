@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "contacts": {
+      "title": "Contacts",
+      "description": "User messages and contact entries submitted through the portfolio contact form",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the contact entry" },
+        "name": { "type": "string", "description": "Name or initials of the contact sender" },
+        "contact": { "type": "string", "description": "The contact info / platform detail of the sender (email, phone, etc)" },
+        "message": { "type": "string", "description": "The custom transmission message content" },
+        "timestamp": { "type": "string", "description": "Local string representation of the entry datetime" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when this record was created" }
+      },
+      "required": ["id", "name", "contact", "message", "timestamp"]
+    }
+  },
+  "firestore": {
+    "contacts/{contactId}": {
+      "schema": "contacts",
+      "description": "A collection storing contact message submissions"
+    }
+  }
+}
