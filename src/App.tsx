@@ -1053,7 +1053,7 @@ export default function App() {
                 {activeProjectMetric === 3 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "LEAN CAPSTONE — SMART FEED" : "LEAN CAPSTONE — SMART FEED"}
+                      {lang === "en" ? "CAPSTONE PROJECT — SMART FEED" : "CAPSTONE PROJECT — SMART FEED"}
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-2xl font-serif font-bold text-brand-primary">Rp7.000 /100g</span>
@@ -1063,8 +1063,8 @@ export default function App() {
                     </div>
                     <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
                       {lang === "en"
-                        ? "Utilized Lean Manufacturing and Production Planning to convert ampas tahu into highly optimized affordable product feed."
-                        : "Memaksimalkan Lean & Perencanaan Produksi mengubah limbah tahu menjadi pakan bernutrisi tinggi alternatif murah."}
+                        ? "Utilized Lean Manufacturing and Production Planning to convert "ampas tahu" into highly optimized affordable product feed."
+                        : "Memaksimalkan Lean & Perencanaan Produksi mengubah ampas/limbah tahu menjadi pakan bernutrisi tinggi alternatif murah."}
                     </p>
                   </div>
                 )}
@@ -1343,8 +1343,8 @@ export default function App() {
                 title: "Vendor Selection & Tender Preparation",
                 cat: "Multi-Modal Freight Analytics",
                 desc: lang === "en" 
-                  ? "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCDSM (Quality, Cost, Delivery, Safety, Morale) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays."
-                  : "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCDSM. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman.",
+                  ? "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCD (Quality, Cost, Delivery) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays."
+                  : "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCD. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman.",
                 link: "https://drive.google.com/file/d/1kgZ0OOe5Ltb_9DJt55rY_HsGd6tW4kd1/view?usp=drive_link",
                 tags: ["analytics", "routing", "vendormanagement", "logistics", "traffic"]
               },
