@@ -990,7 +990,7 @@ export default function App() {
                 {activeProjectMetric === 0 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      PT VALE INDONESIA — AUTOMATION DASHBOARD
+                      VALE — AUTOMATION DASHBOARD
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-4xl font-serif font-bold text-brand-primary">96%</span>
@@ -1012,7 +1012,7 @@ export default function App() {
                 {activeProjectMetric === 1 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "PT JAPFA COMFEED — MSA" : "PT JAPFA COMFEED — MSA"}
+                      {lang === "en" ? "JAPFA — MSA" : "JAPFA — MSA"}
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-3xl font-serif font-bold text-brand-primary">2.91%</span>
