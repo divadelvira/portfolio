@@ -990,7 +990,7 @@ export default function App() {
                 {activeProjectMetric === 0 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      PT VALE INDONESIA — AUTOMATION
+                      PT VALE INDONESIA — AUTOMATION DASHBOARD
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-4xl font-serif font-bold text-brand-primary">96%</span>
@@ -1012,7 +1012,7 @@ export default function App() {
                 {activeProjectMetric === 1 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "MEASUREMENT SYSTEM — MSA" : "ANALISIS PENGUKURAN — MSA"}
+                      {lang === "en" ? "PT JAPFA COMFEED — MSA" : "PT JAPFA COMFEED — MSA"}
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-3xl font-serif font-bold text-brand-primary">2.91%</span>
@@ -1032,7 +1032,7 @@ export default function App() {
                 {activeProjectMetric === 2 && (
                   <div className="space-y-2">
                     <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "VENDOR EVALUATION — TENDER" : "EVALUASI VENDOR — TENDER"}
+                      {lang === "en" ? "TRIATRA — VENDOR EVALUATION" : "TRIATRA — VENDOR EVALUATION"}
                     </p>
                     <div className="flex items-baseline space-x-2">
                       <span className="text-2xl font-serif font-bold text-brand-primary">
@@ -1063,7 +1063,7 @@ export default function App() {
                     </div>
                     <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
                       {lang === "en"
-                        ? "Utilized Lean Manufacturing and Production Planning to convert "ampas tahu" into highly optimized affordable product feed."
+                        ? "Utilized Lean Manufacturing and Production Planning to convert 'ampas tahu' into highly optimized affordable product feed."
                         : "Memaksimalkan Lean & Perencanaan Produksi mengubah ampas/limbah tahu menjadi pakan bernutrisi tinggi alternatif murah."}
                     </p>
                   </div>
