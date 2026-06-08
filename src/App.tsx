@@ -586,7 +586,7 @@ export default function App() {
             datasets: [
               {
                 label: lang === "en" ? "Competency Score" : "Estimasi Skor Kompetensi",
-                data: [92, 89, 95, 85, 85],
+                data: [92, 89, 95, 88, 87],
                 backgroundColor: "rgba(201, 168, 76, 0.15)",
                 borderColor: "rgba(201, 168, 76, 1)",
                 pointBackgroundColor: "#0A1628",
