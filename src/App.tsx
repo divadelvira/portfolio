@@ -126,8 +126,10 @@ interface TranslationSet {
   orgHeading: string;
 
   expectedGrad: string;
-  labAssistant: string;
+  eduFocus: string;
   tpsTraining: string;
+  mfgAssistant: string;
+  physicsAssistant: string;
 
   org1Title: string;
   org1Role: string;
@@ -246,8 +248,10 @@ const translations: Record<"en" | "id", TranslationSet> = {
     orgHeading: "Leadership & Community",
 
     expectedGrad: "Aug 2022 – Expected 2026",
-    labAssistant: "Laboratory Assistant — Mentored 100+ first-year students in physics practicum, ensuring lab safety compliance & analytical precision.",
-    tpsTraining: "Completed Intensive Toyota Production System (TPS) Training: JIT, Heijunka, Jidoka, Kaizen, and hands-on operational simulations.",
+    eduFocus: "Focusing academic concentration on Lean Manufacturing, Quality Engineering, and Supply Chain Management (SCM) to design optimized operational systems.",
+    tpsTraining: "Completed intensive Toyota Production System (TPS) training, mastering JIT, Heijunka, Jidoka, Kaizen, and hands-on operational simulations.",
+    mfgAssistant: "Served as a Manufacturing Systems Laboratory Assistant and PIC of the TPS module, coordinating practicum sessions and developing learning materials for Lean Manufacturing concepts.",
+    physicsAssistant: "Served as a Basic Physics Laboratory Assistant, mentoring 100+ engineering students in physics practicum while ensuring safety and analytical precision.",
 
     org1Title: "HMTI FT-UH",
     org1Role: "Head of Entrepreneurship Division",
@@ -363,8 +367,10 @@ const translations: Record<"en" | "id", TranslationSet> = {
     orgHeading: "Kepemimpinan & Komunitas",
 
     expectedGrad: "Agu 2022 – Angkatan 2026",
-    labAssistant: "Asisten Laboratorium — Membimbing 100+ mahasiswa teknik dalam praktikum fisika dasar, mengawasi standar keselamatan dan presisi analisis dasar.",
-    tpsTraining: "Selesai Mengikuti Pelatihan Intensif Toyota Production System (TPS): JIT, Heijunka, Jidoka, Kaizen, dan simulasi proses bisnis praktis.",
+    eduFocus: "Berfokus pada konsentrasi akademik di bidang Lean Manufacturing, Quality Engineering, dan Supply Chain Management (SCM) untuk merancang sistem operasional yang teroptimasi.",
+    tpsTraining: "Selesai mengikuti pelatihan intensif Toyota Production System (TPS) yang mencakup pemahaman mendalam tentang JIT, Heijunka, Jidoka, Kaizen, serta simulasi operasional.",
+    mfgAssistant: "Menjabat sebagai Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS, mengoordinasikan sesi praktikum serta mengembangkan materi pembelajaran konsep Lean Manufacturing.",
+    physicsAssistant: "Menjabat sebagai Asisten Laboratorium Fisika Dasar, membimbing lebih dari 100 mahasiswa teknik dalam praktikum fisika dengan fokus pada keselamatan kerja dan ketelitian analisis.",
 
     org1Title: "HMTI FT-UH",
     org1Role: "Ketua Divisi Kewirausahaan",
@@ -568,7 +574,7 @@ export default function App() {
         t.axisData,
         isMobileScreen ? "SCM" : t.axisScm,
         isMobileScreen ? (lang === "en" ? "Problem Solving" : "Solusi Masalah") : t.axisProcess,
-        isMobileScreen ? "Lean Systems" : t.axisLean,
+        t.axisLean,
         t.axisReporting
       ];
 
@@ -1553,8 +1559,10 @@ export default function App() {
                 <div className="h-px bg-brand-soft/50 my-2 w-full" />
                 
                 <ul className="space-y-2 text-xs text-gray-500 leading-relaxed font-light text-justify">
-                  <li>• {t.labAssistant}</li>
+                  <li>• {t.eduFocus}</li>
                   <li>• {t.tpsTraining}</li>
+                  <li>• {t.mfgAssistant}</li>
+                  <li>• {t.physicsAssistant}</li>
                 </ul>
               </div>
             </a>
