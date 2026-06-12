@@ -1337,6 +1337,15 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
             {[
               {
+                title: "Kaizen Project for Tuyere Material Delivery",
+                cat: "Lean & Process Improvement",
+                desc: lang === "en"
+                  ? "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities."
+                  : "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added.",
+                link: "https://drive.google.com/file/d/1Y4U_q2OoKWOxacNIXvolfFmBGj_Fy4NI/view?usp=drive_link",
+                tags: ["kaizen", "PDCA", "problemsolving"]
+              },
+              {
                 title: "Improvement Monitoring of Priority Materials",
                 cat: "Excel & Power Query Integration",
                 desc: lang === "en" 
@@ -1371,15 +1380,6 @@ export default function App() {
                   : "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu.",
                 link: "https://drive.google.com/file/d/1ljOZ9QJ38fZ05cG0M57KJ3gqG0auZWXy/view",
                 tags: ["designproduct", "leanmanufacturing", "productionplanning"]
-              },
-              {
-                title: "Kaizen Project for Tuyere Material Delivery",
-                cat: "Lean & Process Improvement",
-                desc: lang === "en"
-                  ? "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities."
-                  : "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added.",
-                link: "https://drive.google.com/file/d/1Y4U_q2OoKWOxacNIXvolfFmBGj_Fy4NI/view?usp=drive_link",
-                tags: ["kaizen", "PDCA", "problemsolving"]
               }
             ].map((p, idx) => (
               <motion.div 
