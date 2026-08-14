@@ -85,6 +85,8 @@ interface TranslationSet {
   valeBullet1: string;
   valeBullet2: string;
   valeBullet3: string;
+  valeBullet4: string;
+  valeBullet5: string;
   valePeriod: string;
   valeLocation: string;
 
@@ -94,6 +96,7 @@ interface TranslationSet {
   triatraBullet1: string;
   triatraBullet2: string;
   triatraBullet3: string;
+  triatraBullet4: string;
   triatraPeriod: string;
   triatraLocation: string;
 
@@ -204,18 +207,21 @@ const translations: Record<"en" | "id", TranslationSet> = {
     valeRole: "Supply Chain Management Intern",
     valeDesc: "PT Vale Indonesia is a global nickel mining and smelting leader. By optimizing tracking transparency, I protected material availability across operations.",
     valeSector: "Nickel Mining & Processing",
-    valeBullet1: "Developed an automated monitoring SCM dashboard using Advanced Excel and Power Query by integrating MRP, stock, PO, and vendor delivery timelines. This dropped SCM reporting cycles from 2 days to approximately 1 hour (96% efficiency).",
-    valeBullet2: "Supported Inventory management reporting, tracking material criticality and escalating stock-out risks immediately to avoid mine site material disruption.",
-    valeBullet3: "Conducted weekly status meetings and synchronized follow-up updates with Procurement and Logistics Traffic teams to guarantee on-time raw material arrival.",
-    valePeriod: "Feb 2026 - Present",
+    valeBullet1: "Analyzed Inventory, Traffic and Procurement data across 1700+ materials and 2500+ POs to identify stock-out risks, overdue POs, vendor issues, and material priorities, supporting weekly supply chain decision-making.",
+    valeBullet2: "Developed an automated inventory and procurement monitoring dashboard using Excel and Power Query, integrating MRP, stock, PO, and vendor data to reduce manual reporting time from 2 days to 1 hour.",
+    valeBullet3: "Coordinated with Procurement and Traffic teams to monitor material availability, procurement status, and delivery risks, supporting timely follow-up of 250+ critical materials.",
+    valeBullet4: "Assessed internal service quality across 25 attributes and 5 SERVQUAL dimensions from 35 users, identifying an overall service gap of -0.431 and significant gaps in 23 of 25 attributes using SPSS and Python.",
+    valeBullet5: "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention.",
+    valePeriod: "Feb 2026 - Aug 2026",
     valeLocation: "East Luwu, South Sulawesi",
 
     triatraRole: "Warehouse & Distribution Intern",
     triatraDesc: "A member of Astra ecosystem and a subsidiary of United Tractors Pandu Engineering, dedicated to advancing businesses with heavy industry distribution.",
     triatraSector: "Heavy Equipment Distribution",
-    triatraBullet1: "Analyzed 1 year+ multi-modal freight shipment history (air, land, sea freight) to identify Lead Time (LT) reduction opportunities and optimize dispatch routes.",
-    triatraBullet2: "Conducted logistics vendor mapping and performed preliminary operational assessments to support major regional supply chain tender processes.",
-    triatraBullet3: "Applied quality engineering structures, Root Cause Analysis (RCA), and vendor evaluation matrix criteria to optimize purchase pathways.",
+    triatraBullet1: "Analyzed 1+ year of shipment data across Air, Land, and Sea Freight to identify delivery-performance patterns and support route and fleet utilization decisions, covering 20 shipment routes.",
+    triatraBullet2: "Developed a QCD-based vendor evaluation framework with 10 criteria across Quality (25%), Delivery (35%), and Cost (40%) to support objective forwarder selection.",
+    triatraBullet3: "Conducted vendor mapping and preliminary performance assessment based on service, delivery, and commercial criteria to support logistics partner shortlisting for the tender process.",
+    triatraBullet4: "Supported tender preparation by organizing vendor evaluation data and documentation, and contributing to the development of SLA and performance-monitoring requirements for selected routes.",
     triatraPeriod: "Mar 2025 - Jun 2025",
     triatraLocation: "East Jakarta",
 
@@ -323,18 +329,21 @@ const translations: Record<"en" | "id", TranslationSet> = {
     valeRole: "Magang Manajemen Rantai Pasok (SCM)",
     valeDesc: "PT Vale Indonesia adalah pemimpin global dalam pertambangan dan peleburan nikel. Dengan mengoptimalkan transparansi pelacakan, saya menjaga ketersediaan material di seluruh operasional.",
     valeSector: "Pertambangan & Pengolahan Nikel",
-    valeBullet1: "Mengembangkan dasbor pemantauan otomatis SCM menggunakan Excel Lanjutan dan Power Query dengan mengintegrasikan MRP, tingkat stok, PO, dan lini masa pengiriman vendor. Hal ini memangkas siklus pelaporan SCM dari 2 hari menjadi sekitar 1 jam (efisiensi 96%).",
-    valeBullet2: "Mendukung pelaporan manajemen inventaris, melacak kritisitas material, dan mengeskalasi risiko kekosongan stok secara instan untuk menghindari gangguan material di lokasi tambang.",
-    valeBullet3: "Memimpin rapat status mingguan dan menyinkronkan pembaruan tindak lanjut dengan tim Pengadaan dan Lalu Lintas Logistik untuk menjamin kedatangan bahan baku tepat waktu.",
-    valePeriod: "Feb 2026 - Sekarang",
+    valeBullet1: "Menganalisis data Inventaris, Lalu Lintas Logistik, dan Pengadaan pada lebih dari 1700 material dan 2500 PO untuk mengidentifikasi risiko kehabisan stok, PO yang terlambat, masalah vendor, serta prioritas material, guna mendukung pengambilan keputusan rantai pasok mingguan.",
+    valeBullet2: "Mengembangkan dasbor pemantauan inventaris dan pengadaan otomatis menggunakan Excel dan Power Query, yang mengintegrasikan data MRP, stok, PO, dan vendor untuk memangkas waktu pelaporan manual dari 2 hari menjadi 1 jam.",
+    valeBullet3: "Berkoordinasi dengan tim Pengadaan dan Lalu Lintas Logistik untuk memantau ketersediaan material, status pengadaan, dan risiko pengiriman, guna mendukung tindak lanjut yang tepat waktu atas 250+ material kritis.",
+    valeBullet4: "Menilai kualitas layanan internal di 25 atribut dan 5 dimensi SERVQUAL dari 35 pengguna, serta mengidentifikasi kesenjangan layanan keseluruhan sebesar -0.431 dan kesenjangan signifikan pada 23 dari 25 atribut menggunakan SPSS dan Python.",
+    valeBullet5: "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera.",
+    valePeriod: "Feb 2026 - Agt 2026",
     valeLocation: "Luwu Timur, Sulawesi Selatan",
 
     triatraRole: "Magang Pergudangan & Distribusi",
     triatraDesc: "Anggota dari ekosistem Astra dan anak perusahaan United Tractors Pandu Engineering, yang berdedikasi untuk memajukan bisnis melalui distribusi industri berat.",
     triatraSector: "Distribusi Alat Berat",
-    triatraBullet1: "Menganalisis riwayat pengiriman kargo multi-moda selama lebih dari 1 tahun (udara, darat, laut) untuk mengidentifikasi peluang pemendekan Lead Time (LT) dan mengoptimalkan rute pengiriman.",
-    triatraBullet2: "Melakukan pemetaan vendor logistik dan penilaian operasional awal untuk mendukung proses tender rantai pasok regional utama.",
-    triatraBullet3: "Menerapkan struktur rekayasa kualitas, Root Cause Analysis (RCA), dan kriteria matriks evaluasi vendor untuk mengoptimalkan jalur pembelian rutin.",
+    triatraBullet1: "Menganalisis lebih dari 1 tahun data pengiriman di seluruh Kargo Udara, Darat, dan Laut untuk mengidentifikasi pola kinerja pengiriman serta mendukung keputusan pemanfaatan rute dan armada yang mencakup 20 rute pengiriman.",
+    triatraBullet2: "Mengembangkan kerangka evaluasi vendor berbasis QCD dengan 10 kriteria yang mencakup Kualitas (25%), Pengiriman (35%), dan Biaya (40%) untuk mendukung seleksi forwarder yang objektif.",
+    triatraBullet3: "Melakukan pemetaan vendor dan penilaian kinerja awal berdasarkan kriteria layanan, pengiriman, dan komersial untuk mendukung pengerucutan daftar (shortlisting) mitra logistik dalam proses tender.",
+    triatraBullet4: "Mendukung persiapan tender dengan menyusun data dan dokumentasi evaluasi vendor, serta berkontribusi pada penyusunan persyaratan SLA dan pemantauan kinerja untuk rute-rute terpilih.",
     triatraPeriod: "Mar 2025 - Jun 2025",
     triatraLocation: "Jakarta Timur",
 
@@ -970,12 +979,11 @@ export default function App() {
               </div>
               
               {/* Tab Selector Links */}
-              <div className="grid grid-cols-4 gap-1.5 border-b border-brand-primary/5 pb-4">
+              <div className="grid grid-cols-3 gap-1.5 border-b border-brand-primary/5 pb-4">
                 {[
                   { label: "P1", name: "SCM" },
                   { label: "P2", name: "MSA" },
-                  { label: "P3", name: "TENDER" },
-                  { label: "P4", name: "LEAN" }
+                  { label: "P3", name: "TENDER" }
                 ].map((tab, idx) => (
                   <button 
                     key={idx}
@@ -1056,24 +1064,6 @@ export default function App() {
                   </div>
                 )}
 
-                {activeProjectMetric === 3 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "CAPSTONE PROJECT — SMART FEED" : "CAPSTONE PROJECT — SMART FEED"}
-                    </p>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-2xl font-serif font-bold text-brand-primary">Rp7.000 /100g</span>
-                    </div>
-                    <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                      <div className="h-full bg-brand-primary w-[85%]" />
-                    </div>
-                    <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                      {lang === "en"
-                        ? "Utilized Lean Manufacturing and Production Planning to convert 'ampas tahu' into highly optimized affordable product feed."
-                        : "Memaksimalkan Lean & Perencanaan Produksi mengubah ampas/limbah tahu menjadi pakan bernutrisi tinggi alternatif murah."}
-                    </p>
-                  </div>
-                )}
                 
                 {/* Visual Label Indicator */}
                 <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
@@ -1082,7 +1072,6 @@ export default function App() {
                     {activeProjectMetric === 0 && "Excel, Power Query"}
                     {activeProjectMetric === 1 && "SPSS, Minitab"}
                     {activeProjectMetric === 2 && "Root Cause Analysis, Problem Solving"}
-                    {activeProjectMetric === 3 && "Lean, Production"}
                   </span>
                 </div>
               </div>
@@ -1248,6 +1237,14 @@ export default function App() {
                         <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
                         <span>{t.valeBullet3}</span>
                       </li>
+                      <li className="flex items-start text-justify">
+                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                        <span>{t.valeBullet4}</span>
+                      </li>
+                      <li className="flex items-start text-justify">
+                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                        <span>{t.valeBullet5}</span>
+                      </li>
                     </ul>
                   </motion.div>
                 )}
@@ -1308,6 +1305,10 @@ export default function App() {
                       <li className="flex items-start text-justify">
                         <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
                         <span>{t.triatraBullet3}</span>
+                      </li>
+                      <li className="flex items-start text-justify">
+                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                        <span>{t.triatraBullet4}</span>
                       </li>
                     </ul>
                   </motion.div>
