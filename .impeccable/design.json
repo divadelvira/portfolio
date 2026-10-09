@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T06:00:55Z",
+  "title": "Design System: Diva Delvira",
+  "extensions": {
+    "colorMeta": {
+      "coral": {
+        "role": "primary",
+        "displayName": "Summer coral",
+        "tonalRamp": [
+          "oklch(20% 0.06 30)",
+          "oklch(30% 0.09 30)",
+          "oklch(40% 0.12 30)",
+          "oklch(50% 0.14 30)",
+          "oklch(60% 0.14 30)",
+          "oklch(72% 0.11 30)",
+          "oklch(84% 0.07 30)",
+          "oklch(95% 0.02 30)"
+        ]
+      },
+      "sky": {
+        "role": "secondary",
+        "displayName": "Pale sky",
+        "tonalRamp": [
+          "oklch(20% 0.03 220)",
+          "oklch(30% 0.04 220)",
+          "oklch(40% 0.05 220)",
+          "oklch(50% 0.06 220)",
+          "oklch(60% 0.07 220)",
+          "oklch(72% 0.06 220)",
+          "oklch(84% 0.05 220)",
+          "oklch(95% 0.02 220)"
+        ]
+      },
+      "mint": {
+        "role": "secondary",
+        "displayName": "Seafoam field",
+        "tonalRamp": [
+          "oklch(20% 0.03 155)",
+          "oklch(30% 0.04 155)",
+          "oklch(40% 0.05 155)",
+          "oklch(50% 0.06 155)",
+          "oklch(60% 0.06 155)",
+          "oklch(72% 0.05 155)",
+          "oklch(84% 0.04 155)",
+          "oklch(95% 0.02 155)"
+        ]
+      },
+      "butter": { "role": "secondary", "displayName": "Butter yellow" },
+      "peach": { "role": "secondary", "displayName": "Soft peach" },
+      "text": {
+        "role": "neutral",
+        "displayName": "Deep teal",
+        "tonalRamp": [
+          "oklch(20% 0.03 190)",
+          "oklch(30% 0.04 190)",
+          "oklch(40% 0.05 190)",
+          "oklch(50% 0.05 190)",
+          "oklch(60% 0.05 190)",
+          "oklch(72% 0.04 190)",
+          "oklch(84% 0.03 190)",
+          "oklch(95% 0.01 190)"
+        ]
+      },
+      "neutral-bg": { "role": "neutral", "displayName": "Warm white" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Chunky identity", "purpose": "Name and major contact heading." },
+      "headline": {
+        "displayName": "Rounded section title",
+        "purpose": "Long bilingual section headings."
+      },
+      "body": {
+        "displayName": "Readable evidence",
+        "purpose": "Biographies, case studies and experience."
+      }
+    },
+    "shadows": [
+      {
+        "name": "navigation-panel",
+        "value": "0 15px 35px #254e521a",
+        "purpose": "Mobile navigation above the page."
+      },
+      { "name": "dialog", "value": "0 16px 48px #163b3f26", "purpose": "Protected modal focus." }
+    ],
+    "motion": [
+      { "name": "control", "value": "180ms ease", "purpose": "Quiet hover and press feedback." },
+      {
+        "name": "illustration-arrival",
+        "value": "750ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "One gentle, visible-by-default illustration arrival; disabled with reduced motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "640px" },
+      { "name": "desktop-navigation", "value": "1024px" },
+      { "name": "compact-desktop", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Coral action with a clear label.",
+      "html": "<button class='ds-primary'>Explore Selected Portfolio</button>",
+      "css": ".ds-primary{font-family:var(--font-sans);font-size:.9rem;font-weight:700;background:var(--summer-coral);color:#fff;border:0;border-radius:14px;padding:13px 18px;min-height:52px;cursor:pointer;transition:background 180ms ease,transform 180ms ease}.ds-primary:hover{background:#ad3c29;transform:translateY(-2px)}.ds-primary:active{transform:translateY(1px)}.ds-primary:focus-visible{outline:3px solid #297d91;outline-offset:5px}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "description": "Quiet text action beside a primary control.",
+      "html": "<button class='ds-secondary'>Get in Touch</button>",
+      "css": ".ds-secondary{font-family:var(--font-sans);font-size:.9rem;font-weight:700;color:var(--color-brand-primary);background:transparent;border:0;border-radius:14px;padding:13px 5px;min-height:52px;cursor:pointer;transition:background 180ms ease}.ds-secondary:hover{background:#e9f1ec}.ds-secondary:focus-visible{outline:3px solid #297d91;outline-offset:5px}"
+    },
+    {
+      "name": "Contact field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Readable labelled field with a soft border.",
+      "html": "<label class='ds-label' for='ds-name'>Name or Initial</label><input class='ds-field' id='ds-name' placeholder='Type your name...'>",
+      "css": ".ds-label{display:block;font-family:var(--font-sans);font-size:.8rem;font-weight:700;color:var(--color-brand-primary);margin-bottom:8px}.ds-field{font-family:var(--font-sans);font-size:.95rem;padding:14px 16px;border:1px solid #bdd2cf;border-radius:10px;background:#f7faf7;color:var(--color-brand-primary);caret-color:var(--summer-coral)}.ds-field::placeholder{color:#607473}.ds-field:focus-visible{outline:3px solid #297d91;outline-offset:5px}"
+    },
+    {
+      "name": "Navigation link",
+      "kind": "nav",
+      "description": "Teal text with a warm active underline.",
+      "html": "<nav><button class='ds-nav' aria-current='location'>Projects</button></nav>",
+      "css": ".ds-nav{position:relative;font-family:var(--font-sans);font-size:.85rem;font-weight:700;color:var(--summer-muted);border:0;background:transparent;padding:10px 0;cursor:pointer}.ds-nav:hover,.ds-nav[aria-current]{color:#a63b29}.ds-nav[aria-current]::after{content:'';position:absolute;bottom:3px;left:0;right:0;height:3px;background:#e7977b;border-radius:3px}.ds-nav:focus-visible{outline:3px solid #297d91;outline-offset:5px}"
+    },
+    {
+      "name": "Skill chip",
+      "kind": "chip",
+      "description": "Small rounded tool or method label.",
+      "html": "<span class='ds-chip'>Power BI</span>",
+      "css": ".ds-chip{display:inline-block;font-family:var(--font-sans);font-size:.85rem;padding:8px 16px;border:1px solid var(--summer-line);border-radius:8px;background:#fff;color:var(--color-brand-primary)}"
+    },
+    {
+      "name": "Project panel",
+      "kind": "card",
+      "refersTo": "project-panel",
+      "description": "A flat pastel surface for real evidence.",
+      "html": "<article class='ds-project'><h3>Measurement System Analysis (MSA)</h3><p>Statistical Quality Engineering</p></article>",
+      "css": ".ds-project{font-family:var(--font-sans);background:#e3f0f6;color:var(--color-brand-primary);border-radius:16px;padding:32px}.ds-project h3{font-size:1.7rem;font-weight:700;line-height:1.25;margin:0 0 16px}.ds-project p{font-size:.95rem;line-height:1.8;margin:0;color:var(--summer-muted)}"
+    },
+    {
+      "name": "Metric selector",
+      "kind": "custom",
+      "description": "Stable slots with an explicit selected state.",
+      "html": "<div class='ds-tabs' role='group' aria-label='Project metrics'><button aria-pressed='true'>SCM</button><button aria-pressed='false'>MSA</button><button aria-pressed='false'>TENDER</button></div>",
+      "css": ".ds-tabs{display:flex;gap:8px}.ds-tabs button{font-family:var(--font-sans);font-size:.75rem;font-weight:700;flex:1;min-height:40px;color:var(--color-brand-primary);background:transparent;border:1px solid #afcfcc;border-radius:9px;padding:8px 16px;cursor:pointer;transition:background 180ms ease}.ds-tabs button:hover{background:#e1eeea}.ds-tabs button[aria-pressed=true]{background:var(--color-brand-primary);color:#fff;border-color:var(--color-brand-primary)}.ds-tabs button:focus-visible{outline:3px solid #297d91;outline-offset:5px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Soft summer engineering",
+    "overview": "A light, friendly visual world grounded in the user's summer landing-page reference. Flat engineering and analytics artwork supplies personality; real portfolio evidence remains readable and unchanged. The former navy/gold glass treatment is replaced, not embellished.",
+    "keyCharacteristics": [
+      "Pale blue, seafoam, butter and peach fields.",
+      "Chunky identity lettering with rounded, readable supporting type.",
+      "Original flat illustrations of the owner's engineering/data tools.",
+      "Airy layouts and restrained control feedback."
+    ],
+    "rules": [
+      {
+        "name": "The Readable Pastel Rule",
+        "body": "Pastels belong to surfaces, not low-contrast body text. Use dark teal or the muted text token on light fields.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading First Rule",
+        "body": "Section titles lead; supporting context follows below them, not as an eyebrow.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Evidence Rule",
+        "body": "Use spacing, color and rules to organize evidence before adding raised cards.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve all bilingual copy, factual metrics and external documentation links.",
+      "Do carry the summer palette across public and private surfaces.",
+      "Do use original engineering/data illustration rather than beach objects.",
+      "Do honor reduced motion, visible keyboard focus and clear labels."
+    ],
+    "donts": [
+      "Don't reuse the watermarked reference as a shipping asset.",
+      "Don't return to navy/gold glass styling or corporate-report art direction.",
+      "Don't add fabricated project claims or decorative chart values.",
+      "Don't hide real content behind entrance effects."
+    ]
+  }
+}
