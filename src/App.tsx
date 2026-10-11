@@ -10,10 +10,12 @@ import {
   Mail,
   MapPin,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   ExternalLink,
   ImageIcon,
-  Trophy,
+  ArrowRight,
   GraduationCap,
   Users,
   Award,
@@ -32,6 +34,7 @@ import {
   Table,
 } from "lucide-react";
 import Chart from "chart.js/auto";
+import { EduOverview, SkillsInventory, TrainingSection } from "./components/Credentials";
 import { db } from "./firebase";
 import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
 
@@ -477,10 +480,13 @@ type FeaturedProject = {
   cat: string;
   desc: string;
   link: string;
+  docLink?: string;
+  linkLabel?: string;
   tags: string[];
   group: ProjectGroup;
   result: ProjectResult;
   image: string;
+  gallery: string[];
 };
 
 function ProjectResultFigure({ result }: { result: ProjectResult }) {
@@ -527,6 +533,34 @@ export default function App() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [expandVale, setExpandVale] = useState(false);
   const [expandTriatra, setExpandTriatra] = useState(false);
+  const [evidence, setEvidence] = useState<{
+    title: string;
+    photos: string[];
+    index: number;
+  } | null>(null);
+  const evidenceTrigger = useRef<HTMLButtonElement | null>(null);
+  const [profileMissing, setProfileMissing] = useState(false);
+  const [logoMissing, setLogoMissing] = useState(false);
+  const [eduOpen, setEduOpen] = useState(false);
+  const openEvidence = (
+    title: string,
+    photos: string[],
+    index: number,
+    trigger: HTMLButtonElement,
+  ) => {
+    evidenceTrigger.current = trigger;
+    setEvidence({ title, photos, index });
+  };
+  const stepEvidence = (direction: number) => {
+    setEvidence((current) =>
+      current && current.photos.length > 1
+        ? {
+            ...current,
+            index: (current.index + direction + current.photos.length) % current.photos.length,
+          }
+        : current,
+    );
+  };
   const [activeProjectMetric, setActiveProjectMetric] = useState(0);
   const [projectFilter, setProjectFilter] = useState<"all" | ProjectGroup>("all");
   const [activeProject, setActiveProject] = useState<string | null>(null);
@@ -575,6 +609,21 @@ export default function App() {
   }, [showToast]);
 
   const chartRef = useRef<HTMLCanvasElement>(null);
+  const shelfRef = useRef<HTMLDivElement>(null);
+  const [shelfEdge, setShelfEdge] = useState({ start: true, end: false });
+  const updateShelfEdge = () => {
+    const el = shelfRef.current;
+    if (!el) return;
+    setShelfEdge({
+      start: el.scrollLeft <= 8,
+      end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4,
+    });
+  };
+  useEffect(() => {
+    updateShelfEdge();
+    window.addEventListener("resize", updateShelfEdge);
+    return () => window.removeEventListener("resize", updateShelfEdge);
+  }, [projectFilter, lang]);
   const chartInstance = useRef<Chart | null>(null);
 
   const t = translations[lang];
@@ -592,15 +641,15 @@ export default function App() {
     setTypingIndex(0);
   }, [lang]);
 
+  const typingTitles =
+    lang === "en"
+      ? ["Data-Driven Problem Solver", "Process Improvement Enthusiast", "Supply Chain Management Enthusiast"]
+      : ["Pemecah Masalah Berbasis Data", "Antusias Peningkatan Proses", "Antusias Manajemen Rantai Pasok"];
+  const typingLongest = typingTitles.reduce((a, b) => (b.length > a.length ? b : a));
+
   // Typing effect
   useEffect(() => {
-    const titles = t.heroSubText
-      ? [
-          lang === "en" ? "Data-Driven Problem Solver" : "Pemecah Masalah Berbasis Data",
-          lang === "en" ? "Process Improvement Enthusiast" : "Antusias Peningkatan Proses",
-          lang === "en" ? "Supply Chain Management Enthusiast" : "Antusias Manajemen Rantai Pasok",
-        ]
-      : [];
+    const titles = typingTitles;
 
     let timer: NodeJS.Timeout;
     const currentFull = titles[typingIndex];
@@ -638,7 +687,16 @@ export default function App() {
 
       setShowBackToTop(window.scrollY > 300);
 
-      const sections = ["hero", "about", "experience", "projects", "skills", "edu", "contact"];
+      const sections = [
+        "hero",
+        "about",
+        "experience",
+        "projects",
+        "skills",
+        "edu",
+        "training",
+        "contact",
+      ];
       let current = "hero";
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -715,7 +773,7 @@ export default function App() {
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-              padding: isMobileScreen ? 14 : 6,
+              padding: 20,
             },
             scales: {
               r: {
@@ -726,6 +784,16 @@ export default function App() {
                   color: "rgba(10, 22, 40, 0.08)",
                 },
                 pointLabels: {
+                  callback: (label: string) =>
+                    label.length > 16
+                      ? label.split(" ").reduce<string[]>((lines, word) => {
+                          const last = lines.length - 1;
+                          if (last >= 0 && `${lines[last]} ${word}`.length <= 16)
+                            lines[last] += ` ${word}`;
+                          else lines.push(word);
+                          return lines;
+                        }, [])
+                      : label,
                   color: "#0A1628",
                   font: {
                     family: "Nunito Sans",
@@ -907,105 +975,191 @@ export default function App() {
     }
   };
 
-  // image: path under public/, e.g. "/projects/kaizen.jpg". Empty shows a placeholder.
+  // Drop photos in public/projects/, then set image and gallery paths, e.g. gallery: ["/projects/wass-1.jpg"].
   const featuredProjects: FeaturedProject[] = [
-                {
-                  title: "Kaizen Project for Tuyere Material Delivery",
-                  cat: "Lean & Process Improvement",
-                  desc:
-                    lang === "en"
-                      ? "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities."
-                      : "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added.",
-                  link: "https://drive.google.com/file/d/1Y4U_q2OoKWOxacNIXvolfFmBGj_Fy4NI/view?usp=drive_link",
-                  tags: ["kaizen", "PDCA", "problemsolving"],
-                  group: "lean",
-                  result: {
-                    label: "Lead time",
-                    before: lang === "en" ? "12 days" : "12 hari",
-                    after: lang === "en" ? "8 days" : "8 hari",
-                    ratio: 8 / 12,
-                    note: lang === "en" ? "+50% labor efficiency" : "+50% efisiensi tenaga kerja",
-                  },
-                  image: "",
-                },
-                {
-                  title: "Improvement Monitoring of Priority Materials",
-                  cat: "Excel & Power Query Integration",
-                  desc:
-                    lang === "en"
-                      ? "Faced with high rates of material stock-outs due to a lack of integrated inventory and procurement visibility across the supply chain, I developed a data-driven automated monitoring dashboard using Excel and Power Query to track inventory risks, order status, and vendor delivery performance in real time. This initiative successfully reduced operational monitoring time from 2 days to less than 1 hour and facilitated more proactive and targeted decision-making."
-                      : "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah.",
-                  link: "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
-                  tags: ["dashboard", "automation", "excel", "powerquery"],
-                  group: "scm",
-                  result: {
-                    label: lang === "en" ? "Monitoring time" : "Waktu pemantauan",
-                    before: lang === "en" ? "2 days" : "2 hari",
-                    after: lang === "en" ? "< 1 hour" : "< 1 jam",
-                    ratio: 1 / 48,
-                  },
-                  image: "",
-                },
-                {
-                  title: "Vendor Selection & Tender Preparation",
-                  cat: "Multi-Modal Freight Analytics",
-                  desc:
-                    lang === "en"
-                      ? "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCD (Quality, Cost, Delivery) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays."
-                      : "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCD. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman.",
-                  link: "https://drive.google.com/file/d/1kgZ0OOe5Ltb_9DJt55rY_HsGd6tW4kd1/view?usp=drive_link",
-                  tags: ["analytics", "routing", "vendormanagement", "logistics", "traffic"],
-                  group: "scm",
-                  result: {
-                    label: lang === "en" ? "Vendor assessment matrix" : "Matriks penilaian vendor",
-                    value: "QCD",
-                    note:
-                      lang === "en"
-                        ? "Monthly scorecard with penalty scheme"
-                        : "Penilaian bulanan dengan skema penalti",
-                  },
-                  image: "",
-                },
-                {
-                  title: "Measurement System Analysis (MSA)",
-                  cat: "Statistical Quality Engineering",
-                  desc:
-                    lang === "en"
-                      ? "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy."
-                      : "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen.",
-                  link: "https://drive.google.com/file/d/1aK1MC8T_nsP4UtgSSnbw4AuBQmY3N0zr/view",
-                  tags: ["SPSS", "Minitab", "qualitycontrol"],
-                  group: "quality",
-                  result: {
-                    label: "%GRR",
-                    value: lang === "en" ? "2.91%" : "2,91%",
-                    note: "Crossed Gage R&R (ANOVA)",
-                  },
-                  image: "",
-                },
-                {
-                  title: "SMART FEED Capstone Project",
-                  cat: "Product Design & Lean Systems",
-                  desc:
-                    lang === "en"
-                      ? "The high cost of commercial fish feed accounts for 60–70% of fish farmers’ operating expenses, while industrial waste such as tofu pulp has not yet been fully utilized. I integrated the principles of Production Planning and Lean Manufacturing to design and develop a high-nutrient, environmentally friendly alternative fish feed product made from tofu residue. This product successfully reduced production costs, allowing it to be sold at a very affordable price (Rp7,000 per 100 grams), and was empirically proven to maintain a positive growth trend in tilapia during a three-week monitoring period."
-                      : "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu.",
-                  link: "https://drive.google.com/file/d/1ljOZ9QJ38fZ05cG0M57KJ3gqG0auZWXy/view",
-                  tags: ["designproduct", "leanmanufacturing", "productionplanning"],
-                  group: "lean",
-                  result: {
-                    label: lang === "en" ? "Selling price" : "Harga jual",
-                    value: lang === "en" ? "Rp7,000" : "Rp7.000",
-                    note: lang === "en" ? "per 100 grams" : "per 100 gram",
-                  },
-                  image: "",
-                },
-              ];
+    {
+      title: "Warehouse Appointment Scheduling System (WASS)",
+      cat:
+        lang === "en"
+          ? "Design Thinking for Warehouse Systems"
+          : "Design Thinking untuk Sistem Gudang",
+      desc:
+        lang === "en"
+          ? "Vendors delivering to the warehouse arrived unannounced and were served first come, first served, while inbound volume swung about four times between the quietest and busiest month. With no shared platform, the crew only knew what was coming once the truck reached the gate. I designed WASS, a web-based dock appointment system, using Design Thinking (user personas, journey mapping, affinity diagram, 5 Whys) and Rapid Application Development over three prototype iterations. Vendors book their own dock slot (40 slots a day), multi-PO deliveries get consecutive slots automatically, and the warehouse sees the day's load in advance. The system passed 12 of 12 Black Box test scenarios and scored 85.45 on the System Usability Scale (Grade A, Excellent) among 11 warehouse users."
+          : "Vendor yang mengirim barang ke gudang datang tanpa pemberitahuan dan dilayani siapa cepat dia dapat, sementara volume inbound bisa berbeda sekitar empat kali lipat antara bulan tersepi dan tersibuk. Tanpa platform bersama, tim gudang baru tahu muatan apa yang datang saat truk sudah di gerbang. Saya merancang WASS, sistem janji temu dock berbasis web, dengan Design Thinking (user persona, journey map, affinity diagram, 5 Whys) dan Rapid Application Development dalam tiga iterasi prototipe. Vendor memesan sendiri slot dock (40 slot per hari), pengiriman dengan beberapa PO otomatis mendapat slot berurutan, dan gudang dapat melihat beban harian sebelum truk tiba. Sistem lolos 12 dari 12 skenario Black Box Testing dan meraih skor 85,45 pada System Usability Scale (Grade A, Excellent) dari 11 pengguna gudang.",
+      link: "https://wass-demo.netlify.app/",
+      linkLabel: lang === "en" ? "View Live Demo" : "Lihat Demo",
+      docLink:
+        lang === "en"
+          ? "https://drive.google.com/file/d/1chrJ3X3Oh-jUTPAQP7xU6apzG3SDONsi/view?usp=sharing"
+          : "https://drive.google.com/file/d/1XDnOsTcyOR7fLQSjIvVt1Y3fpAr38k7w/view?usp=sharing",
+      tags: ["designthinking", "rapidappdevelopment", "warehousing", "dockscheduling", "usability"],
+      group: "scm",
+      result: {
+        label: "System Usability Scale",
+        value: lang === "en" ? "85.45" : "85,45",
+        note:
+          lang === "en"
+            ? "Grade A (Excellent), 12/12 Black Box tests"
+            : "Grade A (Excellent), 12/12 uji Black Box",
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "Kaizen Project for Tuyere Material Delivery",
+      cat: "Lean & Process Improvement",
+      desc:
+        lang === "en"
+          ? "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities."
+          : "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added.",
+      link:
+        lang === "en"
+          ? "https://drive.google.com/file/d/1BXCU3QOt1M8CNwPIOM84ODhyssk6Ydb5/view?usp=sharing"
+          : "https://drive.google.com/file/d/1pmIR8LrwtvomHuQFXOi9nwodL6cFYUcC/view?usp=sharing",
+      tags: ["kaizen", "PDCA", "problemsolving"],
+      group: "lean",
+      result: {
+        label: "Lead time",
+        before: lang === "en" ? "12 days" : "12 hari",
+        after: lang === "en" ? "8 days" : "8 hari",
+        ratio: 8 / 12,
+        note: lang === "en" ? "+50% labor efficiency" : "+50% efisiensi tenaga kerja",
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "Improvement Monitoring of Priority Materials",
+      cat: "Excel & Power Query Integration",
+      desc:
+        lang === "en"
+          ? "Faced with high rates of material stock-outs due to a lack of integrated inventory and procurement visibility across the supply chain, I developed a data-driven automated monitoring dashboard using Excel and Power Query to track inventory risks, order status, and vendor delivery performance in real time. This initiative successfully reduced operational monitoring time from 2 days to less than 1 hour and facilitated more proactive and targeted decision-making."
+          : "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah.",
+      link: "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
+      tags: ["dashboard", "automation", "excel", "powerquery"],
+      group: "scm",
+      result: {
+        label: lang === "en" ? "Monitoring time" : "Waktu pemantauan",
+        before: lang === "en" ? "2 days" : "2 hari",
+        after: lang === "en" ? "< 1 hour" : "< 1 jam",
+        ratio: 1 / 48,
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "Vendor Selection & Tender Preparation",
+      cat: "Multi-Modal Freight Analytics",
+      desc:
+        lang === "en"
+          ? "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCD (Quality, Cost, Delivery) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays."
+          : "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCD. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman.",
+      link:
+        lang === "en"
+          ? "https://drive.google.com/file/d/1dQHsqP_k5NxGLqWJGSbr-vY9VkjPvBeE/view?usp=sharing"
+          : "https://drive.google.com/file/d/1-p0mjd2WO_5vD66y7d3IPsTdWyMVFiXk/view?usp=sharing",
+      tags: ["analytics", "routing", "vendormanagement", "logistics", "traffic"],
+      group: "scm",
+      result: {
+        label: lang === "en" ? "Vendor assessment matrix" : "Matriks penilaian vendor",
+        value: "QCD",
+        note:
+          lang === "en"
+            ? "Monthly scorecard with penalty scheme"
+            : "Penilaian bulanan dengan skema penalti",
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "Measurement System Analysis (MSA)",
+      cat: "Statistical Quality Engineering",
+      desc:
+        lang === "en"
+          ? "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy."
+          : "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen.",
+      link:
+        lang === "en"
+          ? "https://drive.google.com/file/d/18VRQzoig-ltFOdykqzcO7-WGgMpC2_jf/view?usp=sharing"
+          : "https://drive.google.com/file/d/1jvySSHcmohOKzhZ4mQZaoqGpll1xULBO/view?usp=sharing",
+      tags: ["SPSS", "Minitab", "qualitycontrol"],
+      group: "quality",
+      result: {
+        label: "%GRR",
+        value: lang === "en" ? "2.91%" : "2,91%",
+        note: "Crossed Gage R&R (ANOVA)",
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "Internal Service Quality Analysis of a Material Management Division",
+      cat: lang === "en" ? "Service Quality & Data Analysis" : "Kualitas Layanan & Analisis Data",
+      desc:
+        lang === "en"
+          ? "As an Inventory Analyst Intern, I measured how well the Material Management division of a nickel mining company serves its internal users. I designed a 25-attribute SERVQUAL survey, collected responses from 35 planners and part coordinators, and validated the data (validity, reliability, normality) before running any analysis. All five service dimensions showed a negative gap (overall −0.431), with 23 of 25 attributes statistically significant. Importance-Performance Analysis then isolated the top priorities, which I turned into a 12-month improvement roadmap with KPIs and owners."
+          : "Sebagai Inventory Analyst Intern, saya mengukur seberapa baik divisi Material Management di sebuah perusahaan tambang nikel melayani user internalnya. Saya merancang survei SERVQUAL dengan 25 atribut, mengumpulkan respons dari 35 planner dan part coordinator, lalu menguji validitas, reliabilitas, dan normalitas data sebelum analisis dijalankan. Kelima dimensi layanan menunjukkan gap negatif (keseluruhan −0,431), dengan 23 dari 25 atribut signifikan secara statistik. Importance-Performance Analysis kemudian menyaring prioritas utama, yang saya terjemahkan menjadi roadmap perbaikan 12 bulan lengkap dengan KPI dan PIC.",
+      link:
+        lang === "en"
+          ? "https://drive.google.com/file/d/1sp74KJgzWagbFv2FytjMyLxVdroYvIoR/view?usp=sharing"
+          : "https://drive.google.com/file/d/18hQ4uOo-5alNZcJa7eao-bTCTwT1X96l/view?usp=sharing",
+      tags:
+        lang === "en"
+          ? ["servqual", "ipa", "statistics", "python", "inventorymanagement"]
+          : ["servqual", "ipa", "statistika", "python", "inventorymanagement"],
+      group: "quality",
+      result: {
+        label: lang === "en" ? "Overall service gap" : "Gap layanan keseluruhan",
+        value: lang === "en" ? "−0.431" : "−0,431",
+        note: lang === "en" ? "23 of 25 attributes significant" : "23 dari 25 atribut signifikan",
+      },
+      image: "",
+      gallery: [],
+    },
+    {
+      title: "SMART FEED Capstone Project",
+      cat: "Product Design & Lean Systems",
+      desc:
+        lang === "en"
+          ? "The high cost of commercial fish feed accounts for 60–70% of fish farmers’ operating expenses, while industrial waste such as tofu pulp has not yet been fully utilized. I integrated the principles of Production Planning and Lean Manufacturing to design and develop a high-nutrient, environmentally friendly alternative fish feed product made from tofu residue. This product successfully reduced production costs, allowing it to be sold at a very affordable price (Rp7,000 per 100 grams), and was empirically proven to maintain a positive growth trend in tilapia during a three-week monitoring period."
+          : "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu.",
+      link:
+        lang === "en"
+          ? "https://drive.google.com/file/d/1SvJ3Xd9yge0r6bEsKrJ1fgHwo3NjBglN/view?usp=sharing"
+          : "https://drive.google.com/file/d/1DyDkeZYXNrB5xl_rnlIyBRh4xAdC1J6n/view?usp=sharing",
+      tags: ["designproduct", "leanmanufacturing", "productionplanning"],
+      group: "lean",
+      result: {
+        label: lang === "en" ? "Selling price" : "Harga jual",
+        value: lang === "en" ? "Rp7,000" : "Rp7.000",
+        note: lang === "en" ? "per 100 grams" : "per 100 gram",
+      },
+      image: "",
+      gallery: [],
+    },
+  ];
+  // Drop award photos in public/honors/, then add paths to photos. Empty arrays show a placeholder.
+  const awards = [
+    {
+      category: t.achie1Category,
+      rank: t.achie1Rank,
+      title: "Content Marketing Competition 2025, Manado",
+      sponsor: t.achie1Sponsor,
+      photos: [] as string[],
+    },
+    {
+      category: t.achie2Category,
+      rank: t.achie2Rank,
+      title: "Astra Motor Business Case Competition",
+      sponsor: t.achie2Sponsor,
+      photos: [] as string[],
+    },
+  ];
   const visibleProjects = featuredProjects.filter(
     (p) => projectFilter === "all" || p.group === projectFilter,
   );
-  const stageProject =
-    visibleProjects.find((p) => p.title === activeProject) ?? visibleProjects[0];
+  const stageProject = visibleProjects.find((p) => p.title === activeProject) ?? visibleProjects[0];
 
   return (
     <div className="summer-portfolio relative min-h-screen w-full selection:bg-brand-accent/20 selection:text-brand-primary">
@@ -1045,6 +1199,7 @@ export default function App() {
               { id: "projects", label: t.navProjects },
               { id: "skills", label: t.navSkills },
               { id: "edu", label: t.navEdu },
+              { id: "training", label: lang === "en" ? "Training" : "Pelatihan" },
               { id: "contact", label: t.navContact },
             ].map((item) => (
               <button
@@ -1119,6 +1274,7 @@ export default function App() {
                 { id: "projects", label: t.navProjects },
                 { id: "skills", label: t.navSkills },
                 { id: "edu", label: t.navEdu },
+                { id: "training", label: lang === "en" ? "Training" : "Pelatihan" },
                 { id: "contact", label: t.navContact },
               ].map((item) => (
                 <button
@@ -1158,6 +1314,11 @@ export default function App() {
               <h1>{t.heroGreeting}</h1>
               <p className="summer-role">{t.roleTitle}</p>
               <div className="summer-typing">
+                {/* Invisible longest phrase reserves the wrapped height so nothing jumps or clips. */}
+                <p aria-hidden="true" className="summer-typing-ghost">
+                  {typingLongest}
+                  <span className="typing-cursor" />
+                </p>
                 <p>
                   {typingText}
                   <span className="typing-cursor" aria-hidden="true" />
@@ -1209,6 +1370,7 @@ export default function App() {
                     { label: "P1", name: "SCM" },
                     { label: "P2", name: "MSA" },
                     { label: "P3", name: "TENDER" },
+                    { label: "P4", name: "WASS" },
                   ].map((tab, idx) => (
                     <button
                       key={idx}
@@ -1286,6 +1448,28 @@ export default function App() {
                     </div>
                   )}
 
+                  {activeProjectMetric === 3 && (
+                    <div className="space-y-2">
+                      <p className="text-xs text-gray-500 font-mono">WASS: DOCK SCHEDULING</p>
+                      <div className="flex items-baseline space-x-2">
+                        <span className="text-3xl font-serif font-bold text-brand-primary">
+                          {lang === "en" ? "85.45" : "85,45"}
+                        </span>
+                        <span className="text-xs text-emerald-600 font-mono font-semibold">
+                          SUS Grade A
+                        </span>
+                      </div>
+                      <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
+                        <div className="h-full bg-[#C9A84C] w-[85%]" />
+                      </div>
+                      <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
+                        {lang === "en"
+                          ? "Web-based dock appointment system passed 12 of 12 Black Box tests and scored Excellent on the System Usability Scale."
+                          : "Sistem janji temu dock berbasis web lolos 12 dari 12 uji Black Box dan meraih predikat Excellent pada System Usability Scale."}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Visual Label Indicator */}
                   <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
                     <span>{lang === "en" ? "Primary Tools" : "Alat Kerja Utama"}</span>
@@ -1293,6 +1477,7 @@ export default function App() {
                       {activeProjectMetric === 0 && "Excel, Power Query"}
                       {activeProjectMetric === 1 && "SPSS, Minitab"}
                       {activeProjectMetric === 2 && "Root Cause Analysis, Problem Solving"}
+                      {activeProjectMetric === 3 && "Design Thinking, RAD"}
                     </span>
                   </div>
                 </div>
@@ -1304,7 +1489,7 @@ export default function App() {
         {/* --- SECTION 2: ABOUT / PHILOSOPHY --- */}
         <section id="about" className="summer-section summer-about">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 relative">
               {/* BIO CONTENT (Left Column) */}
               <div className="col-span-1 lg:col-span-8 space-y-8">
                 <div className="summer-bio space-y-6">
@@ -1319,9 +1504,27 @@ export default function App() {
                       {t.aboutTitle}
                     </h2>
                   </div>
-                  <p className="text-base md:text-lg text-gray-700 leading-relaxed font-light text-justify whitespace-pre-line">
-                    {t.aboutBio}
-                  </p>
+                  <div className="summer-profile-bio">
+                    {/* Drop the owner's portrait at public/profile.jpg. */}
+                    <div className="summer-profile-photo">
+                      {profileMissing ? (
+                        <div className="summer-project-photo-placeholder">
+                          <ImageIcon size={28} aria-hidden="true" />
+                          <span>{lang === "en" ? "Profile photo" : "Foto profil"}</span>
+                        </div>
+                      ) : (
+                        <img
+                          src="/profile.jpg"
+                          alt={lang === "en" ? "Portrait of Diva Delvira" : "Foto Diva Delvira"}
+                          loading="lazy"
+                          onError={() => setProfileMissing(true)}
+                        />
+                      )}
+                    </div>
+                    <p className="text-base md:text-lg text-gray-700 leading-relaxed font-light text-justify whitespace-pre-line">
+                      {t.aboutBio}
+                    </p>
+                  </div>
 
                   {/* LANGUAGE SKILLS (Bar Chart visual) */}
                   <div className="pt-8 border-t border-brand-primary/10 space-y-5">
@@ -1369,7 +1572,7 @@ export default function App() {
 
               {/* PERSISTENT STAT CARDS (Right Column) */}
               <div className="summer-stats col-span-1 lg:col-span-4 grid grid-cols-1 min-[480px]:grid-cols-3 lg:grid-cols-1 gap-2.5 min-[380px]:gap-3 sm:gap-6 justify-center">
-                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
                   <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">
                     {t.stat1Val}
                   </p>
@@ -1377,7 +1580,7 @@ export default function App() {
                     {t.stat1Lbl}
                   </p>
                 </div>
-                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
                   <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">
                     {t.stat2Val}
                   </p>
@@ -1385,7 +1588,7 @@ export default function App() {
                     {t.stat2Lbl}
                   </p>
                 </div>
-                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-[#0A1628] border border-white/5 rounded-2xl shadow-md space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-xl transition-all duration-300 text-white">
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-[#0A1628] border border-white/5 rounded-2xl shadow-md flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-xl transition-all duration-300 text-white">
                   <p className="text-xl sm:text-3xl font-serif font-bold text-[#C9A84C]">
                     {t.stat3Val}
                   </p>
@@ -1399,193 +1602,195 @@ export default function App() {
         </section>
 
         {/* --- SECTION 3: WORK EXPERIENCE WITH COLLAPSIBLE CARDS --- */}
-        <section id="experience" className="summer-section summer-experience max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="col-span-1 lg:col-span-4">
-              <div className="summer-heading lg:sticky lg:top-32 space-y-6">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
-                  {t.experienceSubtitle}
-                </span>
-                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                  {t.experienceTitle}
-                </h2>
-                <p className="text-gray-500 font-light leading-relaxed max-w-md text-justify">
-                  {t.experienceContext}
-                </p>
-                <a
-                  href="https://www.linkedin.com/in/diva-delvira-ba9874294/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block p-5 bg-[#0A1628] text-center rounded-2xl border border-[#C9A84C]/25 text-xs font-mono text-white hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md cursor-pointer uppercase tracking-wider"
+        <section id="experience" className="summer-section summer-experience">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+              <div className="col-span-1 lg:col-span-5">
+                <div className="summer-heading lg:sticky lg:top-32 space-y-6">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.experienceSubtitle}
+                  </span>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.experienceTitle}
+                  </h2>
+                  <p className="text-gray-500 font-light leading-relaxed max-w-md text-justify">
+                    {t.experienceContext}
+                  </p>
+                  <a
+                    href="https://www.linkedin.com/in/diva-delvira-ba9874294/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block p-5 bg-[#0A1628] text-center rounded-2xl border border-[#C9A84C]/25 text-xs font-mono text-white hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md cursor-pointer uppercase tracking-wider"
+                  >
+                    {t.experienceLinkedinCTA} →
+                  </a>
+                </div>
+              </div>
+
+              <div className="col-span-1 lg:col-span-7 space-y-6">
+                {/* EXPERIENCE CARD 1: PT VALE INDONESIA */}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={expandVale}
+                  onClick={() => setExpandVale(!expandVale)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setExpandVale(!expandVale);
+                    }
+                  }}
+                  className="summer-experience-record group"
                 >
-                  {t.experienceLinkedinCTA} →
-                </a>
-              </div>
-            </div>
-
-            <div className="col-span-1 lg:col-span-8 space-y-6">
-              {/* EXPERIENCE CARD 1: PT VALE INDONESIA */}
-              <div
-                role="button"
-                tabIndex={0}
-                aria-expanded={expandVale}
-                onClick={() => setExpandVale(!expandVale)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setExpandVale(!expandVale);
-                  }
-                }}
-                className="summer-experience-record group"
-              >
-                <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
-                  <div>
-                    <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
-                      PT Vale Indonesia Tbk.
+                  <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
+                    <div>
+                      <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
+                        PT Vale Indonesia Tbk.
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">
+                        {t.valeRole}
+                      </h3>
+                    </div>
+                    <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
+                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                        {t.valePeriod}
+                      </p>
+                      <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
+                        <MapPin size={10} className="mr-1" /> {t.valeLocation}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
+                    {t.valeDesc}
+                  </p>
+                  <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
+                    <span>
+                      {t.industryTag}: {t.valeSector}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">
-                      {t.valeRole}
-                    </h3>
                   </div>
-                  <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
-                    <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">
-                      {t.valePeriod}
-                    </p>
-                    <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
-                      <MapPin size={10} className="mr-1" /> {t.valeLocation}
-                    </p>
+
+                  {/* Expander Trigger */}
+                  <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
+                    <span>{expandVale ? t.clickPromptCollapse : t.clickPromptExpand}</span>
+                    {expandVale ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </div>
-                </div>
-                <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
-                  {t.valeDesc}
-                </p>
-                <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
-                  <span>
-                    {t.industryTag}: {t.valeSector}
-                  </span>
+
+                  {/* Collapsed Bullet Content */}
+                  <AnimatePresence>
+                    {expandVale && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden mt-6"
+                      >
+                        <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.valeBullet1}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.valeBullet2}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.valeBullet3}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.valeBullet4}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.valeBullet5}</span>
+                          </li>
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                {/* Expander Trigger */}
-                <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
-                  <span>{expandVale ? t.clickPromptCollapse : t.clickPromptExpand}</span>
-                  {expandVale ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                </div>
-
-                {/* Collapsed Bullet Content */}
-                <AnimatePresence>
-                  {expandVale && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden mt-6"
-                    >
-                      <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.valeBullet1}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.valeBullet2}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.valeBullet3}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.valeBullet4}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.valeBullet5}</span>
-                        </li>
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* EXPERIENCE CARD 2: PT TRIATRA SINERGIA PRATAMA */}
-              <div
-                role="button"
-                tabIndex={0}
-                aria-expanded={expandTriatra}
-                onClick={() => setExpandTriatra(!expandTriatra)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setExpandTriatra(!expandTriatra);
-                  }
-                }}
-                className="summer-experience-record group"
-              >
-                <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
-                  <div>
-                    <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
-                      PT Triatra Sinergia Pratama
+                {/* EXPERIENCE CARD 2: PT TRIATRA SINERGIA PRATAMA */}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={expandTriatra}
+                  onClick={() => setExpandTriatra(!expandTriatra)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setExpandTriatra(!expandTriatra);
+                    }
+                  }}
+                  className="summer-experience-record group"
+                >
+                  <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
+                    <div>
+                      <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
+                        PT Triatra Sinergia Pratama
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">
+                        {t.triatraRole}
+                      </h3>
+                    </div>
+                    <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
+                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                        {t.triatraPeriod}
+                      </p>
+                      <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
+                        <MapPin size={10} className="mr-1" /> {t.triatraLocation}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
+                    {t.triatraDesc}
+                  </p>
+                  <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
+                    <span>
+                      {t.industryTag}: {t.triatraSector}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">
-                      {t.triatraRole}
-                    </h3>
                   </div>
-                  <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
-                    <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">
-                      {t.triatraPeriod}
-                    </p>
-                    <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
-                      <MapPin size={10} className="mr-1" /> {t.triatraLocation}
-                    </p>
+
+                  {/* Expander Trigger */}
+                  <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
+                    <span>{expandTriatra ? t.clickPromptCollapse : t.clickPromptExpand}</span>
+                    {expandTriatra ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </div>
-                </div>
-                <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
-                  {t.triatraDesc}
-                </p>
-                <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
-                  <span>
-                    {t.industryTag}: {t.triatraSector}
-                  </span>
-                </div>
 
-                {/* Expander Trigger */}
-                <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
-                  <span>{expandTriatra ? t.clickPromptCollapse : t.clickPromptExpand}</span>
-                  {expandTriatra ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  {/* Collapsed Bullet Content */}
+                  <AnimatePresence>
+                    {expandTriatra && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden mt-6"
+                      >
+                        <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.triatraBullet1}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.triatraBullet2}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.triatraBullet3}</span>
+                          </li>
+                          <li className="flex items-start text-justify">
+                            <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                            <span>{t.triatraBullet4}</span>
+                          </li>
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                {/* Collapsed Bullet Content */}
-                <AnimatePresence>
-                  {expandTriatra && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden mt-6"
-                    >
-                      <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.triatraBullet1}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.triatraBullet2}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.triatraBullet3}</span>
-                        </li>
-                        <li className="flex items-start text-justify">
-                          <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                          <span>{t.triatraBullet4}</span>
-                        </li>
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             </div>
           </div>
@@ -1594,7 +1799,7 @@ export default function App() {
         {/* --- SECTION 4: PROJECTS / CASE STUDIES --- */}
         <section id="projects" className="summer-section summer-projects">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20">
+            <div className="summer-project-heading">
               <div className="summer-heading">
                 <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">
                   {t.projectsSubtitle}
@@ -1603,42 +1808,73 @@ export default function App() {
                   {t.projectsTitle}
                 </h2>
               </div>
-              <p className="text-gray-500 font-light max-w-md mt-4 md:mt-0 text-justify">
-                {t.projectsContext}
-              </p>
+              <div className="summer-project-intro">
+                <p className="text-gray-500 font-light text-justify">{t.projectsContext}</p>
+                <div
+                  className="summer-project-filter"
+                  role="group"
+                  aria-label={lang === "en" ? "Filter case studies" : "Saring studi kasus"}
+                >
+                  {projectGroups.map((g) => (
+                    <button
+                      key={g.key}
+                      type="button"
+                      aria-pressed={projectFilter === g.key}
+                      onClick={() => setProjectFilter(g.key)}
+                    >
+                      {g.label[lang]}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div
-              className="summer-project-filter"
-              role="group"
-              aria-label={lang === "en" ? "Filter case studies" : "Saring studi kasus"}
-            >
-              {projectGroups.map((g) => (
-                <button
-                  key={g.key}
-                  type="button"
-                  aria-pressed={projectFilter === g.key}
-                  onClick={() => setProjectFilter(g.key)}
-                >
-                  {g.label[lang]}
-                </button>
-              ))}
-            </div>
-
-            <div className="summer-project-shelf">
-              {visibleProjects.map((p) => (
-                <button
-                  key={p.title}
-                  type="button"
-                  className={`summer-project-card tone-${featuredProjects.indexOf(p) % 4}`}
-                  aria-pressed={p === stageProject}
-                  aria-controls="project-stage"
-                  onClick={() => setActiveProject(p.title)}
-                >
-                  <ProjectResultFigure result={p.result} />
-                  <span className="summer-project-card-title">{p.title}</span>
-                </button>
-              ))}
+            <div className="summer-project-shelf-wrap">
+              <button
+                type="button"
+                className="summer-shelf-arrow is-left"
+                aria-label={lang === "en" ? "Scroll to first project" : "Geser ke proyek pertama"}
+                disabled={shelfEdge.start}
+                onClick={() => shelfRef.current?.scrollTo({ left: 0, behavior: "smooth" })}
+              >
+                <ChevronLeft size={20} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="summer-shelf-arrow is-right"
+                aria-label={lang === "en" ? "Scroll to last project" : "Geser ke proyek terakhir"}
+                disabled={shelfEdge.end}
+                onClick={() =>
+                  shelfRef.current?.scrollTo({
+                    left: shelfRef.current.scrollWidth,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <ChevronRight size={20} aria-hidden="true" />
+              </button>
+              <div
+                ref={shelfRef}
+                onScroll={updateShelfEdge}
+                className="summer-project-shelf"
+                tabIndex={0}
+                role="region"
+                aria-label={lang === "en" ? "Project cards" : "Kartu proyek"}
+              >
+                {visibleProjects.map((p) => (
+                  <button
+                    key={p.title}
+                    type="button"
+                    className={`summer-project-card tone-${featuredProjects.indexOf(p) % 4}`}
+                    aria-pressed={p === stageProject}
+                    aria-controls="project-stage"
+                    onClick={() => setActiveProject(p.title)}
+                  >
+                    <ProjectResultFigure result={p.result} />
+                    <span className="summer-project-card-title">{p.title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <article
@@ -1655,6 +1891,42 @@ export default function App() {
                     <span>{lang === "en" ? "Project photo" : "Foto proyek"}</span>
                   </div>
                 )}
+                <div className="summer-evidence">
+                  <h4>{lang === "en" ? "Evidence" : "Bukti"}</h4>
+                  <div className="summer-evidence-strip">
+                    {stageProject.gallery.length
+                      ? stageProject.gallery.map((photo, index) => (
+                          <button
+                            key={`${photo}-${index}`}
+                            type="button"
+                            aria-haspopup="dialog"
+                            aria-label={`${lang === "en" ? "Open evidence photo" : "Buka foto bukti"} ${index + 1}: ${stageProject.title}`}
+                            onClick={(event) =>
+                              openEvidence(
+                                stageProject.title,
+                                stageProject.gallery,
+                                index,
+                                event.currentTarget,
+                              )
+                            }
+                          >
+                            <img
+                              src={photo}
+                              alt={`${stageProject.title}, ${lang === "en" ? "evidence" : "bukti"} ${index + 1}`}
+                              loading="lazy"
+                            />
+                          </button>
+                        ))
+                      : [1, 2, 3].map((tile) => (
+                          <div key={tile} className="summer-project-photo-placeholder">
+                            <ImageIcon size={20} aria-hidden="true" />
+                            <span>
+                              {lang === "en" ? "Photo" : "Foto"} {tile}
+                            </span>
+                          </div>
+                        ))}
+                  </div>
+                </div>
               </div>
               <div className="summer-project-story">
                 <header>
@@ -1674,9 +1946,20 @@ export default function App() {
                     rel="noreferrer"
                     className="summer-project-link"
                   >
-                    <span>{t.viewDetails}</span>
+                    <span>{stageProject.linkLabel ?? t.viewDetails}</span>
                     <ExternalLink size={15} aria-hidden="true" />
                   </a>
+                  {stageProject.docLink && (
+                    <a
+                      href={stageProject.docLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="summer-project-link"
+                    >
+                      <span>{lang === "en" ? "View Documentation" : "Lihat Dokumen"}</span>
+                      <ExternalLink size={15} aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
@@ -1684,110 +1967,113 @@ export default function App() {
         </section>
 
         {/* --- SECTION 5: COMPETENCY MATRIX / RADAR CHART --- */}
-        <section id="skills" className="summer-section summer-skills max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="col-span-1 lg:col-span-6 space-y-8 md:space-y-12">
-              <div className="summer-heading">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
-                  {t.skillsSubtitle}
-                </span>
-                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                  {t.skillsTitle}
-                </h2>
-              </div>
+        <section id="skills" className="summer-section summer-skills">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+              <div className="col-span-1 lg:col-span-6 space-y-6">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.skillsSubtitle}
+                  </span>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.skillsTitle}
+                  </h2>
+                </div>
 
-              {/* Competency Group 1: Tools */}
-              <div className="space-y-4">
-                <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
-                  {t.skillsCategory1}
-                </h4>
-                <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                  {["Power BI", "Microsoft Excel", "Minitab", "SPSS", "Canva", "SAP"].map(
-                    (skill) => (
+                {/* Competency Group 1: Tools */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
+                    {t.skillsCategory1}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {["Power BI", "Microsoft Excel", "Minitab", "SPSS", "Canva", "SAP S/4HANA"].map(
+                      (skill) => (
+                        <span
+                          key={skill}
+                          className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300"
+                        >
+                          {skill}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                {/* Competency Group 2: SCM */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
+                    {t.skillsCategory2}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {[
+                      "Inventory Analysis",
+                      "Vendor Evaluation",
+                      "MRP Control",
+                      "Lead Time Optimization",
+                      "Forecast Modeling",
+                    ].map((skill) => (
                       <span
                         key={skill}
-                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300"
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300"
                       >
                         {skill}
                       </span>
-                    ),
-                  )}
+                    ))}
+                  </div>
+                </div>
+
+                {/* Competency Group 3: Methodologies */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-[#C9A84C] tracking-widest">
+                    {t.skillsCategory3}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {[
+                      "Lean Manufacturing",
+                      "Measurement System Analysis",
+                      "Toyota Production System",
+                      "Kaizen / Continuous Improvement",
+                      "Just In Time (JIT)",
+                      "Root Cause Analysis (RCA)",
+                    ].map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Competency Group 2: SCM */}
-              <div className="space-y-4">
-                <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
-                  {t.skillsCategory2}
+              {/* Interactive Core Radar Canvas */}
+              <div className="summer-radar col-span-1 lg:col-span-6 flex flex-col items-center mt-6 lg:mt-0 w-full">
+                <h4 className="text-sm font-mono uppercase text-[#C9A84C] tracking-[0.2em] mb-8 text-center">
+                  {t.chartHeading}
                 </h4>
-                <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                  {[
-                    "Inventory Analysis",
-                    "Vendor Evaluation",
-                    "MRP Control",
-                    "Lead Time Optimization",
-                    "Forecast Modeling",
-                  ].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                <div className="w-full aspect-square relative max-w-[260px] min-[380px]:max-w-[310px] sm:max-w-[420px]">
+                  <canvas
+                    ref={chartRef}
+                    id="competencyChart"
+                    className="w-full h-full"
+                    role="img"
+                    aria-label={`${t.axisData}: 92%; ${t.axisScm}: 89%; ${t.axisProcess}: 95%; ${t.axisLean}: 88%; ${t.axisReporting}: 87%`}
+                  />
                 </div>
-              </div>
-
-              {/* Competency Group 3: Methodologies */}
-              <div className="space-y-4">
-                <h4 className="text-xs font-mono uppercase text-[#C9A84C] tracking-widest">
-                  {t.skillsCategory3}
-                </h4>
-                <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                  {[
-                    "Lean Manufacturing",
-                    "Measurement System Analysis",
-                    "Toyota Production System",
-                    "Kaizen / Continuous Improvement",
-                    "Just In Time (JIT)",
-                    "Root Cause Analysis (RCA)",
-                  ].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-[11px] text-gray-400 text-justify font-mono mt-8 leading-relaxed max-w-sm">
+                  {t.chartFooter}
+                </p>
               </div>
             </div>
-
-            {/* Interactive Core Radar Canvas */}
-            <div className="summer-radar col-span-1 lg:col-span-6 flex flex-col items-center mt-6 lg:mt-0 w-full">
-              <h4 className="text-sm font-mono uppercase text-[#C9A84C] tracking-[0.2em] mb-8 text-center">
-                {t.chartHeading}
-              </h4>
-              <div className="w-full aspect-square relative max-w-[260px] min-[380px]:max-w-[310px] sm:max-w-[420px]">
-                <canvas
-                  ref={chartRef}
-                  id="competencyChart"
-                  className="w-full h-full"
-                  role="img"
-                  aria-label={`${t.axisData}: 92%; ${t.axisScm}: 89%; ${t.axisProcess}: 95%; ${t.axisLean}: 88%; ${t.axisReporting}: 87%`}
-                />
-              </div>
-              <p className="text-[11px] text-gray-400 text-justify font-mono mt-8 leading-relaxed max-w-sm">
-                {t.chartFooter}
-              </p>
-            </div>
+            <SkillsInventory lang={lang} />
           </div>
         </section>
 
         {/* --- SECTION 6: TOURNAMENTS & RECOGNITIONS --- */}
         <section className="summer-section summer-honors">
           <div className="max-w-7xl mx-auto">
-            <div className="summer-heading max-w-3xl mb-12 md:mb-20">
+            <div className="summer-heading max-w-3xl mb-8 md:mb-10">
               <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-brand-soft">
                 {t.achievementsSubtitle}
               </span>
@@ -1799,234 +2085,249 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-              {/* Cert Card 1 */}
-              <div className="p-4 min-[380px]:p-6 sm:p-10 border border-white/10 rounded-[32px] bg-white/[0.02] flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8 items-start relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                  <Trophy size={120} />
-                </div>
-                <div className="w-14 h-14 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0">
-                  <Award size={28} />
-                </div>
-                <div className="space-y-4">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-brand-soft/60">
-                    {t.achie1Category}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {awards.map((award) => (
+                <button
+                  key={award.title}
+                  type="button"
+                  className="summer-award-card"
+                  aria-haspopup="dialog"
+                  onClick={(event) => {
+                    openEvidence(
+                      `${award.rank}: ${award.title}`,
+                      award.photos,
+                      0,
+                      event.currentTarget,
+                    );
+                  }}
+                >
+                  <Award size={28} aria-hidden="true" />
+                  <span className="summer-award-copy">
+                    <span className="text-xs">{award.category}</span>
+                    <span className="summer-award-rank">{award.rank}</span>
+                    <span className="text-lg font-bold">{award.title}</span>
+                    <span className="text-sm">{award.sponsor}</span>
+                    <span className="summer-project-link">
+                      {lang === "en" ? "View award photo" : "Lihat foto penghargaan"}{" "}
+                      <ImageIcon size={16} aria-hidden="true" />
+                    </span>
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-serif text-white">{t.achie1Rank}</h3>
-                  <p className="text-lg font-serif italic text-brand-soft">
-                    Content Marketing Competition 2025, Manado
-                  </p>
-                  <div className="h-px bg-white/10" />
-                  <p className="text-sm text-white/60 font-light text-justify">{t.achie1Sponsor}</p>
-                </div>
-              </div>
-
-              {/* Cert Card 2 */}
-              <div className="p-4 min-[380px]:p-6 sm:p-10 border border-white/10 rounded-[32px] bg-white/[0.02] flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8 items-start relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                  <Trophy size={120} />
-                </div>
-                <div className="w-14 h-14 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0">
-                  <Award size={28} />
-                </div>
-                <div className="space-y-4">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-brand-soft/60">
-                    {t.achie2Category}
-                  </span>
-                  <h3 className="text-3xl font-serif text-white">{t.achie2Rank}</h3>
-                  <p className="text-lg font-serif italic text-brand-soft">
-                    Astra Motor Business Case Competition
-                  </p>
-                  <div className="h-px bg-white/10" />
-                  <p className="text-sm text-white/60 font-light text-justify">{t.achie2Sponsor}</p>
-                </div>
-              </div>
+                </button>
+              ))}
             </div>
           </div>
         </section>
 
         {/* --- SECTION 7: EDUCATION & ORGANIZATIONAL --- */}
-        <section id="edu" className="summer-section summer-education max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 xl:gap-20">
-            {/* Left: Edu info */}
-            <div className="flex flex-col gap-3">
-              <div className="summer-heading">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
-                  {t.eduOrgSubtitle}
-                </span>
-                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                  {t.eduHeading}
-                </h2>
+        <section id="edu" className="summer-section summer-education">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col gap-10">
+              {/* Top: Edu info */}
+              <div className="flex flex-col gap-3">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.eduOrgSubtitle}
+                  </span>
+                  <h2 className="flex items-center gap-3 text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    <span className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <GraduationCap size={26} aria-hidden="true" />
+                    </span>
+                    {t.eduHeading}
+                  </h2>
+                </div>
+
+                {/* Campus 1 */}
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  onClick={() => setEduOpen(true)}
+                  className="group/edu text-left w-full p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                >
+                  <div className="space-y-1.5 w-full min-w-0">
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                      UNHAS
+                    </span>
+                    <h4 className="text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                      Universitas Hasanuddin
+                    </h4>
+                    <p className="text-sm italic font-serif text-[#C9A84C]">
+                      {lang === "en" ? "Bachelor of Industrial Engineering" : "S1 Teknik Industri"}
+                    </p>
+                    <p className="text-xs font-mono text-gray-500">
+                      {t.expectedGrad} · GPA 3.78 / 4.00
+                    </p>
+
+                    <div className="h-px bg-brand-soft/50 my-1 w-full" />
+
+                    <ul className="space-y-1 text-xs text-gray-500 leading-relaxed font-light text-justify">
+                      <li>• {t.eduFocus}</li>
+                      <li>• {t.tpsTraining}</li>
+                      <li>• {t.mfgAssistant}</li>
+                      <li>• {t.physicsAssistant}</li>
+                    </ul>
+                    <span className="summer-project-link pt-1">
+                      {lang === "en"
+                        ? "View study overview & undergraduate thesis"
+                        : "Lihat ringkasan kuliah & TA"}{" "}
+                      <ArrowRight size={14} aria-hidden="true" />
+                    </span>
+                  </div>
+                  {/* Source: commons.wikimedia.org/wiki/File:Logo-Resmi-Unhas-1.png */}
+                  <div
+                    className={`summer-edu-logo order-first sm:order-none${logoMissing ? "" : " has-image"}`}
+                  >
+                    {logoMissing ? (
+                      <>
+                        <ImageIcon size={22} aria-hidden="true" />
+                        <span>Logo</span>
+                      </>
+                    ) : (
+                      <img
+                        src="/edu/unhas.png"
+                        alt="Universitas Hasanuddin logo"
+                        loading="lazy"
+                        onError={() => setLogoMissing(true)}
+                      />
+                    )}
+                  </div>
+                </button>
               </div>
 
-              {/* Campus 1 */}
-              <a
-                href="https://www.instagram.com/hasanuddin_univ/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/edu p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-              >
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/edu:text-[#C9A84C] transition-colors duration-300">
-                  <ExternalLink size={14} />
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                  <GraduationCap size={24} />
-                </div>
-                <div className="space-y-1.5 w-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                    UNHAS
+              {/* Bottom: Org Info, 2x2 */}
+              <div className="flex flex-col gap-3">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.leaderNetworkLabel}
                   </span>
-                  <h4 className="text-2xl font-serif font-semibold text-brand-primary leading-tight">
-                    Universitas Hasanuddin
-                  </h4>
-                  <p className="text-sm italic font-serif text-[#C9A84C]">
-                    {lang === "en" ? "Bachelor of Industrial Engineering" : "S1 Teknik Industri"}
-                  </p>
-                  <p className="text-xs font-mono text-gray-500">
-                    {t.expectedGrad} · GPA 3.78 / 4.00
-                  </p>
-
-                  <div className="h-px bg-brand-soft/50 my-1 w-full" />
-
-                  <ul className="space-y-1 text-xs text-gray-500 leading-relaxed font-light text-justify">
-                    <li>• {t.eduFocus}</li>
-                    <li>• {t.tpsTraining}</li>
-                    <li>• {t.mfgAssistant}</li>
-                    <li>• {t.physicsAssistant}</li>
-                  </ul>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.orgHeading}
+                  </h2>
                 </div>
-              </a>
-            </div>
 
-            {/* Right: Org Info */}
-            <div className="flex flex-col gap-3">
-              <div className="summer-heading">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
-                  {t.leaderNetworkLabel}
-                </span>
-                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                  {t.orgHeading}
-                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                  {/* Org position 1: HMTI FT-UH */}
+                  <a
+                    href="https://www.instagram.com/p/DAjD8sDzF8M/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/org1 p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                  >
+                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org1:text-[#C9A84C] transition-colors duration-300">
+                      <ExternalLink size={14} />
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <Users size={24} />
+                    </div>
+                    <div className="space-y-1 w-full">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                        HMTI FT-UH
+                      </span>
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                        {t.org1Role}
+                      </h4>
+                      <p className="text-xs font-mono text-gray-500">{t.org1Date}</p>
+                      <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
+                        {t.org1Desc}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* Org position 2: ISLI CAMP */}
+                  <a
+                    href="https://www.instagram.com/islicamp2024/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/org2 p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                  >
+                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org2:text-[#C9A84C] transition-colors duration-300">
+                      <ExternalLink size={14} />
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <Layout size={24} />
+                    </div>
+                    <div className="space-y-1 w-full">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                        ISLI CAMP
+                      </span>
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                        {t.org2Role}
+                      </h4>
+                      <p className="text-xs font-mono text-gray-500">{t.org2Date}</p>
+                      <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
+                        {t.org2Desc}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* Org position 3: Mechanical Retreat XXVII */}
+                  <a
+                    href="https://www.instagram.com/reel/C4pPnOPP8sL/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/org3 p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                  >
+                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org3:text-[#C9A84C] transition-colors duration-300">
+                      <ExternalLink size={14} />
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <Calendar size={24} />
+                    </div>
+                    <div className="space-y-1 w-full">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                        Mechanical Retreat XXVII
+                      </span>
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                        Event Coordinator
+                      </h4>
+                      <p className="text-xs font-mono text-gray-500">Feb 2024 - Mar 2024</p>
+                      <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
+                        {lang === "en"
+                          ? "Led the planning of a fully coordinated and customizable event, and organized a two-day large-scale event for more than 200 active participants in Pinrang, South Sulawesi."
+                          : "Memimpin perencanaan acara yang terkoordinasi sepenuhnya dan dapat disesuaikan, serta menyelenggarakan acara berskala besar selama dua hari untuk lebih dari 200 peserta aktif di Pinrang, Sulawesi Selatan."}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* Org position 4: KKN-T 114 Universitas Hasanuddin */}
+                  <a
+                    href="https://www.instagram.com/p/DLksZsqyI4znzM4R4JTxUJaF6vOfrdSkSydC-00/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/org4 p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                  >
+                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org4:text-[#C9A84C] transition-colors duration-300">
+                      <ExternalLink size={14} />
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <Sparkles size={24} />
+                    </div>
+                    <div className="space-y-1 w-full">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                        KKN-T 114 UNHAS
+                      </span>
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                        Team Secretary
+                      </h4>
+                      <p className="text-xs font-mono text-gray-500">Jul 2024 - Aug 2024</p>
+                      <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
+                        {lang === "en"
+                          ? "As Team Secretary, I led the administrative coordination and ensured transparent program reporting while actively driving community empowerment initiatives. Specifically, I initiated a 'Moringa-infused Chocolate' training program designed to provide healthy snacks for children and create sustainable economic opportunities for local mothers."
+                          : "Sebagai Sekretaris Tim, saya memimpin koordinasi administratif dan memastikan pelaporan program yang transparan sambil aktif mendorong inisiatif pemberdayaan masyarakat. Secara khusus, saya memprakarsai program pelatihan 'Cokelat Kelor' yang dirancang untuk menyediakan camilan sehat bagi anak-anak dan menciptakan peluang ekonomi berkelanjutan bagi para ibu setempat."}
+                      </p>
+                    </div>
+                  </a>
+                </div>
               </div>
-
-              {/* Org position 1: HMTI FT-UH */}
-              <a
-                href="https://www.instagram.com/p/DAjD8sDzF8M/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/org1 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-              >
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org1:text-[#C9A84C] transition-colors duration-300">
-                  <ExternalLink size={14} />
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                  <Users size={24} />
-                </div>
-                <div className="space-y-1 w-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                    HMTI FT-UH
-                  </span>
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
-                    {t.org1Role}
-                  </h4>
-                  <p className="text-xs font-mono text-gray-500">{t.org1Date}</p>
-                  <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                    {t.org1Desc}
-                  </p>
-                </div>
-              </a>
-
-              {/* Org position 2: ISLI CAMP */}
-              <a
-                href="https://www.instagram.com/islicamp2024/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/org2 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-              >
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org2:text-[#C9A84C] transition-colors duration-300">
-                  <ExternalLink size={14} />
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                  <Layout size={24} />
-                </div>
-                <div className="space-y-1 w-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                    ISLI CAMP
-                  </span>
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
-                    {t.org2Role}
-                  </h4>
-                  <p className="text-xs font-mono text-gray-500">{t.org2Date}</p>
-                  <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                    {t.org2Desc}
-                  </p>
-                </div>
-              </a>
-
-              {/* Org position 3: Mechanical Retreat XXVII */}
-              <a
-                href="https://www.instagram.com/reel/C4pPnOPP8sL/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/org3 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-              >
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org3:text-[#C9A84C] transition-colors duration-300">
-                  <ExternalLink size={14} />
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                  <Calendar size={24} />
-                </div>
-                <div className="space-y-1 w-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                    Mechanical Retreat XXVII
-                  </span>
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
-                    Event Coordinator
-                  </h4>
-                  <p className="text-xs font-mono text-gray-500">Feb 2024 - Mar 2024</p>
-                  <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                    {lang === "en"
-                      ? "Led the planning of a fully coordinated and customizable event, and organized a two-day large-scale event for more than 200 active participants in Pinrang, South Sulawesi."
-                      : "Memimpin perencanaan acara yang terkoordinasi sepenuhnya dan dapat disesuaikan, serta menyelenggarakan acara berskala besar selama dua hari untuk lebih dari 200 peserta aktif di Pinrang, Sulawesi Selatan."}
-                  </p>
-                </div>
-              </a>
-
-              {/* Org position 4: KKN-T 114 Universitas Hasanuddin */}
-              <a
-                href="https://www.instagram.com/p/DLksZsqyI4znzM4R4JTxUJaF6vOfrdSkSydC-00/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/org4 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-              >
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org4:text-[#C9A84C] transition-colors duration-300">
-                  <ExternalLink size={14} />
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                  <Sparkles size={24} />
-                </div>
-                <div className="space-y-1 w-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                    KKN-T 114 UNHAS
-                  </span>
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
-                    Team Secretary
-                  </h4>
-                  <p className="text-xs font-mono text-gray-500">Jul 2024 - Aug 2024</p>
-                  <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                    {lang === "en"
-                      ? "As Team Secretary, I led the administrative coordination and ensured transparent program reporting while actively driving community empowerment initiatives. Specifically, I initiated a 'Moringa-infused Chocolate' training program designed to provide healthy snacks for children and create sustainable economic opportunities for local mothers."
-                      : "Sebagai Sekretaris Tim, saya memimpin koordinasi administratif dan memastikan pelaporan program yang transparan sambil aktif mendorong inisiatif pemberdayaan masyarakat. Secara khusus, saya memprakarsai program pelatihan 'Cokelat Kelor' yang dirancang untuk menyediakan camilan sehat bagi anak-anak dan menciptakan peluang ekonomi berkelanjutan bagi para ibu setempat."}
-                  </p>
-                </div>
-              </a>
             </div>
           </div>
         </section>
 
+        <TrainingSection lang={lang} />
+        <EduOverview lang={lang} open={eduOpen} onClose={() => setEduOpen(false)} />
+
         {/* --- SECTION 8: CONTACT ME --- */}
         <section id="contact" className="summer-section summer-contact">
-          <div className="max-w-7xl mx-auto space-y-12 md:space-y-20 relative z-10">
+          <div className="max-w-7xl mx-auto space-y-8 md:space-y-10 relative z-10">
             <div className="summer-heading summer-contact-heading">
               <div className="inline-flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
@@ -2130,83 +2431,170 @@ export default function App() {
                 </button>
               </form>
             </div>
-
-            <div className="h-px bg-[#0A1628]/5 max-w-4xl mx-auto w-full" />
-
-            {/* Social connections underneath the dialogue box */}
-            <div className="space-y-8 w-full max-w-5xl mx-auto">
-              <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] text-center font-bold">
-                {lang === "en" ? "OTHER CONNECTION CHANNELS" : "SALURAN HUBUNGAN LAINNYA"}
-              </h3>
-
-              <div className="grid grid-cols-1 min-[340px]:grid-cols-2 md:grid-cols-4 gap-4 w-full">
-                {[
-                  {
-                    href: "mailto:divakemur@gmail.com",
-                    label: "Email",
-                    icon: <Mail size={16} />,
-                    detail: "divakemur@gmail.com",
-                    target: "",
-                  },
-                  {
-                    href: "https://www.linkedin.com/in/diva-delvira-ba9874294/",
-                    label: "LinkedIn",
-                    icon: <Linkedin size={16} />,
-                    detail: "Diva Delvira",
-                    target: "_blank",
-                  },
-                  {
-                    href: "https://www.instagram.com/dvdlvra_?igsh=M3ZseTVkNGkzNnp6",
-                    label: "Instagram",
-                    icon: <Instagram size={16} />,
-                    detail: "dvdlvra_",
-                    target: "_blank",
-                  },
-                  {
-                    href: "https://www.tiktok.com/@itsdipyay?_r=1&_t=ZS-969Cy3BRtVn",
-                    label: "TikTok",
-                    icon: <Music size={16} />,
-                    detail: "@itsdipyay",
-                    target: "_blank",
-                  },
-                ].map((chan, idx) => (
-                  <a
-                    key={idx}
-                    href={chan.href}
-                    target={chan.target}
-                    rel={chan.target ? "noreferrer" : undefined}
-                    className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl border border-brand-soft bg-white text-brand-primary hover:border-[#C9A84C] hover:shadow-lg transition-all duration-300 text-center space-y-2 group group-hover:bg-brand-soft min-w-0"
-                  >
-                    <div className="text-[#C9A84C] group-hover:scale-110 transition-transform duration-300">
-                      {chan.icon}
-                    </div>
-                    <span className="block text-[10px] font-mono uppercase tracking-wider font-bold truncate max-w-full">
-                      {chan.label}
-                    </span>
-                    <span className="block text-[9px] text-gray-400 font-mono truncate max-w-full">
-                      {chan.detail}
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Elegant Footer Details */}
-            <div className="pt-12 mt-12 md:pt-24 md:mt-24 border-t border-[#0A1628]/10 w-full flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#0A1628] text-center md:text-left space-y-4 md:space-y-0 text-center">
-              <button
-                onClick={() => {
-                  setLoginError("");
-                  setShowLoginModal(true);
-                }}
-                className="text-center md:text-left font-mono uppercase tracking-[0.3em] text-[#0A1628]/60 hover:text-[#C9A84C] transition-colors duration-300 focus:outline-none cursor-pointer"
-              >
-                © 2026 Diva Delvira. All rights reserved.
-              </button>
-              <p className="mt-2 md:mt-0 italic text-[#C9A84C]">{t.footerTagline}</p>
-            </div>
           </div>
         </section>
       </main>
+
+      <footer className="summer-footer">
+        <div className="max-w-7xl mx-auto">
+          {/* Social connections */}
+          <div className="space-y-8 w-full max-w-5xl mx-auto">
+            <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] text-center font-bold">
+              {lang === "en" ? "OTHER CONNECTION CHANNELS" : "SALURAN HUBUNGAN LAINNYA"}
+            </h3>
+
+            <div className="grid grid-cols-1 min-[340px]:grid-cols-2 md:grid-cols-4 gap-4 w-full">
+              {[
+                {
+                  href: "mailto:divakemur@gmail.com",
+                  label: "Email",
+                  icon: <Mail size={16} />,
+                  detail: "divakemur@gmail.com",
+                  target: "",
+                },
+                {
+                  href: "https://www.linkedin.com/in/diva-delvira-ba9874294/",
+                  label: "LinkedIn",
+                  icon: <Linkedin size={16} />,
+                  detail: "Diva Delvira",
+                  target: "_blank",
+                },
+                {
+                  href: "https://www.instagram.com/dvdlvra_?igsh=M3ZseTVkNGkzNnp6",
+                  label: "Instagram",
+                  icon: <Instagram size={16} />,
+                  detail: "dvdlvra_",
+                  target: "_blank",
+                },
+                {
+                  href: "https://www.tiktok.com/@itsdipyay?_r=1&_t=ZS-969Cy3BRtVn",
+                  label: "TikTok",
+                  icon: <Music size={16} />,
+                  detail: "@itsdipyay",
+                  target: "_blank",
+                },
+              ].map((chan, idx) => (
+                <a
+                  key={idx}
+                  href={chan.href}
+                  target={chan.target}
+                  rel={chan.target ? "noreferrer" : undefined}
+                  className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl border border-brand-soft bg-white text-brand-primary hover:border-[#C9A84C] hover:shadow-lg transition-all duration-300 text-center space-y-2 group group-hover:bg-brand-soft min-w-0"
+                >
+                  <div className="text-[#C9A84C] group-hover:scale-110 transition-transform duration-300">
+                    {chan.icon}
+                  </div>
+                  <span className="block text-[10px] font-mono uppercase tracking-wider font-bold truncate max-w-full">
+                    {chan.label}
+                  </span>
+                  <span className="block text-[9px] text-gray-400 font-mono truncate max-w-full">
+                    {chan.detail}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Elegant Footer Details */}
+          <div className="pt-8 mt-8 md:pt-12 md:mt-12 border-t border-[#0A1628]/10 w-full flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#0A1628] text-center md:text-left space-y-4 md:space-y-0 text-center">
+            <button
+              onClick={() => {
+                setLoginError("");
+                setShowLoginModal(true);
+              }}
+              className="text-center md:text-left font-mono uppercase tracking-[0.3em] text-[#0A1628]/60 hover:text-[#C9A84C] transition-colors duration-300 cursor-pointer"
+            >
+              © 2026 Diva Delvira. All rights reserved.
+            </button>
+            {t.footerTagline && (
+              <p className="mt-2 md:mt-0 italic text-[#C9A84C]">{t.footerTagline}</p>
+            )}
+          </div>
+        </div>
+      </footer>
+
+      {evidence !== null && (
+        <dialog
+          className="summer-award-dialog"
+          aria-labelledby="evidence-photo-title"
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+              stepEvidence(event.key === "ArrowLeft" ? -1 : 1);
+            }
+          }}
+          ref={(dialog) => {
+            if (dialog && !dialog.open) dialog.showModal();
+          }}
+          onClose={() => {
+            setEvidence(null);
+            evidenceTrigger.current?.focus();
+          }}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              const rect = event.currentTarget.getBoundingClientRect();
+              if (
+                event.clientX < rect.left ||
+                event.clientX > rect.right ||
+                event.clientY < rect.top ||
+                event.clientY > rect.bottom
+              )
+                event.currentTarget.close();
+            }
+          }}
+        >
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <h2 id="evidence-photo-title" className="text-xl font-bold">
+              {evidence.title}
+            </h2>
+            <button
+              type="button"
+              className="summer-award-close"
+              onClick={(event) => event.currentTarget.closest("dialog")?.close()}
+            >
+              <X size={18} aria-hidden="true" /> {lang === "en" ? "Close" : "Tutup"}
+            </button>
+          </div>
+          {evidence.photos.length ? (
+            <figure>
+              <img
+                src={evidence.photos[evidence.index]}
+                alt={`${evidence.title}, ${lang === "en" ? "photo" : "foto"} ${evidence.index + 1}`}
+              />
+              <figcaption className="summer-evidence-controls">
+                <button
+                  type="button"
+                  className="summer-award-close"
+                  disabled={evidence.photos.length < 2}
+                  aria-label={lang === "en" ? "Previous photo" : "Foto sebelumnya"}
+                  onClick={() => stepEvidence(-1)}
+                >
+                  <ChevronLeft size={20} aria-hidden="true" />
+                </button>
+                <span aria-live="polite">
+                  {evidence.index + 1} / {evidence.photos.length}
+                </span>
+                <button
+                  type="button"
+                  className="summer-award-close"
+                  disabled={evidence.photos.length < 2}
+                  aria-label={lang === "en" ? "Next photo" : "Foto berikutnya"}
+                  onClick={() => stepEvidence(1)}
+                >
+                  <ChevronRight size={20} aria-hidden="true" />
+                </button>
+              </figcaption>
+            </figure>
+          ) : (
+            <div className="summer-project-photo-placeholder">
+              <ImageIcon size={40} aria-hidden="true" />
+              <p>
+                {lang === "en" ? "Award photo coming soon" : "Foto penghargaan segera tersedia"}
+              </p>
+            </div>
+          )}
+        </dialog>
+      )}
 
       {/* Floating back to top button */}
       {showBackToTop && (
@@ -2355,7 +2743,7 @@ export default function App() {
               event.preventDefault();
               handleAdminLogout();
             }}
-            className="summer-dialog fixed inset-0 bg-brand-primary/95 z-50 flex items-center justify-center p-4 md:p-12 overflow-y-auto"
+            className="summer-dialog fixed inset-0 bg-brand-primary/95 z-50 flex items-center justify-center p-4 md:p-8 overflow-y-auto"
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
@@ -2442,7 +2830,7 @@ export default function App() {
                 style={{ maxHeight: "calc(90vh - 280px)" }}
               >
                 {commsDb.length === 0 ? (
-                  <div className="py-20 text-center space-y-3">
+                  <div className="py-12 text-center space-y-3">
                     <p className="font-serif italic text-lg text-gray-400">
                       {lang === "en"
                         ? "No incoming communications archived."
