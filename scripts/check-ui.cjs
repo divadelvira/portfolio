@@ -23,7 +23,7 @@ const { chromium } = require("playwright");
     );
     await page.getByRole("button", { name: "EN", exact: true }).click();
     await page.getByRole("button", { name: "MSA", exact: true }).click();
-    await page.getByText("2.91%", { exact: true }).waitFor();
+    await page.locator(".summer-metric-result").getByText("2.91%", { exact: true }).waitFor();
     await page.getByRole("button", { name: "TENDER", exact: true }).click();
     await page.getByText("Tender Preparation", { exact: true }).waitFor();
     const experience = page.getByRole("button", { name: /PT Vale Indonesia Tbk/ });
@@ -32,7 +32,8 @@ const { chromium } = require("playwright");
     assert.equal(await experience.getAttribute("aria-expanded"), "true");
     await page.keyboard.press("Space");
     assert.equal(await experience.getAttribute("aria-expanded"), "false");
-    assert.equal(await page.locator('#projects a[href^="https://drive.google.com/"]').count(), 5);
+    assert.equal(await page.locator('.summer-project-card').count(), 7);
+    assert.equal(await page.locator('#project-stage a[href^="https://drive.google.com/"]').count(), 1);
     await page.locator("canvas").waitFor();
     await page.locator("#contact input").nth(0).fill("UI regression check");
     await page.locator("#contact input").nth(1).fill("test@example.com");
@@ -71,9 +72,10 @@ const { chromium } = require("playwright");
         await page
           .locator(".text-justify")
           .evaluateAll((elements) =>
-            elements.every((element) => getComputedStyle(element).textAlign === "justify"),
+            elements.every((element) => getComputedStyle(element).textAlign ===
+              (element.closest(".summer-contact-heading") ? "justify" : "start")),
           ),
-        `Prose must be justified at ${width}px`,
+        `Prose must retain the existing reading alignment at ${width}px`,
       );
       if (width === 390) {
         await page.getByRole("button", { name: "Toggle Menu" }).click();

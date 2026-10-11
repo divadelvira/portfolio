@@ -1,0 +1,38 @@
+{
+  "en": {
+    "items": [
+      {
+        "category": "National Competition, 2025",
+        "rank": "1st Place",
+        "title": "Content Marketing Competition 2025, Manado",
+        "sponsor": "Awarded by Markplus Institute in collaboration with PT Aneka Tambang (Antam).",
+        "photos": []
+      },
+      {
+        "category": "Regional Competition, 2025",
+        "rank": "2nd Place",
+        "title": "Astra Motor Business Case Competition",
+        "sponsor": "Secured second place inside the South Sulawesi Regional competitive division.",
+        "photos": []
+      }
+    ]
+  },
+  "id": {
+    "items": [
+      {
+        "category": "Kompetisi Tingkat Nasional, 2025",
+        "rank": "Juara 1",
+        "title": "Content Marketing Competition 2025, Manado",
+        "sponsor": "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam).",
+        "photos": []
+      },
+      {
+        "category": "Kompetisi Tingkat Regional, 2025",
+        "rank": "Juara 2",
+        "title": "Astra Motor Business Case Competition",
+        "sponsor": "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan.",
+        "photos": []
+      }
+    ]
+  }
+}

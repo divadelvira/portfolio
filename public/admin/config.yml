@@ -1,0 +1,1939 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "divadelvira/portfolio",
+    "branch": "main",
+    "base_url": "https://portfolio-divadelvira.vercel.app",
+    "auth_endpoint": "api/auth",
+    "commit_messages": {
+      "update": "CMS: ubah {{collection}} / {{slug}}",
+      "uploadMedia": "CMS: unggah {{path}}",
+      "deleteMedia": "CMS: hapus {{path}}"
+    }
+  },
+  "local_backend": true,
+  "media_folder": "public/uploads",
+  "public_folder": "/uploads",
+  "site_url": "https://portfolio-divadelvira.vercel.app",
+  "display_url": "https://portfolio-divadelvira.vercel.app",
+  "logo_url": "/favicon.png",
+  "show_preview_links": false,
+  "collections": [
+    {
+      "name": "portfolio",
+      "label": "Portofolio",
+      "editor": {
+        "preview": false
+      },
+      "files": [
+        {
+          "name": "profile",
+          "label": "Profil, kontak, pendidikan dan pengalaman",
+          "file": "src/content/profile.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Nama",
+              "widget": "string"
+            },
+            {
+              "name": "monogram",
+              "label": "Inisial logo",
+              "widget": "string"
+            },
+            {
+              "name": "email",
+              "label": "Alamat email",
+              "widget": "string",
+              "pattern": [
+                "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+                "Isi alamat email yang valid."
+              ]
+            },
+            {
+              "name": "profileImage",
+              "label": "Foto profil",
+              "widget": "image",
+              "required": false,
+              "pattern": [
+                "^(?:/(?!/)|https://)",
+                "Gunakan unggahan gambar atau URL HTTPS."
+              ]
+            },
+            {
+              "name": "profileAlt",
+              "label": "Deskripsi foto profil",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "English",
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "heroImage",
+              "label": "Ilustrasi utama",
+              "widget": "image",
+              "required": false,
+              "pattern": [
+                "^(?:/(?!/)|https://)",
+                "Gunakan unggahan gambar atau URL HTTPS."
+              ]
+            },
+            {
+              "name": "heroImageAlt",
+              "label": "Deskripsi ilustrasi utama",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "English",
+                  "widget": "text"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "socialHeading",
+              "label": "Judul saluran kontak",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "English",
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "socials",
+              "label": "Tautan kontak",
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "key",
+                  "label": "Identitas",
+                  "widget": "string",
+                  "hint": "Identitas teknis: pertahankan nilai ini untuk entri yang sudah ada."
+                },
+                {
+                  "name": "label",
+                  "label": "Label",
+                  "widget": "string"
+                },
+                {
+                  "name": "href",
+                  "label": "Tautan",
+                  "widget": "string",
+                  "pattern": [
+                    "^(?:https://|mailto:)",
+                    "Gunakan tautan HTTPS lengkap atau mailto: untuk email."
+                  ]
+                },
+                {
+                  "name": "detail",
+                  "label": "Keterangan",
+                  "widget": "string"
+                },
+                {
+                  "name": "target",
+                  "label": "Cara membuka tautan",
+                  "widget": "select",
+                  "required": false,
+                  "options": [
+                    "_blank",
+                    "_self"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "education",
+              "label": "Pendidikan",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "shortName",
+                  "label": "Singkatan universitas",
+                  "widget": "string"
+                },
+                {
+                  "name": "institution",
+                  "label": "Nama universitas",
+                  "widget": "string"
+                },
+                {
+                  "name": "degree",
+                  "label": "Program studi",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "period",
+                  "label": "Periode",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "gpa",
+                  "label": "IPK",
+                  "widget": "string"
+                },
+                {
+                  "name": "logo",
+                  "label": "Logo universitas",
+                  "widget": "image",
+                  "required": false,
+                  "pattern": [
+                    "^(?:/(?!/)|https://)",
+                    "Gunakan unggahan gambar atau URL HTTPS."
+                  ]
+                },
+                {
+                  "name": "logoAlt",
+                  "label": "Deskripsi logo",
+                  "widget": "string"
+                },
+                {
+                  "name": "focus",
+                  "label": "Fokus dan kegiatan pendidikan",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Teks",
+                        "widget": "text",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Teks",
+                        "widget": "text",
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "experience",
+              "label": "Pengalaman kerja",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "key",
+                      "label": "Identitas",
+                      "widget": "string",
+                      "hint": "Identitas teknis: pertahankan nilai ini untuk entri yang sudah ada."
+                    },
+                    {
+                      "name": "company",
+                      "label": "Nama perusahaan",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "role",
+                      "label": "Posisi",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "period",
+                      "label": "Periode",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "location",
+                      "label": "Lokasi",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "description",
+                      "label": "Deskripsi",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "text"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sector",
+                      "label": "Industri",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "bullets",
+                      "label": "Pencapaian",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "list",
+                          "collapsed": true,
+                          "field": {
+                            "name": "item",
+                            "label": "Teks",
+                            "widget": "text",
+                            "required": true
+                          }
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "list",
+                          "collapsed": true,
+                          "field": {
+                            "name": "item",
+                            "label": "Teks",
+                            "widget": "text",
+                            "required": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "leadership",
+              "label": "Organisasi dan kepemimpinan",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "key",
+                      "label": "Identitas",
+                      "widget": "string",
+                      "hint": "Identitas teknis: pertahankan nilai ini untuk entri yang sudah ada."
+                    },
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "role",
+                      "label": "Posisi",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "date",
+                      "label": "Tanggal / periode",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "description",
+                      "label": "Deskripsi",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "text"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "href",
+                      "label": "Tautan",
+                      "widget": "string",
+                      "pattern": [
+                        "^(?:https://|mailto:)",
+                        "Gunakan tautan HTTPS lengkap atau mailto: untuk email."
+                      ]
+                    },
+                    {
+                      "name": "icon",
+                      "label": "Ikon",
+                      "widget": "select",
+                      "options": [
+                        "users",
+                        "layout",
+                        "calendar",
+                        "sparkles"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "projects",
+          "label": "Proyek portofolio",
+          "file": "src/content/projects.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "en",
+              "label": "English",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "cat",
+                      "label": "Kategori singkat",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "desc",
+                      "label": "Deskripsi proyek",
+                      "widget": "text"
+                    },
+                    {
+                      "name": "link",
+                      "label": "Tautan utama",
+                      "widget": "string",
+                      "pattern": [
+                        "^https://",
+                        "Gunakan tautan HTTPS lengkap."
+                      ]
+                    },
+                    {
+                      "name": "linkLabel",
+                      "label": "Teks tombol tautan",
+                      "widget": "string",
+                      "required": false
+                    },
+                    {
+                      "name": "docLink",
+                      "label": "Tautan dokumentasi tambahan",
+                      "widget": "string",
+                      "required": false,
+                      "pattern": [
+                        "^https://",
+                        "Gunakan tautan HTTPS lengkap."
+                      ]
+                    },
+                    {
+                      "name": "tags",
+                      "label": "Tag",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Teks",
+                        "widget": "string",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "group",
+                      "label": "Kelompok proyek",
+                      "widget": "select",
+                      "options": [
+                        {
+                          "label": "Lean dan proses",
+                          "value": "lean"
+                        },
+                        {
+                          "label": "Rantai pasok",
+                          "value": "scm"
+                        },
+                        {
+                          "label": "Kualitas",
+                          "value": "quality"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "result",
+                      "label": "Hasil proyek",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "label",
+                          "label": "Label",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "value",
+                          "label": "Nilai hasil",
+                          "widget": "string",
+                          "required": false,
+                          "hint": "Untuk hasil tunggal, misalnya 85.45 atau QCD. Kosongkan jika memakai hasil sebelum-sesudah."
+                        },
+                        {
+                          "name": "note",
+                          "label": "Catatan hasil",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "before",
+                          "label": "Sebelum",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "after",
+                          "label": "Sesudah",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "ratio",
+                          "label": "Perbandingan sesudah / sebelum",
+                          "widget": "number",
+                          "required": false,
+                          "value_type": "float",
+                          "min": 0,
+                          "max": 1,
+                          "step": 0.001,
+                          "hint": "Isi sesudah dibagi sebelum: contoh 8 hari / 12 hari = 0.667. Hanya untuk hasil sebelum-sesudah."
+                        }
+                      ]
+                    },
+                    {
+                      "name": "image",
+                      "label": "Gambar utama",
+                      "widget": "image",
+                      "required": false,
+                      "pattern": [
+                        "^(?:/(?!/)|https://)",
+                        "Gunakan unggahan gambar atau URL HTTPS."
+                      ]
+                    },
+                    {
+                      "name": "gallery",
+                      "label": "Foto dokumentasi",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Foto",
+                        "widget": "image",
+                        "required": true,
+                        "pattern": [
+                          "^(?:/(?!/)|https://)",
+                          "Gunakan unggahan gambar atau URL HTTPS."
+                        ]
+                      }
+                    }
+                  ],
+                  "summary": "{{fields.title}}"
+                }
+              ]
+            },
+            {
+              "name": "id",
+              "label": "Bahasa Indonesia",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "cat",
+                      "label": "Kategori singkat",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "desc",
+                      "label": "Deskripsi proyek",
+                      "widget": "text"
+                    },
+                    {
+                      "name": "link",
+                      "label": "Tautan utama",
+                      "widget": "string",
+                      "pattern": [
+                        "^https://",
+                        "Gunakan tautan HTTPS lengkap."
+                      ]
+                    },
+                    {
+                      "name": "linkLabel",
+                      "label": "Teks tombol tautan",
+                      "widget": "string",
+                      "required": false
+                    },
+                    {
+                      "name": "docLink",
+                      "label": "Tautan dokumentasi tambahan",
+                      "widget": "string",
+                      "required": false,
+                      "pattern": [
+                        "^https://",
+                        "Gunakan tautan HTTPS lengkap."
+                      ]
+                    },
+                    {
+                      "name": "tags",
+                      "label": "Tag",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Teks",
+                        "widget": "string",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "group",
+                      "label": "Kelompok proyek",
+                      "widget": "select",
+                      "options": [
+                        {
+                          "label": "Lean dan proses",
+                          "value": "lean"
+                        },
+                        {
+                          "label": "Rantai pasok",
+                          "value": "scm"
+                        },
+                        {
+                          "label": "Kualitas",
+                          "value": "quality"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "result",
+                      "label": "Hasil proyek",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "label",
+                          "label": "Label",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "value",
+                          "label": "Nilai hasil",
+                          "widget": "string",
+                          "required": false,
+                          "hint": "Untuk hasil tunggal, misalnya 85.45 atau QCD. Kosongkan jika memakai hasil sebelum-sesudah."
+                        },
+                        {
+                          "name": "note",
+                          "label": "Catatan hasil",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "before",
+                          "label": "Sebelum",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "after",
+                          "label": "Sesudah",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "ratio",
+                          "label": "Perbandingan sesudah / sebelum",
+                          "widget": "number",
+                          "required": false,
+                          "value_type": "float",
+                          "min": 0,
+                          "max": 1,
+                          "step": 0.001,
+                          "hint": "Isi sesudah dibagi sebelum: contoh 8 hari / 12 hari = 0.667. Hanya untuk hasil sebelum-sesudah."
+                        }
+                      ]
+                    },
+                    {
+                      "name": "image",
+                      "label": "Gambar utama",
+                      "widget": "image",
+                      "required": false,
+                      "pattern": [
+                        "^(?:/(?!/)|https://)",
+                        "Gunakan unggahan gambar atau URL HTTPS."
+                      ]
+                    },
+                    {
+                      "name": "gallery",
+                      "label": "Foto dokumentasi",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Foto",
+                        "widget": "image",
+                        "required": true,
+                        "pattern": [
+                          "^(?:/(?!/)|https://)",
+                          "Gunakan unggahan gambar atau URL HTTPS."
+                        ]
+                      }
+                    }
+                  ],
+                  "summary": "{{fields.title}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "awards",
+          "label": "Penghargaan",
+          "file": "src/content/awards.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "en",
+              "label": "English",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "category",
+                      "label": "Kategori penghargaan",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "rank",
+                      "label": "Peringkat",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "sponsor",
+                      "label": "Penyelenggara / pemberi penghargaan",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "photos",
+                      "label": "Foto dokumentasi",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Foto",
+                        "widget": "image",
+                        "required": true,
+                        "pattern": [
+                          "^(?:/(?!/)|https://)",
+                          "Gunakan unggahan gambar atau URL HTTPS."
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "id",
+              "label": "Bahasa Indonesia",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "category",
+                      "label": "Kategori penghargaan",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "rank",
+                      "label": "Peringkat",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "sponsor",
+                      "label": "Penyelenggara / pemberi penghargaan",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "photos",
+                      "label": "Foto dokumentasi",
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "name": "item",
+                        "label": "Foto",
+                        "widget": "image",
+                        "required": true,
+                        "pattern": [
+                          "^(?:/(?!/)|https://)",
+                          "Gunakan unggahan gambar atau URL HTTPS."
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "credentials",
+          "label": "Pelatihan, kompetensi dan tugas akhir",
+          "file": "src/content/credentials.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "training",
+              "label": "Pelatihan dan sertifikasi",
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "provider",
+                  "label": "Penyelenggara",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "date",
+                  "label": "Tanggal / periode",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "summary",
+                  "label": "Ringkasan",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "skills",
+                  "label": "Keahlian",
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "name": "item",
+                    "label": "Teks",
+                    "widget": "string",
+                    "required": true
+                  }
+                },
+                {
+                  "name": "photos",
+                  "label": "Foto dokumentasi",
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "name": "item",
+                    "label": "Foto",
+                    "widget": "image",
+                    "required": true,
+                    "pattern": [
+                      "^(?:/(?!/)|https://)",
+                      "Gunakan unggahan gambar atau URL HTTPS."
+                    ]
+                  }
+                }
+              ],
+              "summary": "{{fields.title.id}}"
+            },
+            {
+              "name": "skillGroups",
+              "label": "Kelompok kompetensi",
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "skill",
+                      "label": "Keahlian",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "evidence",
+                      "label": "Bukti penggunaan",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "kind",
+                      "label": "Jenis bukti",
+                      "widget": "select",
+                      "options": [
+                        {
+                          "label": "Proyek",
+                          "value": "project"
+                        },
+                        {
+                          "label": "Pengalaman kerja",
+                          "value": "work"
+                        },
+                        {
+                          "label": "Pelatihan",
+                          "value": "training"
+                        },
+                        {
+                          "label": "Kampus",
+                          "value": "campus"
+                        },
+                        {
+                          "label": "Kompetisi",
+                          "value": "award"
+                        },
+                        {
+                          "label": "Perangkat",
+                          "value": "tool"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "summary": "{{fields.title.id}}"
+            },
+            {
+              "name": "education",
+              "label": "Pendidikan",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "academicAreas",
+                  "label": "Bidang akademik",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "activities",
+                  "label": "Kegiatan",
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "English",
+                      "widget": "text"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "widget": "text"
+                    }
+                  ]
+                },
+                {
+                  "name": "thesis",
+                  "label": "Tugas akhir",
+                  "widget": "object",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "abstract",
+                      "label": "Abstrak",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "method",
+                      "label": "Metode",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "result",
+                      "label": "Hasil proyek",
+                      "widget": "object",
+                      "collapsed": true,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "English",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "roles",
+          "label": "Judul profesi bergantian",
+          "file": "src/content/roles.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "en",
+              "label": "English",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "name": "item",
+                    "label": "Teks",
+                    "widget": "string",
+                    "required": true
+                  },
+                  "min": 1,
+                  "hint": "Minimal satu judul. Urutan di sini adalah urutan animasi di halaman utama."
+                }
+              ]
+            },
+            {
+              "name": "id",
+              "label": "Bahasa Indonesia",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar",
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "name": "item",
+                    "label": "Teks",
+                    "widget": "string",
+                    "required": true
+                  },
+                  "min": 1,
+                  "hint": "Minimal satu judul. Urutan di sini adalah urutan animasi di halaman utama."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "site",
+          "label": "Teks halaman dan tombol",
+          "file": "src/content/site.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "en",
+              "label": "English",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "navAbout",
+                  "label": "Menu: Tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "navExperience",
+                  "label": "Menu: Pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "navProjects",
+                  "label": "Menu: Proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "navSkills",
+                  "label": "Menu: Kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "navEdu",
+                  "label": "Menu: Pendidikan",
+                  "widget": "string"
+                },
+                {
+                  "name": "navContact",
+                  "label": "Menu: Kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "roleTitle",
+                  "label": "Profesi utama",
+                  "widget": "string"
+                },
+                {
+                  "name": "badgeOpportunity",
+                  "label": "Status peluang kerja",
+                  "widget": "string"
+                },
+                {
+                  "name": "heroSubText",
+                  "label": "Perkenalan singkat",
+                  "widget": "text"
+                },
+                {
+                  "name": "ctaViewWork",
+                  "label": "Tombol lihat proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "ctaContact",
+                  "label": "Tombol kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutTitle",
+                  "label": "Judul bagian tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutSubtitle",
+                  "label": "Subjudul bagian tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutBio",
+                  "label": "Biografi",
+                  "widget": "text"
+                },
+                {
+                  "name": "stat1Val",
+                  "label": "Statistik 1: nilai",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat1Lbl",
+                  "label": "Statistik 1: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat2Lbl",
+                  "label": "Statistik 2: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Val",
+                  "label": "Statistik 3: nilai",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Lbl",
+                  "label": "Statistik 3: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceTitle",
+                  "label": "Judul pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceSubtitle",
+                  "label": "Subjudul pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceContext",
+                  "label": "Pengantar pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "clickPromptExpand",
+                  "label": "Petunjuk membuka pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "clickPromptCollapse",
+                  "label": "Petunjuk menutup pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "experienceLinkedinCTA",
+                  "label": "Tombol LinkedIn pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "industryTag",
+                  "label": "Label industri",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsTitle",
+                  "label": "Judul proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsSubtitle",
+                  "label": "Subjudul proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsContext",
+                  "label": "Pengantar proyek",
+                  "widget": "text"
+                },
+                {
+                  "name": "viewDetails",
+                  "label": "Tombol dokumentasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsTitle",
+                  "label": "Judul kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsSubtitle",
+                  "label": "Subjudul kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory1",
+                  "label": "skills Category1",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory2",
+                  "label": "skills Category2",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory3",
+                  "label": "skills Category3",
+                  "widget": "string"
+                },
+                {
+                  "name": "chartHeading",
+                  "label": "Judul radar kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "chartFooter",
+                  "label": "Catatan radar kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsTitle",
+                  "label": "Judul penghargaan",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsSubtitle",
+                  "label": "Subjudul penghargaan",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsContext",
+                  "label": "Pengantar penghargaan",
+                  "widget": "text"
+                },
+                {
+                  "name": "eduOrgSubtitle",
+                  "label": "Subjudul pendidikan dan organisasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "eduHeading",
+                  "label": "Judul pendidikan",
+                  "widget": "string"
+                },
+                {
+                  "name": "orgHeading",
+                  "label": "Judul organisasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactTitle",
+                  "label": "Judul kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactSubtitle",
+                  "label": "Subjudul kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPrompt",
+                  "label": "Pengantar kontak",
+                  "widget": "text"
+                },
+                {
+                  "name": "footerTagline",
+                  "label": "Teks footer",
+                  "widget": "string",
+                  "required": false
+                },
+                {
+                  "name": "backToTop",
+                  "label": "Tombol kembali ke atas",
+                  "widget": "string"
+                },
+                {
+                  "name": "leaderNetworkLabel",
+                  "label": "Label jaringan kepemimpinan",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisData",
+                  "label": "Radar: analisis data",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisScm",
+                  "label": "Radar: rantai pasok",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisProcess",
+                  "label": "Radar: pemecahan masalah",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisLean",
+                  "label": "Radar: perbaikan proses",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisReporting",
+                  "label": "Radar: pelaporan",
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "id",
+              "label": "Bahasa Indonesia",
+              "widget": "object",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "navAbout",
+                  "label": "Menu: Tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "navExperience",
+                  "label": "Menu: Pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "navProjects",
+                  "label": "Menu: Proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "navSkills",
+                  "label": "Menu: Kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "navEdu",
+                  "label": "Menu: Pendidikan",
+                  "widget": "string"
+                },
+                {
+                  "name": "navContact",
+                  "label": "Menu: Kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "roleTitle",
+                  "label": "Profesi utama",
+                  "widget": "string"
+                },
+                {
+                  "name": "badgeOpportunity",
+                  "label": "Status peluang kerja",
+                  "widget": "string"
+                },
+                {
+                  "name": "heroSubText",
+                  "label": "Perkenalan singkat",
+                  "widget": "text"
+                },
+                {
+                  "name": "ctaViewWork",
+                  "label": "Tombol lihat proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "ctaContact",
+                  "label": "Tombol kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutTitle",
+                  "label": "Judul bagian tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutSubtitle",
+                  "label": "Subjudul bagian tentang",
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutBio",
+                  "label": "Biografi",
+                  "widget": "text"
+                },
+                {
+                  "name": "stat1Val",
+                  "label": "Statistik 1: nilai",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat1Lbl",
+                  "label": "Statistik 1: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat2Lbl",
+                  "label": "Statistik 2: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Val",
+                  "label": "Statistik 3: nilai",
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Lbl",
+                  "label": "Statistik 3: label",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceTitle",
+                  "label": "Judul pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceSubtitle",
+                  "label": "Subjudul pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceContext",
+                  "label": "Pengantar pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "clickPromptExpand",
+                  "label": "Petunjuk membuka pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "clickPromptCollapse",
+                  "label": "Petunjuk menutup pengalaman",
+                  "widget": "text"
+                },
+                {
+                  "name": "experienceLinkedinCTA",
+                  "label": "Tombol LinkedIn pengalaman",
+                  "widget": "string"
+                },
+                {
+                  "name": "industryTag",
+                  "label": "Label industri",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsTitle",
+                  "label": "Judul proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsSubtitle",
+                  "label": "Subjudul proyek",
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsContext",
+                  "label": "Pengantar proyek",
+                  "widget": "text"
+                },
+                {
+                  "name": "viewDetails",
+                  "label": "Tombol dokumentasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsTitle",
+                  "label": "Judul kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsSubtitle",
+                  "label": "Subjudul kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory1",
+                  "label": "skills Category1",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory2",
+                  "label": "skills Category2",
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory3",
+                  "label": "skills Category3",
+                  "widget": "string"
+                },
+                {
+                  "name": "chartHeading",
+                  "label": "Judul radar kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "chartFooter",
+                  "label": "Catatan radar kompetensi",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsTitle",
+                  "label": "Judul penghargaan",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsSubtitle",
+                  "label": "Subjudul penghargaan",
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsContext",
+                  "label": "Pengantar penghargaan",
+                  "widget": "text"
+                },
+                {
+                  "name": "eduOrgSubtitle",
+                  "label": "Subjudul pendidikan dan organisasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "eduHeading",
+                  "label": "Judul pendidikan",
+                  "widget": "string"
+                },
+                {
+                  "name": "orgHeading",
+                  "label": "Judul organisasi",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactTitle",
+                  "label": "Judul kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactSubtitle",
+                  "label": "Subjudul kontak",
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPrompt",
+                  "label": "Pengantar kontak",
+                  "widget": "text"
+                },
+                {
+                  "name": "footerTagline",
+                  "label": "Teks footer",
+                  "widget": "string",
+                  "required": false
+                },
+                {
+                  "name": "backToTop",
+                  "label": "Tombol kembali ke atas",
+                  "widget": "string"
+                },
+                {
+                  "name": "leaderNetworkLabel",
+                  "label": "Label jaringan kepemimpinan",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisData",
+                  "label": "Radar: analisis data",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisScm",
+                  "label": "Radar: rantai pasok",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisProcess",
+                  "label": "Radar: pemecahan masalah",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisLean",
+                  "label": "Radar: perbaikan proses",
+                  "widget": "string"
+                },
+                {
+                  "name": "axisReporting",
+                  "label": "Radar: pelaporan",
+                  "widget": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

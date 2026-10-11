@@ -1,0 +1,235 @@
+{
+  "name": "Diva Delvira",
+  "monogram": "dd.",
+  "email": "divakemur@gmail.com",
+  "profileImage": "/profile.jpg",
+  "profileAlt": {
+    "en": "Portrait of Diva Delvira",
+    "id": "Foto Diva Delvira"
+  },
+  "heroImage": "/engineering-summer.png",
+  "heroImageAlt": {
+    "en": "Flat summer illustration of an analytics laptop, spreadsheet, charts, process flow and measuring tools",
+    "id": "Ilustrasi musim panas berupa laptop analitik, spreadsheet, grafik, alur proses, dan alat ukur"
+  },
+  "socialHeading": {
+    "en": "OTHER CONNECTION CHANNELS",
+    "id": "SALURAN HUBUNGAN LAINNYA"
+  },
+  "socials": [
+    {
+      "key": "email",
+      "label": "Email",
+      "href": "mailto:divakemur@gmail.com",
+      "detail": "divakemur@gmail.com"
+    },
+    {
+      "key": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/diva-delvira-ba9874294/",
+      "detail": "Diva Delvira",
+      "target": "_blank"
+    },
+    {
+      "key": "instagram",
+      "label": "Instagram",
+      "href": "https://www.instagram.com/dvdlvra_?igsh=M3ZseTVkNGkzNnp6",
+      "detail": "dvdlvra_",
+      "target": "_blank"
+    },
+    {
+      "key": "tiktok",
+      "label": "TikTok",
+      "href": "https://www.tiktok.com/@itsdipyay?_r=1&_t=ZS-969Cy3BRtVn",
+      "detail": "@itsdipyay",
+      "target": "_blank"
+    }
+  ],
+  "education": {
+    "shortName": "UNHAS",
+    "institution": "Universitas Hasanuddin",
+    "degree": {
+      "en": "Bachelor of Industrial Engineering",
+      "id": "S1 Teknik Industri"
+    },
+    "period": {
+      "en": "Aug 2022 – Sep 2026",
+      "id": "Agu 2022 – Sep 2026"
+    },
+    "gpa": "3.78 / 4.00",
+    "logo": "/edu/unhas.png",
+    "logoAlt": "Universitas Hasanuddin logo",
+    "focus": {
+      "en": [
+        "Focusing academic concentration on Lean Manufacturing, Quality Engineering, and Supply Chain Management (SCM) to design optimized operational systems.",
+        "Completed intensive Toyota Production System (TPS) training, mastering JIT, Heijunka, Jidoka, Kaizen, and hands-on operational simulations.",
+        "Served as a Manufacturing Systems Laboratory Assistant and PIC of the TPS module, coordinating practicum sessions and developing learning materials for Lean Manufacturing concepts.",
+        "Served as a Basic Physics Laboratory Assistant, mentoring 100+ engineering students in physics practicum while ensuring safety and analytical precision."
+      ],
+      "id": [
+        "Berfokus pada konsentrasi akademik di bidang Lean Manufacturing, Quality Engineering, dan Supply Chain Management (SCM) untuk merancang sistem operasional yang teroptimasi.",
+        "Selesai mengikuti pelatihan intensif Toyota Production System (TPS) yang mencakup pemahaman mendalam tentang JIT, Heijunka, Jidoka, Kaizen, serta simulasi operasional.",
+        "Menjabat sebagai Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS, mengoordinasikan sesi praktikum serta mengembangkan materi pembelajaran konsep Lean Manufacturing.",
+        "Menjabat sebagai Asisten Laboratorium Fisika Dasar, membimbing lebih dari 100 mahasiswa teknik dalam praktikum fisika dengan fokus pada keselamatan kerja dan ketelitian analisis."
+      ]
+    }
+  },
+  "experience": {
+    "items": [
+      {
+        "key": "vale",
+        "company": "PT Vale Indonesia Tbk.",
+        "role": {
+          "en": "Supply Chain Management Intern",
+          "id": "Magang Manajemen Rantai Pasok (SCM)"
+        },
+        "period": {
+          "en": "Feb 2026 - Aug 2026",
+          "id": "Feb 2026 - Agt 2026"
+        },
+        "location": {
+          "en": "East Luwu, South Sulawesi",
+          "id": "Luwu Timur, Sulawesi Selatan"
+        },
+        "description": {
+          "en": "PT Vale Indonesia is a global nickel mining and smelting leader. By optimizing tracking transparency, I protected material availability across operations.",
+          "id": "PT Vale Indonesia adalah pemimpin global dalam pertambangan dan peleburan nikel. Dengan mengoptimalkan transparansi pelacakan, saya menjaga ketersediaan material di seluruh operasional."
+        },
+        "sector": {
+          "en": "Nickel Mining & Processing",
+          "id": "Pertambangan & Pengolahan Nikel"
+        },
+        "bullets": {
+          "en": [
+            "Analyzed Inventory, Traffic and Procurement data across 1700+ materials and 2500+ POs to identify stock-out risks, overdue POs, vendor issues, and material priorities, supporting weekly supply chain decision-making.",
+            "Developed an automated inventory and procurement monitoring dashboard using Excel and Power Query, integrating MRP, stock, PO, and vendor data to reduce manual reporting time from 2 days to 1 hour.",
+            "Coordinated with Procurement and Traffic teams to monitor material availability, procurement status, and delivery risks, supporting timely follow-up of 250+ critical materials.",
+            "Assessed internal service quality across 25 attributes and 5 SERVQUAL dimensions from 35 users, identifying an overall service gap of -0.431 and significant gaps in 23 of 25 attributes using SPSS and Python.",
+            "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention."
+          ],
+          "id": [
+            "Menganalisis data Inventaris, Lalu Lintas Logistik, dan Pengadaan pada lebih dari 1700 material dan 2500 PO untuk mengidentifikasi risiko kehabisan stok, PO yang terlambat, masalah vendor, serta prioritas material, guna mendukung pengambilan keputusan rantai pasok mingguan.",
+            "Mengembangkan dasbor pemantauan inventaris dan pengadaan otomatis menggunakan Excel dan Power Query, yang mengintegrasikan data MRP, stok, PO, dan vendor untuk memangkas waktu pelaporan manual dari 2 hari menjadi 1 jam.",
+            "Berkoordinasi dengan tim Pengadaan dan Lalu Lintas Logistik untuk memantau ketersediaan material, status pengadaan, dan risiko pengiriman, guna mendukung tindak lanjut yang tepat waktu atas 250+ material kritis.",
+            "Menilai kualitas layanan internal di 25 atribut dan 5 dimensi SERVQUAL dari 35 pengguna, serta mengidentifikasi kesenjangan layanan keseluruhan sebesar -0.431 dan kesenjangan signifikan pada 23 dari 25 atribut menggunakan SPSS dan Python.",
+            "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera."
+          ]
+        }
+      },
+      {
+        "key": "triatra",
+        "company": "PT Triatra Sinergia Pratama",
+        "role": {
+          "en": "Warehouse & Distribution Intern",
+          "id": "Magang Pergudangan & Distribusi"
+        },
+        "period": {
+          "en": "Mar 2025 - Jun 2025",
+          "id": "Mar 2025 - Jun 2025"
+        },
+        "location": {
+          "en": "East Jakarta",
+          "id": "Jakarta Timur"
+        },
+        "description": {
+          "en": "A member of Astra ecosystem and a subsidiary of United Tractors Pandu Engineering, dedicated to advancing businesses with heavy industry distribution.",
+          "id": "Anggota dari ekosistem Astra dan anak perusahaan United Tractors Pandu Engineering, yang berdedikasi untuk memajukan bisnis melalui distribusi industri berat."
+        },
+        "sector": {
+          "en": "Heavy Equipment Distribution",
+          "id": "Distribusi Alat Berat"
+        },
+        "bullets": {
+          "en": [
+            "Analyzed 1+ year of shipment data across Air, Land, and Sea Freight to identify delivery-performance patterns and support route and fleet utilization decisions, covering 20 shipment routes.",
+            "Developed a QCD-based vendor evaluation framework with 10 criteria across Quality (25%), Delivery (35%), and Cost (40%) to support objective forwarder selection.",
+            "Conducted vendor mapping and preliminary performance assessment based on service, delivery, and commercial criteria to support logistics partner shortlisting for the tender process.",
+            "Supported tender preparation by organizing vendor evaluation data and documentation, and contributing to the development of SLA and performance-monitoring requirements for selected routes."
+          ],
+          "id": [
+            "Menganalisis lebih dari 1 tahun data pengiriman di seluruh Kargo Udara, Darat, dan Laut untuk mengidentifikasi pola kinerja pengiriman serta mendukung keputusan pemanfaatan rute dan armada yang mencakup 20 rute pengiriman.",
+            "Mengembangkan kerangka evaluasi vendor berbasis QCD dengan 10 kriteria yang mencakup Kualitas (25%), Pengiriman (35%), dan Biaya (40%) untuk mendukung seleksi forwarder yang objektif.",
+            "Melakukan pemetaan vendor dan penilaian kinerja awal berdasarkan kriteria layanan, pengiriman, dan komersial untuk mendukung pengerucutan daftar (shortlisting) mitra logistik dalam proses tender.",
+            "Mendukung persiapan tender dengan menyusun data dan dokumentasi evaluasi vendor, serta berkontribusi pada penyusunan persyaratan SLA dan pemantauan kinerja untuk rute-rute terpilih."
+          ]
+        }
+      }
+    ]
+  },
+  "leadership": {
+    "items": [
+      {
+        "key": "hmti",
+        "title": "HMTI FT-UH",
+        "role": {
+          "en": "Head of Entrepreneurship Division",
+          "id": "Ketua Divisi Kewirausahaan"
+        },
+        "date": {
+          "en": "Jul 2024 - Feb 2025",
+          "id": "Jul 2024 - Feb 2025"
+        },
+        "description": {
+          "en": "Led end-to-end program structures to promote startup iterations, managing business development programs like INCREASE and START-UP.",
+          "id": "Memimpin struktur program ujung-ke-ujung untuk mempromosikan iterasi startup, mengelola program pengembangan bisnis mahasiswa seperti INCREASE dan START-UP."
+        },
+        "href": "https://www.instagram.com/p/DAjD8sDzF8M/",
+        "icon": "users"
+      },
+      {
+        "key": "isli",
+        "title": "ISLI CAMP",
+        "role": {
+          "en": "Event Organizing Committee",
+          "id": "Panitia Pelaksana Acara"
+        },
+        "date": {
+          "en": "Aug 2024 - Oct 2024",
+          "id": "Agu 2024 - Okt 2024"
+        },
+        "description": {
+          "en": "Member of the Event Organizing Committee for the Indonesia Supply Chain & Logistics Institute (ISLI) national training camp. Handled participant coordination, schedules, and event flows.",
+          "id": "Bagian dari Divisi Acara untuk kamp pelatihan nasional Indonesia Supply Chain & Logistics Institute (ISLI). Berkontribusi dalam mengelola alur acara, koordinasi peserta, serta logistik kegiatan."
+        },
+        "href": "https://www.instagram.com/islicamp2024/",
+        "icon": "layout"
+      },
+      {
+        "key": "mechanical-retreat",
+        "title": "Mechanical Retreat XXVII",
+        "role": {
+          "en": "Event Coordinator",
+          "id": "Event Coordinator"
+        },
+        "date": {
+          "en": "Feb 2024 - Mar 2024",
+          "id": "Feb 2024 - Mar 2024"
+        },
+        "description": {
+          "en": "Led the planning of a fully coordinated and customizable event, and organized a two-day large-scale event for more than 200 active participants in Pinrang, South Sulawesi.",
+          "id": "Memimpin perencanaan acara yang terkoordinasi sepenuhnya dan dapat disesuaikan, serta menyelenggarakan acara berskala besar selama dua hari untuk lebih dari 200 peserta aktif di Pinrang, Sulawesi Selatan."
+        },
+        "href": "https://www.instagram.com/reel/C4pPnOPP8sL/",
+        "icon": "calendar"
+      },
+      {
+        "key": "kknt",
+        "title": "KKN-T 114 UNHAS",
+        "role": {
+          "en": "Team Secretary",
+          "id": "Team Secretary"
+        },
+        "date": {
+          "en": "Jul 2024 - Aug 2024",
+          "id": "Jul 2024 - Aug 2024"
+        },
+        "description": {
+          "en": "As Team Secretary, I led the administrative coordination and ensured transparent program reporting while actively driving community empowerment initiatives. Specifically, I initiated a 'Moringa-infused Chocolate' training program designed to provide healthy snacks for children and create sustainable economic opportunities for local mothers.",
+          "id": "Sebagai Sekretaris Tim, saya memimpin koordinasi administratif dan memastikan pelaporan program yang transparan sambil aktif mendorong inisiatif pemberdayaan masyarakat. Secara khusus, saya memprakarsai program pelatihan 'Cokelat Kelor' yang dirancang untuk menyediakan camilan sehat bagi anak-anak dan menciptakan peluang ekonomi berkelanjutan bagi para ibu setempat."
+        },
+        "href": "https://www.instagram.com/p/DLksZsqyI4znzM4R4JTxUJaF6vOfrdSkSydC-00/",
+        "icon": "sparkles"
+      }
+    ]
+  }
+}

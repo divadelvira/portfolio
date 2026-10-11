@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Editor Portofolio Diva</title>
+    <link rel="icon" href="/favicon.png" />
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <p id="cms-loading" role="status">Memuat editor portofolio…</p>
+    <noscript>Aktifkan JavaScript di browser untuk mengedit portofolio.</noscript>
+    <script
+      src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
+      integrity="sha256-fB79a2FrR4biea7vGU3SFkmnIFjTvI0feJAbV0YQ37g="
+      crossorigin="anonymous"
+      onload="document.getElementById('cms-loading').remove()"
+      onerror="document.getElementById('cms-loading').textContent='Editor gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.'"
+    ></script>
+  </body>
+</html>
