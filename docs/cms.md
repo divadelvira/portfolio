@@ -20,14 +20,18 @@ Indonesian quick guide for Diva:
 
 ## Local editing
 
-Use local Decap only for content preview while developing:
+Untuk mencoba di komputer sendiri, cukup satu perintah:
 
 ```sh
-npx decap-server
+npm ci       # setelah clone atau jika dependency baru belum terpasang
 npm run dev
 ```
 
-Then open `http://localhost:3000/admin`. Local Decap writes to the checkout through `decap-server`; production edits still go through GitHub OAuth.
+Buka **http://localhost:3000/admin**. `npm run dev` otomatis menyalakan Vite di port 3000 dan Decap lokal di port 8081; tidak perlu akun atau OAuth GitHub. Klik **Login** lokal bila diminta, edit konten, lalu **Publish** untuk menyimpan ke file proyek. Lihat hasilnya di http://localhost:3000.
+
+Mode lokal menggunakan filesystem: **tidak membuat commit, tidak push, dan tidak mengubah website online**. Perubahan tersimpan di `src/content/*.json` serta `public/uploads`; cek dengan `git diff` sebelum commit. Kedua server terikat ke `127.0.0.1`, bukan jaringan publik. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya. Port 3000 dan 8081 harus bebas; jika salah satu server gagal, runner menghentikan server lainnya.
+
+Untuk mengecek startup otomatis, hentikan server dev dulu lalu jalankan `npm run check:dev`. Pengujian ini tidak mengubah konten.
 
 ## GitHub OAuth App setup
 

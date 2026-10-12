@@ -4,14 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev": "node scripts/dev.mjs",
     "build": "vite build && node scripts/check-cms.cjs --build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "check:ui": "node scripts/check-ui.cjs",
     "check:cms": "node scripts/check-cms.cjs && tsx --test scripts/check-cms-auth.test.ts",
-    "check:cms:ui": "node scripts/check-cms-ui.cjs"
+    "check:cms:ui": "node scripts/check-cms-ui.cjs",
+    "check:dev": "node scripts/check-dev.cjs"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -31,6 +32,7 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
+    "decap-server": "3.11.3",
     "esbuild": "^0.25.0",
     "playwright": "^1.63.0",
     "tailwindcss": "^4.1.14",

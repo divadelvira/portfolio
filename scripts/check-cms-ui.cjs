@@ -231,7 +231,18 @@ async function assertAdminLoads(browser) {
   assert.equal(errors.length, 0, errors.join("\n"));
   const body = await page.locator("body").innerText();
   assert(!/config.*error|error.*config|failed to load config|failed to load entry|field.*error/i.test(body), body);
-  await page.getByRole("button", { name: /github/i }).waitFor({ timeout: 30_000 });
+  const login = page.getByRole('button', { name: /login|github/i });
+  await login.waitFor({ timeout: 30_000 });
+  if ((await login.innerText()).trim() === 'Login') {
+    await login.click(); // The local filesystem backend requires no credentials.
+    const entry = page.getByText('Profil, kontak, pendidikan dan pengalaman', { exact: true });
+    await entry.waitFor();
+    await entry.click();
+    const name = page.getByLabel('Nama', { exact: true });
+    await name.waitFor();
+    assert.equal(await name.inputValue(), profile.name, 'Local CMS must read the actual profile file');
+    assert.equal(errors.length, 0, errors.join('\n'));
+  }
   await context.close();
 }
 
@@ -254,7 +265,7 @@ async function assertAdminLoads(browser) {
     await assertAdminLoads(browser);
 
     console.log(
-      "PASS: bilingual content, project filters/links, credentials dialogs, empty projects, editable profile, 0/1/3 experience records, and /admin Decap load. Firebase endpoints blocked; no real auth or writes.",
+      "PASS: bilingual content, project filters/links, credentials dialogs, empty projects, editable profile, 0/1/3 experience records, and /admin Decap load/local entry editing. Firebase endpoints blocked; no real auth or writes.",
     );
   } finally {
     await browser.close();

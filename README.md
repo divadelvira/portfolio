@@ -9,7 +9,9 @@ npm ci
 npm run dev
 ```
 
-Buka `http://localhost:3000`. Untuk editor lokal, jalankan `npx decap-server` di terminal terpisah, lalu buka `http://localhost:3000/admin`.
+`npm run dev` otomatis menjalankan website dan server CMS lokal. Buka **http://localhost:3000/admin** untuk mengedit tanpa GitHub; website ada di http://localhost:3000. Jika ada tombol login lokal, klik **Login** tanpa memasukkan akun GitHub.
+
+Klik **Publish** untuk menyimpan perubahan ke file proyek. Tidak ada commit atau push otomatis; website lokal mengikuti perubahan lewat Vite. Kedua server hanya mendengarkan koneksi lokal. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya.
 
 ## Pemeriksaan
 
