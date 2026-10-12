@@ -1421,7 +1421,7 @@ export default function App() {
                   type="button"
                   aria-haspopup="dialog"
                   onClick={() => setEduOpen(true)}
-                  className="group/edu text-left w-full p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                  className="group/edu text-left w-full p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start gap-6 sm:gap-8 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
                 >
                   <div className="space-y-1.5 w-full min-w-0">
                     <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">

@@ -8,6 +8,7 @@ const { chromium } = require("playwright");
   });
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    await page.route(/https:\/\/[^/]*googleapis\.com\//, route => route.abort());
     await page.goto("http://localhost:3000");
     await page.getByRole("heading", { level: 1 }).waitFor();
     assert(
@@ -93,6 +94,14 @@ const { chromium } = require("playwright");
       });
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(800);
+      const educationGap = await page.locator('#edu button[aria-haspopup="dialog"]').first().evaluate(button => {
+        const content = button.firstElementChild.getBoundingClientRect();
+        const logo = button.querySelector('.summer-edu-logo').getBoundingClientRect();
+        return getComputedStyle(button).flexDirection === 'row'
+          ? Math.max(content.left - logo.right, logo.left - content.right)
+          : Math.max(content.top - logo.bottom, logo.top - content.bottom);
+      });
+      assert(educationGap >= 24, `Education logo/text gap must be at least 24px at ${width}px; got ${educationGap}px`);
       if (process.argv.includes("--capture") && [1440, 390].includes(width)) {
         await page.screenshot({
           path: `.impeccable/review/${width === 1440 ? "desktop" : "mobile"}.png`,
