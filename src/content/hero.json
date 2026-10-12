@@ -1,0 +1,136 @@
+{
+  "name": "Diva Delvira",
+  "monogram": "dd.",
+  "heroImage": "/engineering-summer.png",
+  "heroImageAlt": {
+    "en": "Flat summer illustration of an analytics laptop, spreadsheet, charts, process flow and measuring tools",
+    "id": "Ilustrasi musim panas berupa laptop analitik, spreadsheet, grafik, alur proses, dan alat ukur"
+  },
+  "metrics": [
+    {
+      "name": {
+        "en": "SCM",
+        "id": "SCM"
+      },
+      "heading": {
+        "en": "VALE: AUTOMATION DASHBOARD",
+        "id": "VALE: AUTOMATION DASHBOARD"
+      },
+      "value": {
+        "en": "96%",
+        "id": "96%"
+      },
+      "caption": {
+        "en": "Time Saved",
+        "id": "Pangkas Waktu"
+      },
+      "progress": 96,
+      "description": {
+        "en": "Advanced Excel/Power Query dashboard reduced supply chain monitoring reporting from 2 days down to 1 hour.",
+        "id": "Dasbor Excel/Power Query memangkas siklus pelaporan pengawasan SCM dari 2 hari menjadi 1 jam saja."
+      },
+      "tools": {
+        "en": "Excel, Power Query",
+        "id": "Excel, Power Query"
+      }
+    },
+    {
+      "name": {
+        "en": "MSA",
+        "id": "MSA"
+      },
+      "heading": {
+        "en": "JAPFA: MSA",
+        "id": "JAPFA: MSA"
+      },
+      "value": {
+        "en": "2.91%",
+        "id": "2.91%"
+      },
+      "caption": {
+        "en": "%GRR",
+        "id": "%GRR"
+      },
+      "progress": 91,
+      "description": {
+        "en": "Crossed Gage R&R ANOVA statistical tests validated extreme precision in raw material testing instruments.",
+        "id": "Uji ANOVA Crossed Gage R&R memvalidasi presisi maksimal instrumen pengujian kadar air jagung bahan baku pakan."
+      },
+      "tools": {
+        "en": "SPSS, Minitab",
+        "id": "SPSS, Minitab"
+      }
+    },
+    {
+      "name": {
+        "en": "TENDER",
+        "id": "TENDER"
+      },
+      "heading": {
+        "en": "TRIATRA: VENDOR EVALUATION",
+        "id": "TRIATRA: VENDOR EVALUATION"
+      },
+      "value": {
+        "en": "Tender Preparation",
+        "id": "Persiapan Tender"
+      },
+      "caption": {
+        "en": "",
+        "id": ""
+      },
+      "progress": 100,
+      "description": {
+        "en": "Evaluating logistics vendors and structuring comprehensive scoring metrics to optimize new tender processes.",
+        "id": "Mengevaluasi performa vendor logistik dan menyusun metrik penilaian komprehensif untuk mempermudah proses seleksi tender baru."
+      },
+      "tools": {
+        "en": "Root Cause Analysis, Problem Solving",
+        "id": "Root Cause Analysis, Problem Solving"
+      }
+    },
+    {
+      "name": {
+        "en": "WASS",
+        "id": "WASS"
+      },
+      "heading": {
+        "en": "WASS: DOCK SCHEDULING",
+        "id": "WASS: DOCK SCHEDULING"
+      },
+      "value": {
+        "en": "85.45",
+        "id": "85,45"
+      },
+      "caption": {
+        "en": "SUS Grade A",
+        "id": "SUS Grade A"
+      },
+      "progress": 85,
+      "description": {
+        "en": "Web-based dock appointment system passed 12 of 12 Black Box tests and scored Excellent on the System Usability Scale.",
+        "id": "Sistem janji temu dock berbasis web lolos 12 dari 12 uji Black Box dan meraih predikat Excellent pada System Usability Scale."
+      },
+      "tools": {
+        "en": "Design Thinking, RAD",
+        "id": "Design Thinking, RAD"
+      }
+    }
+  ],
+  "roles": [
+    {
+      "key": "role-1",
+      "en": "Data-Driven Problem Solver",
+      "id": "Pemecah Masalah Berbasis Data"
+    },
+    {
+      "key": "role-2",
+      "en": "Process Improvement Enthusiast",
+      "id": "Antusias Peningkatan Proses"
+    },
+    {
+      "key": "role-3",
+      "en": "Supply Chain Management Enthusiast",
+      "id": "Antusias Manajemen Rantai Pasok"
+    }
+  ]
+}

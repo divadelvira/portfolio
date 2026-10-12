@@ -1,0 +1,413 @@
+{
+  "skillHighlights": {
+    "tools": [
+      {
+        "en": "Power BI",
+        "id": "Power BI"
+      },
+      {
+        "en": "Microsoft Excel",
+        "id": "Microsoft Excel"
+      },
+      {
+        "en": "Minitab",
+        "id": "Minitab"
+      },
+      {
+        "en": "SPSS",
+        "id": "SPSS"
+      },
+      {
+        "en": "Canva",
+        "id": "Canva"
+      },
+      {
+        "en": "SAP S/4HANA",
+        "id": "SAP S/4HANA"
+      }
+    ],
+    "supplyChain": [
+      {
+        "en": "Inventory Analysis",
+        "id": "Inventory Analysis"
+      },
+      {
+        "en": "Vendor Evaluation",
+        "id": "Vendor Evaluation"
+      },
+      {
+        "en": "MRP Control",
+        "id": "MRP Control"
+      },
+      {
+        "en": "Lead Time Optimization",
+        "id": "Lead Time Optimization"
+      },
+      {
+        "en": "Forecast Modeling",
+        "id": "Forecast Modeling"
+      }
+    ],
+    "methodologies": [
+      {
+        "en": "Lean Manufacturing",
+        "id": "Lean Manufacturing"
+      },
+      {
+        "en": "Measurement System Analysis",
+        "id": "Measurement System Analysis"
+      },
+      {
+        "en": "Toyota Production System",
+        "id": "Toyota Production System"
+      },
+      {
+        "en": "Kaizen / Continuous Improvement",
+        "id": "Kaizen / Continuous Improvement"
+      },
+      {
+        "en": "Just In Time (JIT)",
+        "id": "Just In Time (JIT)"
+      },
+      {
+        "en": "Root Cause Analysis (RCA)",
+        "id": "Root Cause Analysis (RCA)"
+      }
+    ]
+  },
+  "skillGroups": [
+    {
+      "title": {
+        "en": "Enterprise Tools",
+        "id": "Perangkat Enterprise"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Microsoft Excel & Power Query",
+            "id": "Microsoft Excel & Power Query"
+          },
+          "evidence": {
+            "en": "Priority Materials dashboard",
+            "id": "Dasbor Material Prioritas"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "SAP S/4HANA",
+            "id": "SAP S/4HANA"
+          },
+          "evidence": {
+            "en": "SAP S/4HANA training: MM (Materials Management) module",
+            "id": "Pelatihan SAP S/4HANA: modul MM (Materials Management)"
+          },
+          "kind": "training"
+        },
+        {
+          "skill": {
+            "en": "Canva",
+            "id": "Canva"
+          },
+          "evidence": {
+            "en": "Listed in the existing tools inventory",
+            "id": "Tercantum dalam daftar perangkat saat ini"
+          },
+          "kind": "tool"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Data & Analytics",
+        "id": "Data & Analitik"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "SPSS & Minitab",
+            "id": "SPSS & Minitab"
+          },
+          "evidence": {
+            "en": "Measurement System Analysis (MSA)",
+            "id": "Analisis Sistem Pengukuran (MSA)"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Python & statistical validation",
+            "id": "Python & validasi statistik"
+          },
+          "evidence": {
+            "en": "Internal Service Quality Analysis",
+            "id": "Analisis Kualitas Layanan Internal"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Power BI & SQL",
+            "id": "Power BI & SQL"
+          },
+          "evidence": {
+            "en": "Demand forecast pipeline shown in portfolio",
+            "id": "Alur peramalan permintaan dalam portofolio"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Forecast modeling",
+            "id": "Pemodelan peramalan"
+          },
+          "evidence": {
+            "en": "Demand forecast / safety stock widget",
+            "id": "Widget peramalan permintaan / stok pengaman"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Dashboard automation & reporting",
+            "id": "Otomasi dasbor & pelaporan"
+          },
+          "evidence": {
+            "en": "PT Vale Indonesia: material monitoring",
+            "id": "PT Vale Indonesia: pemantauan material"
+          },
+          "kind": "work"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Supply Chain & Logistics",
+        "id": "Rantai Pasok & Logistik"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Inventory analysis & MRP control",
+            "id": "Analisis inventaris & pengendalian MRP"
+          },
+          "evidence": {
+            "en": "PT Vale Indonesia: inventory and procurement",
+            "id": "PT Vale Indonesia: inventaris dan pengadaan"
+          },
+          "kind": "work"
+        },
+        {
+          "skill": {
+            "en": "Vendor evaluation, QCD & SLA",
+            "id": "Evaluasi vendor, QCD & SLA"
+          },
+          "evidence": {
+            "en": "Vendor Selection & Tender Preparation",
+            "id": "Seleksi Vendor & Persiapan Tender"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Freight, routing & fleet analysis",
+            "id": "Analisis pengiriman, rute & armada"
+          },
+          "evidence": {
+            "en": "PT Triatra: warehouse and distribution",
+            "id": "PT Triatra: pergudangan dan distribusi"
+          },
+          "kind": "work"
+        },
+        {
+          "skill": {
+            "en": "Warehousing & dock scheduling",
+            "id": "Pergudangan & penjadwalan dock"
+          },
+          "evidence": {
+            "en": "Warehouse Appointment Scheduling System (WASS)",
+            "id": "Sistem Penjadwalan Janji Temu Gudang (WASS)"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Production planning & product design",
+            "id": "Perencanaan produksi & desain produk"
+          },
+          "evidence": {
+            "en": "SMART FEED capstone",
+            "id": "Proyek akhir SMART FEED"
+          },
+          "kind": "project"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Methodologies & Quality",
+        "id": "Metodologi & Kualitas"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Lean Manufacturing & TPS",
+            "id": "Lean Manufacturing & TPS"
+          },
+          "evidence": {
+            "en": "TPS training and manufacturing laboratory",
+            "id": "Pelatihan TPS dan laboratorium manufaktur"
+          },
+          "kind": "training"
+        },
+        {
+          "skill": {
+            "en": "JIT, Heijunka, Jidoka & Kaizen",
+            "id": "JIT, Heijunka, Jidoka & Kaizen"
+          },
+          "evidence": {
+            "en": "TPS operational simulations",
+            "id": "Simulasi operasional TPS"
+          },
+          "kind": "training"
+        },
+        {
+          "skill": {
+            "en": "PDCA, process mapping & root cause analysis",
+            "id": "PDCA, pemetaan proses & analisis akar masalah"
+          },
+          "evidence": {
+            "en": "Tuyere Material Delivery Kaizen project",
+            "id": "Proyek Kaizen Pengiriman Material Tuyere"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Lead time optimization",
+            "id": "Optimasi waktu tunggu"
+          },
+          "evidence": {
+            "en": "Tuyere Material Delivery Kaizen project",
+            "id": "Proyek Kaizen Pengiriman Material Tuyere"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "MSA, Crossed Gage R&R & ANOVA",
+            "id": "MSA, Crossed Gage R&R & ANOVA"
+          },
+          "evidence": {
+            "en": "Measurement System Analysis project",
+            "id": "Proyek Analisis Sistem Pengukuran"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "SERVQUAL & Importance-Performance Analysis",
+            "id": "SERVQUAL & Importance-Performance Analysis"
+          },
+          "evidence": {
+            "en": "Internal Service Quality Analysis",
+            "id": "Analisis Kualitas Layanan Internal"
+          },
+          "kind": "project"
+        },
+        {
+          "skill": {
+            "en": "Design Thinking, RAD & usability testing",
+            "id": "Design Thinking, RAD & pengujian kegunaan"
+          },
+          "evidence": {
+            "en": "WASS: prototypes, Black Box tests and SUS",
+            "id": "WASS: prototipe, uji Black Box dan SUS"
+          },
+          "kind": "project"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Soft Skills",
+        "id": "Keterampilan Interpersonal"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Leadership & entrepreneurship",
+            "id": "Kepemimpinan & kewirausahaan"
+          },
+          "evidence": {
+            "en": "HMTI FT-UH: INCREASE and START-UP",
+            "id": "HMTI FT-UH: INCREASE dan START-UP"
+          },
+          "kind": "campus"
+        },
+        {
+          "skill": {
+            "en": "Coordination & teamwork",
+            "id": "Koordinasi & kerja sama tim"
+          },
+          "evidence": {
+            "en": "ISLI CAMP event committee; procurement teams",
+            "id": "Panitia ISLI CAMP; tim pengadaan"
+          },
+          "kind": "campus"
+        },
+        {
+          "skill": {
+            "en": "Mentoring & facilitation",
+            "id": "Pendampingan & fasilitasi"
+          },
+          "evidence": {
+            "en": "Physics and manufacturing laboratory assistant",
+            "id": "Asisten laboratorium fisika dan manufaktur"
+          },
+          "kind": "campus"
+        },
+        {
+          "skill": {
+            "en": "Communication & business problem solving",
+            "id": "Komunikasi & pemecahan masalah bisnis"
+          },
+          "evidence": {
+            "en": "Content Marketing and Astra Motor Business Case competitions",
+            "id": "Kompetisi Content Marketing dan Astra Motor Business Case"
+          },
+          "kind": "award"
+        }
+      ]
+    }
+  ],
+  "projectGroupLabels": {
+    "all": {
+      "en": "All",
+      "id": "Semua"
+    },
+    "lean": {
+      "en": "Lean & Process",
+      "id": "Lean & Proses"
+    },
+    "scm": {
+      "en": "Supply Chain",
+      "id": "Rantai Pasok"
+    },
+    "quality": {
+      "en": "Quality",
+      "id": "Kualitas"
+    }
+  },
+  "languageProgress": {
+    "indonesian": 100,
+    "english": 85
+  },
+  "radar": {
+    "data": 92,
+    "scm": 89,
+    "process": 95,
+    "lean": 88,
+    "reporting": 87
+  }
+}

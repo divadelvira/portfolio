@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T12:30:00Z",
+  "title": "Design System: Diva Delvira",
+  "extensions": {
+    "colorMeta": {
+      "coral": { "role": "primary", "displayName": "Summer coral", "tonalRamp": ["oklch(20% 0.06 30)", "oklch(30% 0.09 30)", "oklch(40% 0.12 30)", "oklch(50% 0.14 30)", "oklch(60% 0.14 30)", "oklch(72% 0.11 30)", "oklch(84% 0.07 30)", "oklch(95% 0.02 30)"] },
+      "sky": { "role": "secondary", "displayName": "Pale sky", "tonalRamp": ["oklch(20% 0.03 220)", "oklch(30% 0.04 220)", "oklch(40% 0.05 220)", "oklch(50% 0.06 220)", "oklch(60% 0.07 220)", "oklch(72% 0.06 220)", "oklch(84% 0.05 220)", "oklch(95% 0.02 220)"] },
+      "mint": { "role": "secondary", "displayName": "Seafoam field", "tonalRamp": ["oklch(20% 0.03 155)", "oklch(30% 0.04 155)", "oklch(40% 0.05 155)", "oklch(50% 0.06 155)", "oklch(60% 0.06 155)", "oklch(72% 0.05 155)", "oklch(84% 0.04 155)", "oklch(95% 0.02 155)"] },
+      "butter": { "role": "secondary", "displayName": "Butter yellow" }, "peach": { "role": "secondary", "displayName": "Soft peach" },
+      "text": { "role": "neutral", "displayName": "Deep teal", "tonalRamp": ["oklch(20% 0.03 190)", "oklch(30% 0.04 190)", "oklch(40% 0.05 190)", "oklch(50% 0.05 190)", "oklch(60% 0.05 190)", "oklch(72% 0.04 190)", "oklch(84% 0.03 190)", "oklch(95% 0.01 190)"] },
+      "neutral-bg": { "role": "neutral", "displayName": "Warm white" },
+      "admin-paper": { "role": "neutral", "displayName": "Admin ivory", "canonical": "#fcfbf7" },
+      "admin-ink": { "role": "neutral", "displayName": "Admin ink", "canonical": "#1e2b2c" },
+      "admin-muted": { "role": "neutral", "displayName": "Admin quiet gray-green", "canonical": "#5d6967" },
+      "admin-rail": { "role": "neutral", "displayName": "Admin rail", "canonical": "#eaece5" },
+      "admin-line": { "role": "neutral", "displayName": "Admin hairline", "canonical": "#d9dcd5" },
+      "admin-selected": { "role": "secondary", "displayName": "Admin selection", "canonical": "#d8e3da" },
+      "admin-accent": { "role": "primary", "displayName": "Admin deep green action", "canonical": "#16534d" },
+      "admin-danger": { "role": "tertiary", "displayName": "Admin destructive red", "canonical": "#9b352c" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Chunky identity", "purpose": "Public name and major contact heading." },
+      "headline": { "displayName": "Rounded section title", "purpose": "Public bilingual section headings." },
+      "body": { "displayName": "Readable evidence", "purpose": "Public copy and evidence." },
+      "admin-body": { "displayName": "Admin working sans", "purpose": "Route-scoped admin navigation, fields and content." }
+    },
+    "shadows": [
+      { "name": "navigation-panel", "value": "0 15px 35px #254e521a", "purpose": "Public mobile navigation above the page." },
+      { "name": "dialog", "value": "0 16px 48px #163b3f26", "purpose": "Public protected modal focus." },
+      { "name": "admin-mobile-menu", "value": "12px 16px 28px rgb(30 43 44 / 12%)", "purpose": "Mobile admin section menu only." }
+    ],
+    "motion": [
+      { "name": "control", "value": "180ms ease", "purpose": "Public quiet hover and press feedback." },
+      { "name": "illustration-arrival", "value": "750ms cubic-bezier(.16, 1, .3, 1)", "purpose": "Public illustration arrival; disabled with reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "640px" }, { "name": "desktop-navigation", "value": "1024px" }, { "name": "compact-desktop", "value": "1200px" },
+      { "name": "admin-rail-compact", "value": "1000px" }, { "name": "admin-menu", "value": "760px" }
+    ]
+  },
+  "components": [
+    { "name": "Public primary action", "kind": "button", "refersTo": "button-primary", "description": "Coral public action.", "html": "<button class='ds-primary'>Explore Selected Portfolio</button>", "css": ".ds-primary{font-family:var(--font-sans);font-size:.9rem;font-weight:700;background:var(--summer-coral);color:#fff;border:0;border-radius:14px;padding:13px 18px;min-height:52px;cursor:pointer;transition:background 180ms ease,transform 180ms ease}.ds-primary:hover{background:#ad3c29;transform:translateY(-2px)}.ds-primary:active{transform:translateY(1px)}.ds-primary:focus-visible{outline:3px solid #297d91;outline-offset:5px}" },
+    { "name": "Public contact field", "kind": "input", "refersTo": "input", "description": "Readable labelled public field.", "html": "<label class='ds-label' for='ds-name'>Name or Initial</label><input class='ds-field' id='ds-name' placeholder='Type your name...'>", "css": ".ds-label{display:block;font-family:var(--font-sans);font-size:.8rem;font-weight:700;color:var(--color-brand-primary);margin-bottom:8px}.ds-field{font-family:var(--font-sans);font-size:.95rem;padding:14px 16px;border:1px solid #bdd2cf;border-radius:10px;background:#f7faf7;color:var(--color-brand-primary);caret-color:var(--summer-coral)}.ds-field::placeholder{color:#607473}.ds-field:focus-visible{outline:3px solid #297d91;outline-offset:5px}" },
+    { "name": "Admin primary action", "kind": "button", "refersTo": "admin-button-primary", "description": "Green action for saving and adding content in /admin.", "html": "<button class='ds-admin-primary'>Simpan</button>", "css": ".ds-admin-primary{font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:700;min-height:40px;padding:10px 14px;border:0;border-radius:5px;background:#16534d;color:#fff;cursor:pointer}.ds-admin-primary:hover{filter:brightness(.94)}.ds-admin-primary:focus-visible{outline:2px solid #16534d;outline-offset:3px}" },
+    { "name": "Admin section navigation", "kind": "nav", "description": "Website-order section link with quiet selected fill.", "html": "<nav aria-label='Bagian website'><a class='ds-admin-nav' aria-current='page' href='#proyek'>Proyek</a></nav>", "css": ".ds-admin-nav{display:block;padding:10px 14px;margin-bottom:4px;border-radius:4px;color:#1e2b2c;font:15px/1.5 'Nunito Sans',sans-serif;text-decoration:none}.ds-admin-nav:hover{background:#e0e4db}.ds-admin-nav[aria-current]{background:#d8e3da;font-weight:700}.ds-admin-nav:focus-visible{outline:2px solid #16534d;outline-offset:3px}" },
+    { "name": "Admin index row", "kind": "custom", "description": "Flat content row separated by a quiet hairline.", "html": "<table class='ds-admin-table'><tbody><tr><th scope='row'>Proyek</th><td>Tambah atau perbarui hasil proyek</td><td><a href='#proyek'>Buka</a></td></tr></tbody></table>", "css": ".ds-admin-table{width:100%;border-collapse:collapse;text-align:left;font-family:'Nunito Sans',sans-serif;color:#1e2b2c}.ds-admin-table tr{border-bottom:1px solid #d9dcd5}.ds-admin-table th,.ds-admin-table td{padding:22px 16px;font-size:14px}.ds-admin-table td{color:#5d6967}.ds-admin-table a{color:#16534d;font-weight:700;text-decoration:none}.ds-admin-table tr:hover{background:#e6eee5}" }
+  ],
+  "narrative": {
+    "northStar": "Soft summer engineering",
+    "overview": "The portfolio-wide soft-summer system remains the public identity and the default private-surface language. The separately approved /admin Editorial Index is a route-scoped working CMS: ivory paper, ink and quiet gray-green, deep-green actions, locally hosted Nunito Sans, hairline flat rows, and an aligned website-order index. It does not change the global Experience mode or the Firebase inbox.",
+    "keyCharacteristics": ["Pale blue, seafoam, butter and peach public fields.", "Chunky identity lettering with rounded readable supporting type.", "Original flat engineering/data illustrations.", "Route-scoped /admin Editorial Index with ivory/ink, green actions and hairline rows."],
+    "rules": [
+      { "name": "The Readable Pastel Rule", "body": "Pastels belong to surfaces, not low-contrast body text. Use dark teal or the muted text token on light fields.", "section": "colors" },
+      { "name": "The Heading First Rule", "body": "Section titles lead; supporting context follows below them, not as an eyebrow.", "section": "typography" },
+      { "name": "The Flat Evidence Rule", "body": "Use spacing, color and rules to organize evidence before adding raised cards.", "section": "elevation" },
+      { "name": "The Admin Route Boundary Rule", "body": "The ivory/ink Editorial Index belongs only to /admin; the Firebase inbox remains summer.", "section": "colors" }
+    ],
+    "dos": ["Do preserve all bilingual copy, factual metrics and external documentation links.", "Do carry the summer palette across public surfaces and private surfaces by default; /admin is the approved Editorial Index exception, while the Firebase inbox remains summer.", "Do use original engineering/data illustration rather than beach objects.", "Do honor reduced motion, visible keyboard focus and clear labels."],
+    "donts": ["Don't reuse the watermarked reference as a shipping asset.", "Don't return to navy/gold glass styling or corporate-report art direction.", "Don't add fabricated project claims or decorative chart values.", "Don't hide real content behind entrance effects."]
+  }
+}

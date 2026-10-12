@@ -1,0 +1,150 @@
+@font-face { font-family: "Nunito Sans"; src: url("/fonts/nunito-sans-regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Nunito Sans"; src: url("/fonts/nunito-sans-bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
+:root {
+  --cms-paper: #fcfbf7;
+  --cms-ink: #1e2b2c;
+  --cms-muted: #5d6967;
+  --cms-rail: #eaece5;
+  --cms-line: #d9dcd5;
+  --cms-selected: #d8e3da;
+  --cms-accent: #16534d;
+  --cms-danger: #9b352c;
+  --cms-header: 84px;
+  --cms-sidebar: 260px;
+}
+html body { margin: 0; background: var(--cms-paper); color: var(--cms-ink); font: 16px/1.5 "Nunito Sans", sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+::selection { background: var(--cms-selected); color: var(--cms-ink); }
+a { text-underline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--cms-accent); outline-offset: 3px; }
+.cms-brandbar { height: var(--cms-header); position: fixed; inset: 0 0 auto; z-index: 100; display: flex; align-items: center; gap: 22px; padding: 0 40px; background: var(--cms-paper); border-bottom: 1px solid var(--cms-line); }
+.cms-monogram { font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; }
+.cms-brand-copy { flex: 1; min-width: 0; }
+.cms-brand-copy p { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
+.cms-brand-copy small { display: block; margin-top: 3px; font-size: 12px; color: var(--cms-muted); }
+.cms-site-link { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; color: var(--cms-ink); font-size: 14px; text-decoration: none; padding: 10px 0; margin-right: 72px; }
+.cms-site-link:hover { text-decoration: underline; }
+#cms-menu-toggle { display: none; }
+.cms-sidebar { display: none; position: fixed; top: var(--cms-header); left: 0; bottom: 0; z-index: 90; width: var(--cms-sidebar); overflow-y: auto; padding: 30px 24px; background: var(--cms-rail); border-right: 1px solid var(--cms-line); }
+.cms-sidebar h2 { font-size: 14px; font-weight: 400; color: var(--cms-muted); margin: 0 14px 18px; }
+#cms-section-nav a { display: block; color: var(--cms-ink); text-decoration: none; font-size: 15px; padding: 10px 14px; border-radius: 4px; margin-bottom: 4px; }
+#cms-section-nav a:hover { background: #e0e4db; }
+#cms-section-nav a[aria-current] { background: var(--cms-selected); font-weight: 700; }
+#cms-section-nav .cms-settings-link { font-size: 13px; }
+#cms-section-nav .cms-settings-link:first-of-type { margin-top: 20px; }
+.cms-sidebar-note { border-top: 1px solid var(--cms-line); padding-top: 20px; margin: 22px 14px 0; color: var(--cms-muted); font-size: 12px; line-height: 1.6; }
+.cms-authenticated .cms-sidebar { display: block; }
+#cms-dashboard { display: none; margin: var(--cms-header) 0 0 var(--cms-sidebar); padding: 44px 56px; }
+.cms-authenticated[data-cms-view="index"] #cms-dashboard { display: block; }
+#cms-editor-guide { display: none; position: fixed; top: calc(var(--cms-header) + 66px); left: var(--cms-sidebar); right: 0; z-index: 20; padding: 30px 40px 18px; background: var(--cms-paper); }
+.cms-authenticated[data-cms-view="editor"] #cms-editor-guide { display: block; }
+#cms-editor-guide .cms-page-description { margin-bottom: 0; }
+.cms-page-title { margin: 0 0 14px; font-size: 34px; line-height: 1.2; font-weight: 700; letter-spacing: -0.025em; }
+.cms-page-description { margin: 0 0 32px; color: var(--cms-muted); max-width: 70ch; font-size: 15px; }
+.cms-section-table { width: 100%; border-collapse: collapse; text-align: left; }
+.cms-section-table thead { border-top: 1px solid var(--cms-line); border-bottom: 1px solid var(--cms-line); }
+.cms-section-table thead th { font-size: 12px; font-weight: 400; color: var(--cms-muted); padding: 12px 16px; }
+.cms-section-table tbody tr { border-bottom: 1px solid var(--cms-line); }
+.cms-section-table tbody tr:hover { background: #e6eee5; }
+.cms-section-table tbody th { width: 26%; font-weight: 700; font-size: 15px; }
+.cms-section-table tbody th, .cms-section-table td { padding: 22px 16px; }
+.cms-section-table td { font-size: 14px; color: var(--cms-muted); }
+.cms-section-table a { color: var(--cms-ink); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.cms-section-table a:hover { text-decoration: underline; }
+.cms-section-table td:last-child, .cms-section-table th:last-child { text-align: right; }
+.cms-section-table td:last-child a { color: var(--cms-accent); font-weight: 700; }
+#cms-loading, noscript { display: block; max-width: 600px; margin: 120px auto 24px; padding: 24px; line-height: 1.6; }
+#nc-root { padding-top: var(--cms-header); }
+/* shortcut: Decap 3.16.3 component-name selectors, verify these when upgrading the pinned editor bundle. */
+#nc-root, #nc-root input, #nc-root textarea, #nc-root button, #nc-root select { font-family: "Nunito Sans", sans-serif !important; }
+#nc-root h1, #nc-root h2, #nc-root h3 { color: var(--cms-ink); font-weight: 700; }
+#nc-root a { color: var(--cms-ink); }
+#nc-root button { border-radius: 5px; font-size: 14px; }
+#nc-root button:not(:disabled):hover { filter: brightness(0.94); }
+#nc-root button:disabled { cursor: not-allowed; }
+#nc-root input:not([type="checkbox"]), #nc-root textarea, #nc-root select { min-width: 0; max-width: 100%; background: white !important; color: var(--cms-ink) !important; border: 1px solid var(--cms-line) !important; border-radius: 5px !important; font-size: 16px !important; line-height: 1.5 !important; padding: 12px 14px !important; caret-color: var(--cms-accent); }
+#nc-root input::placeholder, #nc-root textarea::placeholder { color: var(--cms-muted); opacity: 1; }
+#nc-root input:focus, #nc-root textarea:focus, #nc-root select:focus { outline: 2px solid var(--cms-accent); outline-offset: 2px; }
+#nc-root [class*="-AppHeader-css"] { position: fixed; top: 18px; right: 32px; left: auto; z-index: 110; width: 48px; height: 48px; background: transparent; box-shadow: none; border: 0; }
+#nc-root [class*="-AppHeaderContent"] { padding: 0; }
+#nc-root [class*="-AppHeaderNavList"], #nc-root [class*="-AppHeaderSiteLink"] { display: none; }
+#nc-root [class*="-AppMainContainer"] { margin: 28px 32px 0 calc(var(--cms-sidebar) + 32px); }
+.cms-authenticated[data-cms-view="index"] #nc-root [class*="-AppMainContainer"] { display: none; }
+#nc-root [class*="-SidebarContainer"] { display: none; }
+#nc-root [class*="-EditorContainer"] { top: var(--cms-header); left: var(--cms-sidebar); width: calc(100% - var(--cms-sidebar)); height: calc(100dvh - var(--cms-header)); background: var(--cms-paper); }
+#nc-root [class*="-ToolbarContainer"] { width: 100%; min-width: 0; background: var(--cms-paper); border-bottom: 1px solid var(--cms-line); box-shadow: none; }
+#nc-root [class*="-ToolbarSectionBackLink"] { border-color: var(--cms-line); }
+#nc-root [class*="-ToolbarSectionMain"] { flex: 1; min-width: 0; }
+#nc-root [class*="-ToolbarSectionMeta"] { position: fixed; top: 18px; right: 32px; z-index: 110; width: 48px; min-width: 0; height: 48px; padding: 0; border: 0; }
+#nc-root [class*="-ToolbarSubSectionLast"] { display: none; }
+#nc-root [class*="-ToolbarButton"] { min-height: 42px; }
+#nc-root [class*="-PublishButton"] { background: var(--cms-accent); color: white; border: 0; }
+#nc-root [class*="-PublishedButton"] { background: var(--cms-selected); color: var(--cms-accent); }
+#nc-root [class*="-SettingsWrapper"] { width: 48px; }
+#nc-root [class*="-NoPreviewContainer"], #nc-root [class*="-PreviewPaneContainer-ControlPaneContainer"] { background: var(--cms-paper); }
+#nc-root [class*="-ControlPaneContainer"] { min-width: 0; }
+#nc-root [class*="-ControlPaneContainer"]:not([class*="-PreviewPaneContainer"]) { width: min(960px, calc(100% - 80px)); max-width: 960px; margin: 160px auto 40px; padding: 0; }
+#nc-root [class*="-ControlContainer"] { margin-bottom: 24px; }
+#nc-root [class*="-ControlTopbar"] { height: auto; min-height: 28px; }
+#nc-root [class*="-FieldLabel"] { display: inline-block; background: transparent; padding: 0 0 8px; color: var(--cms-ink); font-size: 14px; font-weight: 700; text-transform: none; }
+#nc-root [class*="-ControlContainer"] > div:last-child { border-color: var(--cms-line); border-width: 1px; border-radius: 5px; background: white; }
+#nc-root [class*="-TopBarContainer"] { background: var(--cms-rail); border-radius: 4px; }
+#nc-root [class*="-ListItem-listControlItem"] { margin: 0; border: 0; border-bottom: 1px solid var(--cms-line); border-radius: 0; background: white; }
+#nc-root [class*="-TopBar-StyledListItemTopBar"] { height: 48px; padding: 8px 12px; background: white; }
+#nc-root [class*="-NestedObjectLabel"] { background: white; padding: 16px; color: var(--cms-ink); font-size: 15px; font-weight: 700; }
+#nc-root .cms-item-edit, #nc-root .cms-item-delete { width: auto; min-height: 32px; padding: 6px 8px; color: var(--cms-ink); font-size: 13px; }
+#nc-root .cms-item-delete { color: var(--cms-danger); }
+#nc-root .cms-item-edit svg, #nc-root .cms-item-delete svg { display: none; }
+#nc-root .cms-item-edit::after { content: "Edit"; }
+#nc-root .cms-item-delete::after { content: "Hapus"; }
+#nc-root [class*="-AddButton"] { min-height: 40px; padding: 10px 14px; border-radius: 5px; background: var(--cms-accent); color: white; }
+#nc-root [class*="-FileWidgetButton"] { display: inline-flex; min-height: 40px; padding: 10px 14px; background: var(--cms-rail); color: var(--cms-ink); margin-right: 8px; }
+#nc-root [class*="-FileWidgetButtonRemove"] { background: #f8e9e5; color: var(--cms-danger); }
+#nc-root .cms-bilingual-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+#nc-root .cms-bilingual-fields > div { min-width: 0; }
+#nc-root > div:has(> img) { height: calc(100dvh - var(--cms-header)) !important; min-height: 420px; background: var(--cms-paper); gap: 20px; }
+#nc-root > div > img { width: 88px !important; height: 88px !important; object-fit: cover; border-radius: 12px; }
+#nc-root > div:has(> img) button { background: var(--cms-accent); color: white; min-height: 48px; min-width: 180px; box-shadow: none; font-size: 16px; }
+#nc-root > div:has(> img) a { margin-top: 8px; }
+@media (max-width: 1000px) {
+  :root { --cms-sidebar: 220px; }
+  #cms-dashboard { padding: 36px 32px; }
+  .cms-section-table tbody th { width: 32%; }
+  #nc-root [class*="-ControlPaneContainer"]:not([class*="-PreviewPaneContainer"]) { width: calc(100% - 48px); }
+}
+@media (max-width: 760px) {
+  :root { --cms-header: 76px; --cms-sidebar: 0px; }
+  .cms-brandbar { padding: 0 16px; gap: 14px; }
+  .cms-monogram { font-size: 26px; }
+  .cms-brand-copy p { font-size: 14px; }
+  .cms-brand-copy small { font-size: 11px; }
+  .cms-site-link { margin-right: 44px; font-size: 12px; }
+  .cms-site-link span { display: none; }
+  .cms-sidebar { top: 128px; width: min(320px, 100%); padding: 24px 20px; box-shadow: 12px 16px 28px rgb(30 43 44 / 12%); border-right: 0; }
+  .cms-authenticated .cms-sidebar { display: none; }
+  .cms-authenticated #cms-menu-toggle { display: flex; position: fixed; align-items: center; gap: 8px; top: var(--cms-header); left: 0; width: 100%; height: 52px; z-index: 95; padding: 0 20px; border: 0; border-bottom: 1px solid var(--cms-line); background: var(--cms-rail); color: var(--cms-ink); font: 700 14px "Nunito Sans", sans-serif; }
+  .cms-authenticated.cms-menu-open .cms-sidebar { display: block; }
+  #cms-dashboard { padding: 32px 20px; margin-top: 128px; }
+  .cms-menu-open #cms-dashboard, .cms-menu-open #cms-editor-guide, .cms-menu-open #nc-root [class*="-EditorContainer"] { visibility: hidden; }
+  #cms-editor-guide { top: 194px; padding: 24px 16px 16px; }
+  #cms-editor-guide .cms-page-title { font-size: 26px; }
+  #cms-editor-guide .cms-page-description { font-size: 13px; }
+  .cms-page-title { font-size: 28px; }
+  .cms-page-description { font-size: 14px; }
+  .cms-section-table thead { display: none; }
+  .cms-section-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) 52px; padding: 12px 0; }
+  .cms-section-table tbody th { width: auto; padding: 0; }
+  .cms-section-table td { padding: 0; }
+  .cms-section-table td:nth-child(2) { grid-column: 1; grid-row: 2; font-size: 13px; padding-bottom: 8px; }
+  .cms-section-table td:last-child { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+  #nc-root [class*="-AppHeader-css"], #nc-root [class*="-ToolbarSectionMeta"] { top: 14px; right: 12px; }
+  #nc-root [class*="-EditorContainer"] { top: 128px; left: 0; width: 100%; height: calc(100dvh - 128px); }
+  #nc-root [class*="-ToolbarSectionBackLink"] { min-width: 0; width: auto; flex: 1; padding: 10px 12px; }
+  #nc-root [class*="-ToolbarSectionMain"] { flex: 0 0 auto; width: auto; }
+  #nc-root [class*="-ToolbarSubSectionFirst"] { margin: 0; }
+  #nc-root [class*="-BackCollection"] { font-size: 12px; }
+  #nc-root [class*="-ControlPaneContainer"]:not([class*="-PreviewPaneContainer"]) { width: calc(100% - 32px); margin: 160px 16px 28px; }
+  #nc-root .cms-bilingual-fields { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  #nc-root [class*="-AppMainContainer"] { margin: 76px 16px 0; }
+}
+@media (prefers-reduced-motion: reduce) { #nc-root *, .cms-sidebar { scroll-behavior: auto; transition: none !important; animation: none !important; } }

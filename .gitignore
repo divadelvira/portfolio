@@ -7,4 +7,8 @@ coverage/
 .env*
 !.env.example
 .node_portable/
+.impeccable/review/
+.impeccable/questions/
+.impeccable/direction-options.json
+.impeccable/summer-brief.md
 

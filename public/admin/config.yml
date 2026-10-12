@@ -1,0 +1,4089 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "divadelvira/portfolio",
+    "branch": "main",
+    "base_url": "https://portfolio-divadelvira.vercel.app",
+    "auth_endpoint": "api/auth",
+    "commit_messages": {
+      "update": "CMS: ubah {{collection}} / {{slug}}",
+      "uploadMedia": "CMS: unggah {{path}}",
+      "deleteMedia": "CMS: hapus {{path}}"
+    }
+  },
+  "local_backend": true,
+  "media_folder": "public/uploads",
+  "public_folder": "/uploads",
+  "site_url": "https://portfolio-divadelvira.vercel.app",
+  "display_url": "https://portfolio-divadelvira.vercel.app",
+  "logo_url": "/favicon.png",
+  "show_preview_links": false,
+  "collections": [
+    {
+      "name": "hero",
+      "label": "Beranda",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "hero",
+          "label": "Hero",
+          "file": "src/content/hero.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Nama",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "monogram",
+              "label": "Monogram",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "heroImage",
+              "label": "Ilustrasi hero",
+              "required": false,
+              "widget": "image",
+              "pattern": [
+                "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+              ]
+            },
+            {
+              "name": "heroImageAlt",
+              "label": "Teks alternatif ilustrasi hero",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "metrics",
+              "label": "Metrik hero",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "name",
+                  "label": "Nama",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "heading",
+                  "label": "Heading",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "value",
+                  "label": "Nilai hasil",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "caption",
+                  "label": "Caption",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "progress",
+                  "label": "Progress",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "description",
+                  "label": "Deskripsi",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "tools",
+                  "label": "Tools",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                }
+              ],
+              "summary": "{{fields.name.id}} / {{fields.name.en}}"
+            },
+            {
+              "name": "roles",
+              "label": "Profesi berputar",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "key",
+                  "label": "ID internal",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "widget": "string",
+                  "required": true
+                }
+              ],
+              "summary": "{{fields.id}} / {{fields.en}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "about",
+      "label": "Tentang saya",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "about",
+          "label": "About",
+          "file": "src/content/about.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "profileImage",
+              "label": "Foto profil",
+              "required": false,
+              "widget": "image",
+              "pattern": [
+                "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+              ]
+            },
+            {
+              "name": "profileAlt",
+              "label": "Teks alternatif foto profil",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "experience",
+      "label": "Pengalaman",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "experience",
+          "label": "Experience",
+          "file": "src/content/experience.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "items",
+              "label": "Daftar entri",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "key",
+                  "label": "ID internal",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "company",
+                  "label": "Perusahaan",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "role",
+                  "label": "Jabatan",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "period",
+                  "label": "Periode",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "location",
+                  "label": "Lokasi",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "description",
+                  "label": "Deskripsi",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "text"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "text"
+                    }
+                  ]
+                },
+                {
+                  "name": "sector",
+                  "label": "Sector",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "bullets",
+                  "label": "Pencapaian",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              ],
+              "summary": "{{fields.company}} — {{fields.role.id}} / {{fields.role.en}}",
+              "min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "label": "Proyek",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "projects",
+          "label": "Projects",
+          "file": "src/content/projects.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "items",
+              "label": "Daftar entri",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "cat",
+                  "label": "Kategori singkat",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "desc",
+                  "label": "Deskripsi proyek",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "text"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "text"
+                    }
+                  ]
+                },
+                {
+                  "name": "link",
+                  "label": "Tautan utama",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string",
+                      "pattern": [
+                        "^https://[^\\s]+$",
+                        "Gunakan URL HTTPS lengkap."
+                      ],
+                      "hint": "Tempel URL lengkap yang diawali https://."
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string",
+                      "pattern": [
+                        "^https://[^\\s]+$",
+                        "Gunakan URL HTTPS lengkap."
+                      ],
+                      "hint": "Tempel URL lengkap yang diawali https://."
+                    }
+                  ],
+                  "pattern": [
+                    "^https://[^\\s]+$",
+                    "Gunakan URL HTTPS lengkap."
+                  ],
+                  "hint": "Tempel URL lengkap yang diawali https://."
+                },
+                {
+                  "name": "linkLabel",
+                  "label": "Teks tombol tautan",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "docLink",
+                  "label": "Tautan dokumentasi tambahan",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string",
+                      "pattern": [
+                        "^https://[^\\s]+$",
+                        "Gunakan URL HTTPS lengkap."
+                      ],
+                      "hint": "Tempel URL lengkap yang diawali https://."
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "string",
+                      "pattern": [
+                        "^https://[^\\s]+$",
+                        "Gunakan URL HTTPS lengkap."
+                      ],
+                      "hint": "Tempel URL lengkap yang diawali https://."
+                    }
+                  ],
+                  "pattern": [
+                    "^https://[^\\s]+$",
+                    "Gunakan URL HTTPS lengkap."
+                  ],
+                  "hint": "Tempel URL lengkap yang diawali https://."
+                },
+                {
+                  "name": "tags",
+                  "label": "Tag proyek",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "group",
+                  "label": "Kelompok proyek",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "select",
+                      "options": [
+                        {
+                          "label": "Lean dan proses",
+                          "value": "lean"
+                        },
+                        {
+                          "label": "Rantai pasok",
+                          "value": "scm"
+                        },
+                        {
+                          "label": "Kualitas",
+                          "value": "quality"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "select",
+                      "options": [
+                        {
+                          "label": "Lean dan proses",
+                          "value": "lean"
+                        },
+                        {
+                          "label": "Rantai pasok",
+                          "value": "scm"
+                        },
+                        {
+                          "label": "Kualitas",
+                          "value": "quality"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "result",
+                  "label": "Hasil proyek",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "label",
+                      "label": "Label hasil",
+                      "required": true,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "label": "Nilai hasil",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": false,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": false,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "note",
+                      "label": "Catatan hasil",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": false,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": false,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "before",
+                      "label": "Sebelum",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": false,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": false,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "after",
+                      "label": "Sesudah",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": false,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": false,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "ratio",
+                      "label": "Perbandingan sesudah / sebelum",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "widget": "number",
+                          "required": false,
+                          "value_type": "float",
+                          "min": 0,
+                          "max": 1,
+                          "step": 0.001
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "widget": "number",
+                          "required": false,
+                          "value_type": "float",
+                          "min": 0,
+                          "max": 1,
+                          "step": 0.001
+                        }
+                      ],
+                      "value_type": "float",
+                      "min": 0,
+                      "max": 1,
+                      "step": 0.001,
+                      "hint": "Sesudah dibagi sebelum; contoh 8 hari / 12 hari = 0.667."
+                    }
+                  ]
+                },
+                {
+                  "name": "image",
+                  "label": "Gambar utama",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "image",
+                      "pattern": [
+                        "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                        "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                      ]
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "image",
+                      "pattern": [
+                        "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                        "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "gallery",
+                  "label": "Foto dokumentasi",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "image",
+                        "name": "item",
+                        "pattern": [
+                          "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                          "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                        ],
+                        "label": "Entri",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "image",
+                        "name": "item",
+                        "pattern": [
+                          "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                          "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                        ],
+                        "label": "Entri",
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              ],
+              "summary": "{{fields.title.id}} / {{fields.title.en}}",
+              "min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "label": "Kompetensi",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "skills",
+          "label": "Skills",
+          "file": "src/content/skills.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "skillHighlights",
+              "label": "Sorotan kompetensi",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "tools",
+                  "label": "Tools",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "hidden",
+                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                    }
+                  ]
+                },
+                {
+                  "name": "supplyChain",
+                  "label": "Supply Chain",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "hidden",
+                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                    }
+                  ]
+                },
+                {
+                  "name": "methodologies",
+                  "label": "Methodologies",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "hidden",
+                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "skillGroups",
+              "label": "Kelompok kompetensi",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "items",
+                  "label": "Daftar entri",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "skill",
+                      "label": "Skill",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "evidence",
+                      "label": "Evidence",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "kind",
+                      "label": "Kind",
+                      "required": false,
+                      "widget": "string"
+                    }
+                  ],
+                  "summary": "{{fields.title.id}} / {{fields.title.en}}"
+                }
+              ]
+            },
+            {
+              "name": "projectGroupLabels",
+              "label": "Project Group Labels",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "all",
+                  "label": "All",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "lean",
+                  "label": "Lean",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "scm",
+                  "label": "Scm",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "quality",
+                  "label": "Quality",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "languageProgress",
+              "label": "Kemampuan bahasa",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "indonesian",
+                  "label": "Indonesian",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "english",
+                  "label": "English",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                }
+              ]
+            },
+            {
+              "name": "radar",
+              "label": "Nilai radar",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "data",
+                  "label": "Data",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "scm",
+                  "label": "Scm",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "process",
+                  "label": "Process",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "lean",
+                  "label": "Lean",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                },
+                {
+                  "name": "reporting",
+                  "label": "Reporting",
+                  "required": false,
+                  "widget": "number",
+                  "min": 0,
+                  "max": 100
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "awards",
+      "label": "Penghargaan",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "awards",
+          "label": "Awards",
+          "file": "src/content/awards.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "items",
+              "label": "Daftar entri",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "category",
+                  "label": "Kategori",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "rank",
+                  "label": "Peringkat",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "sponsor",
+                  "label": "Penyelenggara",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "photos",
+                  "label": "Foto bukti",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "image",
+                        "name": "item",
+                        "pattern": [
+                          "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                          "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                        ],
+                        "label": "Entri",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "image",
+                        "name": "item",
+                        "pattern": [
+                          "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                          "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                        ],
+                        "label": "Entri",
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              ],
+              "summary": "{{fields.title.id}} / {{fields.title.en}}",
+              "min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "education",
+      "label": "Pendidikan",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "education",
+          "label": "Education",
+          "file": "src/content/education.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "profile",
+              "label": "Profile",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "shortName",
+                  "label": "Singkatan institusi",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "institution",
+                  "label": "Institusi",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "degree",
+                  "label": "Gelar",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "period",
+                  "label": "Periode",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "gpa",
+                  "label": "IPK",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "logo",
+                  "label": "Logo institusi",
+                  "required": false,
+                  "widget": "image",
+                  "pattern": [
+                    "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                    "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                  ]
+                },
+                {
+                  "name": "logoAlt",
+                  "label": "Teks alternatif logo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "focus",
+                  "label": "Focus",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "education",
+              "label": "Pendidikan",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "academicAreas",
+                  "label": "Academic Areas",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "activities",
+                  "label": "Activities",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "hidden",
+                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                    }
+                  ],
+                  "summary": "{{fields.id}} / {{fields.en}}"
+                },
+                {
+                  "name": "thesis",
+                  "label": "Thesis",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "abstract",
+                      "label": "Abstract",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "method",
+                      "label": "Method",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "result",
+                      "label": "Hasil proyek",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "leadership",
+              "label": "Organisasi dan kepemimpinan",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "items",
+                  "label": "Daftar entri",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "fields": [
+                    {
+                      "name": "key",
+                      "label": "ID internal",
+                      "required": false,
+                      "widget": "hidden",
+                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                    },
+                    {
+                      "name": "title",
+                      "label": "Judul",
+                      "required": false,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "role",
+                      "label": "Jabatan",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "date",
+                      "label": "Tanggal",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "description",
+                      "label": "Deskripsi",
+                      "required": false,
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "string"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "href",
+                      "label": "Tautan profil",
+                      "required": false,
+                      "widget": "string",
+                      "pattern": [
+                        "^(?:https://[^\\s]+|mailto:[^\\s]+|tel:[+0-9-]+)$",
+                        "Gunakan URL HTTPS, email, atau telepon."
+                      ],
+                      "hint": "Use an HTTPS link, email, or telephone URL."
+                    },
+                    {
+                      "name": "icon",
+                      "label": "Icon",
+                      "required": false,
+                      "widget": "string"
+                    }
+                  ],
+                  "summary": "{{fields.title.id}} / {{fields.title.en}}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "training",
+      "label": "Pelatihan",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "training",
+          "label": "Training",
+          "file": "src/content/training.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "training",
+              "label": "Daftar pelatihan",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "widget": "hidden",
+                  "required": false,
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "provider",
+                  "label": "Penyelenggara",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "date",
+                  "label": "Tanggal",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "summary",
+                  "label": "Ringkasan",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": true,
+                      "widget": "string"
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": true,
+                      "widget": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "skills",
+                  "label": "Keahlian",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "widget": "string",
+                    "name": "item",
+                    "label": "Entri",
+                    "required": true
+                  }
+                },
+                {
+                  "name": "photos",
+                  "label": "Foto bukti",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "widget": "image",
+                    "name": "photo",
+                    "pattern": [
+                      "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                      "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+                    ],
+                    "label": "Foto",
+                    "required": true
+                  },
+                  "summary": "Foto"
+                }
+              ],
+              "summary": "{{fields.title.id}} / {{fields.title.en}}",
+              "min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contact",
+      "label": "Kontak",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "contact",
+          "label": "Contact",
+          "file": "src/content/contact.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "email",
+              "label": "Email",
+              "required": false,
+              "widget": "string",
+              "pattern": [
+                "^[^@ ]+@[^@ ]+.[^@ ]+$",
+                "Enter a valid email address."
+              ]
+            },
+            {
+              "name": "socialHeading",
+              "label": "Judul kanal kontak",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "socials",
+              "label": "Kanal kontak",
+              "required": false,
+              "widget": "list",
+              "collapsed": true,
+              "fields": [
+                {
+                  "name": "key",
+                  "label": "ID internal",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "label",
+                  "label": "Label hasil",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "href",
+                  "label": "Tautan profil",
+                  "required": false,
+                  "widget": "string",
+                  "pattern": [
+                    "^(?:https://[^\\s]+|mailto:[^\\s]+|tel:[+0-9-]+)$",
+                    "Gunakan URL HTTPS, email, atau telepon."
+                  ],
+                  "hint": "Use an HTTPS link, email, or telephone URL."
+                },
+                {
+                  "name": "detail",
+                  "label": "Detail kontak",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "target",
+                  "label": "Target tautan",
+                  "required": false,
+                  "widget": "string"
+                }
+              ],
+              "summary": "{{fields.label}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "label": "Teks dan pengaturan",
+      "create": false,
+      "delete": false,
+      "files": [
+        {
+          "name": "site",
+          "label": "Public labels",
+          "file": "src/content/site.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "en",
+              "label": "Bahasa Inggris",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "navAbout",
+                  "label": "Nav About",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navExperience",
+                  "label": "Nav Experience",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navProjects",
+                  "label": "Nav Projects",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navSkills",
+                  "label": "Nav Skills",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navEdu",
+                  "label": "Nav Edu",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navContact",
+                  "label": "Nav Contact",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skipToContent",
+                  "label": "Skip To Content",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mainNavigation",
+                  "label": "Main Navigation",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navTraining",
+                  "label": "Nav Training",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mail",
+                  "label": "Mail",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "toggleMenu",
+                  "label": "Toggle Menu",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "verifiedProjectMetrics",
+                  "label": "Verified Project Metrics",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectMetrics",
+                  "label": "Project Metrics",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "primaryTools",
+                  "label": "Primary Tools",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "profilePhoto",
+                  "label": "Profile Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageProficiency",
+                  "label": "Language Proficiency",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "indonesian",
+                  "label": "Indonesian",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nativeSpeaker",
+                  "label": "Native Speaker",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "english",
+                  "label": "English",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "englishLevel",
+                  "label": "English Level",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewAwardPhoto",
+                  "label": "View Award Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "studyOverviewLink",
+                  "label": "Study Overview Link",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "logoPlaceholder",
+                  "label": "Logo Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "transmitMessage",
+                  "label": "Transmit Message",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nameLabel",
+                  "label": "Name Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "namePlaceholder",
+                  "label": "Name Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPointLabel",
+                  "label": "Contact Point Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPointPlaceholder",
+                  "label": "Contact Point Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messagePayloadLabel",
+                  "label": "Message Payload Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messagePlaceholder",
+                  "label": "Message Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "sendMessage",
+                  "label": "Send Message",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "awardPhotoPlaceholder",
+                  "label": "Award Photo Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "close",
+                  "label": "Close",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "previousPhoto",
+                  "label": "Previous Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nextPhoto",
+                  "label": "Next Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "dismissNotification",
+                  "label": "Dismiss Notification",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messageSent",
+                  "label": "Message Sent",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messageFailed",
+                  "label": "Message Failed",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "roleTitle",
+                  "label": "Role Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "badgeOpportunity",
+                  "label": "Badge Opportunity",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "heroSubText",
+                  "label": "Hero Sub Text",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "ctaViewWork",
+                  "label": "Cta View Work",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "ctaContact",
+                  "label": "Cta Contact",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutTitle",
+                  "label": "About Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutSubtitle",
+                  "label": "About Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutBio",
+                  "label": "About Bio",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "stat1Val",
+                  "label": "Stat1Val",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat1Lbl",
+                  "label": "Stat1Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat2Lbl",
+                  "label": "Stat2Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Val",
+                  "label": "Stat3Val",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Lbl",
+                  "label": "Stat3Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceTitle",
+                  "label": "Experience Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceSubtitle",
+                  "label": "Experience Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceContext",
+                  "label": "Experience Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "clickPromptExpand",
+                  "label": "Click Prompt Expand",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "clickPromptCollapse",
+                  "label": "Click Prompt Collapse",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceLinkedinCTA",
+                  "label": "Experience Linkedin CTA",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "industryTag",
+                  "label": "Industry Tag",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsTitle",
+                  "label": "Projects Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsSubtitle",
+                  "label": "Projects Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsContext",
+                  "label": "Projects Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewDetails",
+                  "label": "View Details",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsTitle",
+                  "label": "Skills Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsSubtitle",
+                  "label": "Skills Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory1",
+                  "label": "Skills Category1",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory2",
+                  "label": "Skills Category2",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory3",
+                  "label": "Skills Category3",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "chartHeading",
+                  "label": "Chart Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "chartFooter",
+                  "label": "Chart Footer",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsTitle",
+                  "label": "Achievements Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsSubtitle",
+                  "label": "Achievements Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsContext",
+                  "label": "Achievements Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "eduOrgSubtitle",
+                  "label": "Edu Org Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "eduHeading",
+                  "label": "Edu Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "orgHeading",
+                  "label": "Org Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactTitle",
+                  "label": "Contact Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactSubtitle",
+                  "label": "Contact Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPrompt",
+                  "label": "Contact Prompt",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "footerTagline",
+                  "label": "Footer Tagline",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "backToTop",
+                  "label": "Back To Top",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "leaderNetworkLabel",
+                  "label": "Leader Network Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisData",
+                  "label": "Axis Data",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisScm",
+                  "label": "Axis Scm",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisProcess",
+                  "label": "Axis Process",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisLean",
+                  "label": "Axis Lean",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisReporting",
+                  "label": "Axis Reporting",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mobileAxisProcess",
+                  "label": "Mobile Axis Process",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "competencyScore",
+                  "label": "Competency Score",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "emptyProjectsTitle",
+                  "label": "Empty Projects Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectResultLabel",
+                  "label": "Project Result Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageEnglishButton",
+                  "label": "Language English Button",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageIndonesianButton",
+                  "label": "Language Indonesian Button",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "emailLabel",
+                  "label": "Email Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "filterCaseStudies",
+                  "label": "Filter Case Studies",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "firstProject",
+                  "label": "First Project",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "lastProject",
+                  "label": "Last Project",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectCards",
+                  "label": "Project Cards",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectPhoto",
+                  "label": "Project Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "evidenceHeading",
+                  "label": "Evidence Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "openEvidencePhoto",
+                  "label": "Open Evidence Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "evidenceAlt",
+                  "label": "Evidence Alt",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "photoLabel",
+                  "label": "Photo Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewDocumentation",
+                  "label": "View Documentation",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "rightsReserved",
+                  "label": "Rights Reserved",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "educationGpaLabel",
+                  "label": "Education Gpa Label",
+                  "required": false,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "id",
+              "label": "Bahasa Indonesia",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "navAbout",
+                  "label": "Nav About",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navExperience",
+                  "label": "Nav Experience",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navProjects",
+                  "label": "Nav Projects",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navSkills",
+                  "label": "Nav Skills",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navEdu",
+                  "label": "Nav Edu",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navContact",
+                  "label": "Nav Contact",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skipToContent",
+                  "label": "Skip To Content",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mainNavigation",
+                  "label": "Main Navigation",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "navTraining",
+                  "label": "Nav Training",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mail",
+                  "label": "Mail",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "toggleMenu",
+                  "label": "Toggle Menu",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "verifiedProjectMetrics",
+                  "label": "Verified Project Metrics",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectMetrics",
+                  "label": "Project Metrics",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "primaryTools",
+                  "label": "Primary Tools",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "profilePhoto",
+                  "label": "Profile Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageProficiency",
+                  "label": "Language Proficiency",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "indonesian",
+                  "label": "Indonesian",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nativeSpeaker",
+                  "label": "Native Speaker",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "english",
+                  "label": "English",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "englishLevel",
+                  "label": "English Level",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewAwardPhoto",
+                  "label": "View Award Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "studyOverviewLink",
+                  "label": "Study Overview Link",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "logoPlaceholder",
+                  "label": "Logo Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "transmitMessage",
+                  "label": "Transmit Message",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nameLabel",
+                  "label": "Name Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "namePlaceholder",
+                  "label": "Name Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPointLabel",
+                  "label": "Contact Point Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPointPlaceholder",
+                  "label": "Contact Point Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messagePayloadLabel",
+                  "label": "Message Payload Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messagePlaceholder",
+                  "label": "Message Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "sendMessage",
+                  "label": "Send Message",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "awardPhotoPlaceholder",
+                  "label": "Award Photo Placeholder",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "close",
+                  "label": "Close",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "previousPhoto",
+                  "label": "Previous Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "nextPhoto",
+                  "label": "Next Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "dismissNotification",
+                  "label": "Dismiss Notification",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messageSent",
+                  "label": "Message Sent",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "messageFailed",
+                  "label": "Message Failed",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "roleTitle",
+                  "label": "Role Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "badgeOpportunity",
+                  "label": "Badge Opportunity",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "heroSubText",
+                  "label": "Hero Sub Text",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "ctaViewWork",
+                  "label": "Cta View Work",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "ctaContact",
+                  "label": "Cta Contact",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutTitle",
+                  "label": "About Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutSubtitle",
+                  "label": "About Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "aboutBio",
+                  "label": "About Bio",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "stat1Val",
+                  "label": "Stat1Val",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat1Lbl",
+                  "label": "Stat1Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat2Lbl",
+                  "label": "Stat2Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Val",
+                  "label": "Stat3Val",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "stat3Lbl",
+                  "label": "Stat3Lbl",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceTitle",
+                  "label": "Experience Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceSubtitle",
+                  "label": "Experience Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceContext",
+                  "label": "Experience Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "clickPromptExpand",
+                  "label": "Click Prompt Expand",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "clickPromptCollapse",
+                  "label": "Click Prompt Collapse",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "experienceLinkedinCTA",
+                  "label": "Experience Linkedin CTA",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "industryTag",
+                  "label": "Industry Tag",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsTitle",
+                  "label": "Projects Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsSubtitle",
+                  "label": "Projects Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectsContext",
+                  "label": "Projects Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewDetails",
+                  "label": "View Details",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsTitle",
+                  "label": "Skills Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsSubtitle",
+                  "label": "Skills Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory1",
+                  "label": "Skills Category1",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory2",
+                  "label": "Skills Category2",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "skillsCategory3",
+                  "label": "Skills Category3",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "chartHeading",
+                  "label": "Chart Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "chartFooter",
+                  "label": "Chart Footer",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsTitle",
+                  "label": "Achievements Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsSubtitle",
+                  "label": "Achievements Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "achievementsContext",
+                  "label": "Achievements Context",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "eduOrgSubtitle",
+                  "label": "Edu Org Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "eduHeading",
+                  "label": "Edu Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "orgHeading",
+                  "label": "Org Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactTitle",
+                  "label": "Contact Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactSubtitle",
+                  "label": "Contact Subtitle",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "contactPrompt",
+                  "label": "Contact Prompt",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "footerTagline",
+                  "label": "Footer Tagline",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "backToTop",
+                  "label": "Back To Top",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "leaderNetworkLabel",
+                  "label": "Leader Network Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisData",
+                  "label": "Axis Data",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisScm",
+                  "label": "Axis Scm",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisProcess",
+                  "label": "Axis Process",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisLean",
+                  "label": "Axis Lean",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "axisReporting",
+                  "label": "Axis Reporting",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "mobileAxisProcess",
+                  "label": "Mobile Axis Process",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "competencyScore",
+                  "label": "Competency Score",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "emptyProjectsTitle",
+                  "label": "Empty Projects Title",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectResultLabel",
+                  "label": "Project Result Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageEnglishButton",
+                  "label": "Language English Button",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "languageIndonesianButton",
+                  "label": "Language Indonesian Button",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "emailLabel",
+                  "label": "Email Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "filterCaseStudies",
+                  "label": "Filter Case Studies",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "firstProject",
+                  "label": "First Project",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "lastProject",
+                  "label": "Last Project",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectCards",
+                  "label": "Project Cards",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "projectPhoto",
+                  "label": "Project Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "evidenceHeading",
+                  "label": "Evidence Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "openEvidencePhoto",
+                  "label": "Open Evidence Photo",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "evidenceAlt",
+                  "label": "Evidence Alt",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "photoLabel",
+                  "label": "Photo Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewDocumentation",
+                  "label": "View Documentation",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "rightsReserved",
+                  "label": "Rights Reserved",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "educationGpaLabel",
+                  "label": "Education Gpa Label",
+                  "required": false,
+                  "widget": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "label": "Metadata",
+          "file": "src/content/metadata.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Judul",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "description",
+              "label": "Deskripsi",
+              "required": false,
+              "widget": "text"
+            },
+            {
+              "name": "keywords",
+              "label": "Kata kunci",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "author",
+              "label": "Penulis",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "siteUrl",
+              "label": "URL website",
+              "required": false,
+              "widget": "string",
+              "pattern": [
+                "^https://[^\\s]+$",
+                "Gunakan URL HTTPS lengkap."
+              ],
+              "hint": "Tempel URL lengkap yang diawali https://."
+            },
+            {
+              "name": "socialTitle",
+              "label": "Social Title",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "socialDescription",
+              "label": "Social Description",
+              "required": false,
+              "widget": "string"
+            },
+            {
+              "name": "socialImage",
+              "label": "Gambar pratinjau media sosial",
+              "required": false,
+              "widget": "image",
+              "pattern": [
+                "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+              ]
+            },
+            {
+              "name": "favicon",
+              "label": "Ikon website",
+              "required": false,
+              "widget": "image",
+              "pattern": [
+                "^(?:|/(?!/)[^\\s]*|https://[^\\s]+)$",
+                "Gunakan unggahan atau URL HTTPS/path lokal, bukan URL //."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "credentials-ui",
+          "label": "Credentials-ui",
+          "file": "src/content/credentials-ui.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "skillsHeading",
+              "label": "Skills Heading",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "skillsSubtitle",
+              "label": "Skills Subtitle",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "skillFilterLabel",
+              "label": "Skill Filter Label",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "allFilter",
+              "label": "All Filter",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "trainingHeading",
+              "label": "Training Heading",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "trainingIntro",
+              "label": "Training Intro",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "trainingOverviewDocumentation",
+              "label": "Training Overview Documentation",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "close",
+              "label": "Close",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "overview",
+              "label": "Overview",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "documentation",
+              "label": "Documentation",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "photoComingSoon",
+              "label": "Photo Coming Soon",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "educationOverview",
+              "label": "Education Overview",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "gpa",
+              "label": "IPK",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "keyAcademicAreas",
+              "label": "Key Academic Areas",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "activitiesOrganizations",
+              "label": "Activities Organizations",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "undergraduateThesis",
+              "label": "Undergraduate Thesis",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "thesisTitle",
+              "label": "Thesis Title",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "thesisAbstract",
+              "label": "Thesis Abstract",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "thesisMethod",
+              "label": "Thesis Method",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "thesisResult",
+              "label": "Thesis Result",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "projectKind",
+              "label": "Project Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "workKind",
+              "label": "Work Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "trainingKind",
+              "label": "Training Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "campusKind",
+              "label": "Campus Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "awardKind",
+              "label": "Award Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "toolKind",
+              "label": "Tool Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            },
+            {
+              "name": "fallbackKind",
+              "label": "Fallback Kind",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "string"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "presentation",
+          "label": "Presentation",
+          "file": "src/content/presentation.json",
+          "format": "json",
+          "fields": [
+            {
+              "name": "copyrightYear",
+              "label": "Tahun hak cipta",
+              "required": false,
+              "widget": "number"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "email": "divakemur@gmail.com",
+  "socialHeading": {
+    "en": "OTHER CONNECTION CHANNELS",
+    "id": "SALURAN HUBUNGAN LAINNYA"
+  },
+  "socials": [
+    {
+      "key": "email",
+      "label": "Email",
+      "href": "mailto:divakemur@gmail.com",
+      "detail": "divakemur@gmail.com"
+    },
+    {
+      "key": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/diva-delvira-ba9874294/",
+      "detail": "Diva Delvira",
+      "target": "_blank"
+    },
+    {
+      "key": "instagram",
+      "label": "Instagram",
+      "href": "https://www.instagram.com/dvdlvra_?igsh=M3ZseTVkNGkzNnp6",
+      "detail": "dvdlvra_",
+      "target": "_blank"
+    },
+    {
+      "key": "tiktok",
+      "label": "TikTok",
+      "href": "https://www.tiktok.com/@itsdipyay?_r=1&_t=ZS-969Cy3BRtVn",
+      "detail": "@itsdipyay",
+      "target": "_blank"
+    }
+  ]
+}

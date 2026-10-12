@@ -1,0 +1,82 @@
+{
+  "items": [
+    {
+      "key": "vale",
+      "company": "PT Vale Indonesia Tbk.",
+      "role": {
+        "en": "Supply Chain Management Intern",
+        "id": "Magang Manajemen Rantai Pasok (SCM)"
+      },
+      "period": {
+        "en": "Feb 2026 - Aug 2026",
+        "id": "Feb 2026 - Agt 2026"
+      },
+      "location": {
+        "en": "East Luwu, South Sulawesi",
+        "id": "Luwu Timur, Sulawesi Selatan"
+      },
+      "description": {
+        "en": "PT Vale Indonesia is a global nickel mining and smelting leader. By optimizing tracking transparency, I protected material availability across operations.",
+        "id": "PT Vale Indonesia adalah pemimpin global dalam pertambangan dan peleburan nikel. Dengan mengoptimalkan transparansi pelacakan, saya menjaga ketersediaan material di seluruh operasional."
+      },
+      "sector": {
+        "en": "Nickel Mining & Processing",
+        "id": "Pertambangan & Pengolahan Nikel"
+      },
+      "bullets": {
+        "en": [
+          "Analyzed Inventory, Traffic and Procurement data across 1700+ materials and 2500+ POs to identify stock-out risks, overdue POs, vendor issues, and material priorities, supporting weekly supply chain decision-making.",
+          "Developed an automated inventory and procurement monitoring dashboard using Excel and Power Query, integrating MRP, stock, PO, and vendor data to reduce manual reporting time from 2 days to 1 hour.",
+          "Coordinated with Procurement and Traffic teams to monitor material availability, procurement status, and delivery risks, supporting timely follow-up of 250+ critical materials.",
+          "Assessed internal service quality across 25 attributes and 5 SERVQUAL dimensions from 35 users, identifying an overall service gap of -0.431 and significant gaps in 23 of 25 attributes using SPSS and Python.",
+          "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention."
+        ],
+        "id": [
+          "Menganalisis data Inventaris, Lalu Lintas Logistik, dan Pengadaan pada lebih dari 1700 material dan 2500 PO untuk mengidentifikasi risiko kehabisan stok, PO yang terlambat, masalah vendor, serta prioritas material, guna mendukung pengambilan keputusan rantai pasok mingguan.",
+          "Mengembangkan dasbor pemantauan inventaris dan pengadaan otomatis menggunakan Excel dan Power Query, yang mengintegrasikan data MRP, stok, PO, dan vendor untuk memangkas waktu pelaporan manual dari 2 hari menjadi 1 jam.",
+          "Berkoordinasi dengan tim Pengadaan dan Lalu Lintas Logistik untuk memantau ketersediaan material, status pengadaan, dan risiko pengiriman, guna mendukung tindak lanjut yang tepat waktu atas 250+ material kritis.",
+          "Menilai kualitas layanan internal di 25 atribut dan 5 dimensi SERVQUAL dari 35 pengguna, serta mengidentifikasi kesenjangan layanan keseluruhan sebesar -0.431 dan kesenjangan signifikan pada 23 dari 25 atribut menggunakan SPSS dan Python.",
+          "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera."
+        ]
+      }
+    },
+    {
+      "key": "triatra",
+      "company": "PT Triatra Sinergia Pratama",
+      "role": {
+        "en": "Warehouse & Distribution Intern",
+        "id": "Magang Pergudangan & Distribusi"
+      },
+      "period": {
+        "en": "Mar 2025 - Jun 2025",
+        "id": "Mar 2025 - Jun 2025"
+      },
+      "location": {
+        "en": "East Jakarta",
+        "id": "Jakarta Timur"
+      },
+      "description": {
+        "en": "A member of Astra ecosystem and a subsidiary of United Tractors Pandu Engineering, dedicated to advancing businesses with heavy industry distribution.",
+        "id": "Anggota dari ekosistem Astra dan anak perusahaan United Tractors Pandu Engineering, yang berdedikasi untuk memajukan bisnis melalui distribusi industri berat."
+      },
+      "sector": {
+        "en": "Heavy Equipment Distribution",
+        "id": "Distribusi Alat Berat"
+      },
+      "bullets": {
+        "en": [
+          "Analyzed 1+ year of shipment data across Air, Land, and Sea Freight to identify delivery-performance patterns and support route and fleet utilization decisions, covering 20 shipment routes.",
+          "Developed a QCD-based vendor evaluation framework with 10 criteria across Quality (25%), Delivery (35%), and Cost (40%) to support objective forwarder selection.",
+          "Conducted vendor mapping and preliminary performance assessment based on service, delivery, and commercial criteria to support logistics partner shortlisting for the tender process.",
+          "Supported tender preparation by organizing vendor evaluation data and documentation, and contributing to the development of SLA and performance-monitoring requirements for selected routes."
+        ],
+        "id": [
+          "Menganalisis lebih dari 1 tahun data pengiriman di seluruh Kargo Udara, Darat, dan Laut untuk mengidentifikasi pola kinerja pengiriman serta mendukung keputusan pemanfaatan rute dan armada yang mencakup 20 rute pengiriman.",
+          "Mengembangkan kerangka evaluasi vendor berbasis QCD dengan 10 kriteria yang mencakup Kualitas (25%), Pengiriman (35%), dan Biaya (40%) untuk mendukung seleksi forwarder yang objektif.",
+          "Melakukan pemetaan vendor dan penilaian kinerja awal berdasarkan kriteria layanan, pengiriman, dan komersial untuk mendukung pengerucutan daftar (shortlisting) mitra logistik dalam proses tender.",
+          "Mendukung persiapan tender dengan menyusun data dan dokumentasi evaluasi vendor, serta berkontribusi pada penyusunan persyaratan SLA dan pemantauan kinerja untuk rute-rute terpilih."
+        ]
+      }
+    }
+  ]
+}

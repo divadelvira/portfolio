@@ -5,27 +5,24 @@
 
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Linkedin, 
-  Mail, 
-  MapPin, 
-  Phone,
-  ChevronDown, 
+import {
+  Linkedin,
+  Mail,
+  MapPin,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
-  ExternalLink, 
-  Trophy, 
-  GraduationCap, 
+  ExternalLink,
+  ImageIcon,
+  ArrowRight,
+  GraduationCap,
   Users,
   Award,
-  BookOpen,
-  TrendingDown,
   Layout,
-  BarChart3,
   Sparkles,
   Instagram,
   Music,
-  Code,
-  Briefcase,
   Calendar,
   Trash2,
   Download,
@@ -34,388 +31,107 @@ import {
   Menu,
   X,
   LayoutGrid,
-  Table
+  Table,
 } from "lucide-react";
 import Chart from "chart.js/auto";
+import { EduOverview, SkillsInventory, TrainingSection } from "./components/Credentials";
 import { db } from "./firebase";
 import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
+import siteContent from "./content/site.json";
+import { projects as projectsContent, awards as awardsContent, roles as rolesContent, profile as profileContent, credentials as credentialsContent, presentation } from "./content";
 
 // Bilingual Language Dictionary
-interface TranslationSet {
-  navAbout: string;
-  navExperience: string;
-  navProjects: string;
-  navSkills: string;
-  navEdu: string;
-  navContact: string;
+const translations = siteContent;
 
-  roleTitle: string;
-  badgeOpportunity: string;
-  heroGreeting: string;
-  heroSubText: string;
-  ctaViewWork: string;
-  ctaContact: string;
-  
-  aboutTitle: string;
-  aboutSubtitle: string;
-  aboutBio: string;
-  aboutLabel1: string;
-  aboutLabel2: string;
-  aboutLabel3: string;
-  
-  stat1Val: string;
-  stat1Lbl: string;
-  stat2Val: string;
-  stat2Lbl: string;
-  stat3Val: string;
-  stat3Lbl: string;
+type ProjectGroup = "lean" | "scm" | "quality";
 
-  proficienciesTitle: string;
-  experienceTitle: string;
-  experienceSubtitle: string;
-  experienceContext: string;
-  clickPromptExpand: string;
-  clickPromptCollapse: string;
-  experienceLinkedinCTA: string;
-  industryTag: string;
+const localize = (value: any, lang: "en" | "id"): any =>
+  Array.isArray(value)
+    ? value.map((item) => localize(item, lang))
+    : value && typeof value === "object" && "en" in value && "id" in value
+      ? value[lang]
+      : value && typeof value === "object"
+        ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, localize(item, lang)]))
+        : value;
 
-  valeRole: string;
-  valeDesc: string;
-  valeSector: string;
-  valeBullet1: string;
-  valeBullet2: string;
-  valeBullet3: string;
-  valeBullet4: string;
-  valeBullet5: string;
-  valePeriod: string;
-  valeLocation: string;
+const projectGroups: { key: "all" | ProjectGroup; label: Record<"en" | "id", string> }[] = [
+  { key: "all", label: presentation.projectGroupLabels.all },
+  { key: "lean", label: presentation.projectGroupLabels.lean },
+  { key: "scm", label: presentation.projectGroupLabels.scm },
+  { key: "quality", label: presentation.projectGroupLabels.quality },
+];
 
-  triatraRole: string;
-  triatraDesc: string;
-  triatraSector: string;
-  triatraBullet1: string;
-  triatraBullet2: string;
-  triatraBullet3: string;
-  triatraBullet4: string;
-  triatraPeriod: string;
-  triatraLocation: string;
+// Headline result restated from each project's own description.
+type ProjectResult = {
+  label: string;
+  value?: string;
+  before?: string;
+  after?: string;
+  ratio?: number;
+  note?: string;
+};
 
-  projectsTitle: string;
-  projectsSubtitle: string;
-  projectsContext: string;
-  viewDetails: string;
+type FeaturedProject = {
+  id: string;
+  title: string;
+  cat: string;
+  desc: string;
+  link: string;
+  docLink?: string;
+  linkLabel?: string;
+  tags: string[];
+  group: ProjectGroup;
+  result: ProjectResult;
+  image: string;
+  gallery: string[];
+};
 
-  skillsTitle: string;
-  skillsSubtitle: string;
-  skillsCategory1: string;
-  skillsCategory2: string;
-  skillsCategory3: string;
-  chartHeading: string;
-  chartFooter: string;
+function ProjectResultFigure({ result }: { result: ProjectResult }) {
+  const ratio = "ratio" in result && Number.isFinite(result.ratio) ? result.ratio : 0;
 
-  achievementsTitle: string;
-  achievementsSubtitle: string;
-  achievementsContext: string;
-  achie1Category: string;
-  achie1Rank: string;
-  achie1Sponsor: string;
-  achie2Category: string;
-  achie2Rank: string;
-  achie2Sponsor: string;
-
-  eduOrgTitle: string;
-  eduOrgSubtitle: string;
-  eduHeading: string;
-  orgHeading: string;
-
-  expectedGrad: string;
-  eduFocus: string;
-  tpsTraining: string;
-  mfgAssistant: string;
-  physicsAssistant: string;
-
-  org1Title: string;
-  org1Role: string;
-  org1Date: string;
-  org1Desc: string;
-
-  org2Title: string;
-  org2Role: string;
-  org2Date: string;
-  org2Desc: string;
-
-  contactTitle: string;
-  contactSubtitle: string;
-  contactPrompt: string;
-  footerTagline: string;
-  backToTop: string;
-
-  widgetTitle: string;
-  widgetProcessName: string;
-  widgetSubtitle: string;
-  widgetTech: string;
-  widgetStatus: string;
-  competencyDesc: string;
-  leaderNetworkLabel: string;
-
-  axisData: string;
-  axisScm: string;
-  axisProcess: string;
-  axisLean: string;
-  axisReporting: string;
+  return (
+    <figure className="summer-result">
+      <figcaption>{result.label}</figcaption>
+      {result.value ? (
+        <p className="summer-result-value">{result.value}</p>
+      ) : (
+        <div className="summer-result-bars">
+          <div className="summer-result-bar">
+            <span className="summer-result-fill is-before" style={{ width: "70%" }} />
+            <span>{result.before || "-"}</span>
+          </div>
+          <div className="summer-result-bar">
+            <span
+              className="summer-result-fill is-after"
+              style={{ width: `${ratio * 70}%` }}
+            />
+            <span className="is-after">{result.after || "-"}</span>
+          </div>
+        </div>
+      )}
+      {result.note && <p className="summer-result-note">{result.note}</p>}
+    </figure>
+  );
 }
 
-const translations: Record<"en" | "id", TranslationSet> = {
-  en: {
-    navAbout: "About",
-    navExperience: "Experience",
-    navProjects: "Projects",
-    navSkills: "Competencies",
-    navEdu: "Education & Leadership",
-    navContact: "Let's Connect",
+function leadershipIcon(icon: string) {
+  if (icon === "layout") return <Layout size={24} />;
+  if (icon === "calendar") return <Calendar size={24} />;
+  if (icon === "sparkles") return <Sparkles size={24} />;
+  return <Users size={24} />;
+}
 
-    roleTitle: "Industrial Engineer",
-    badgeOpportunity: "Open to Opportunities",
-    heroGreeting: "Diva Delvira.",
-    heroSubText: "Industrial Engineering professional with hands-on logistics internship experience. Equipped to combine engineering discipline with data analytics to turn complex datasets into strategic operational insights.",
-    ctaViewWork: "Explore Selected Portfolio",
-    ctaContact: "Get in Touch",
-
-    aboutTitle: "The Philosophy",
-    aboutSubtitle: "Identity & Core Mission",
-    aboutBio: "I am an Industrial Engineering professional dedicated to analyzing, designing, and optimizing complex operational systems. Utilizing applied data analytics, I focus on supply chain management (SCM) efficiency, eliminating process waste based on Lean methodologies, and formulating structured decisions driven by measurable performance metrics. Throughout my academic and internship journey, I have been trained to translate complex operational datasets into practical, tactical dashboard visualizations. I am deeply dedicated to delivering pragmatic solutions that bridge engineering discipline with the capabilities of modern analytical tools.",
-    aboutLabel1: "INTELLIGENT OPERATION",
-    aboutLabel2: "INDUSTRIAL ENGINEER | SCM SPECIALIST",
-    aboutLabel3: "University Status",
-
-    stat1Val: "100+",
-    stat1Lbl: "Mentees & Students",
-    stat2Val: "3.77",
-    stat2Lbl: "Cumulative GPA / 4.00",
-    stat3Val: "2+ Yr",
-    stat3Lbl: "Analyze data",
-
-    proficienciesTitle: "Key Strengths",
-    experienceTitle: "Professional Experience",
-    experienceSubtitle: "Industry Placements",
-    experienceContext: "Detailed career timeline mapping analytical roles across Indonesian core industries.",
-    clickPromptExpand: "Click card to expand achievements",
-    clickPromptCollapse: "Click to collapse details",
-    experienceLinkedinCTA: "Check Out my Linkedin Profile to Learn More About My Experience",
-    industryTag: "Sector",
-
-    valeRole: "Supply Chain Management Intern",
-    valeDesc: "PT Vale Indonesia is a global nickel mining and smelting leader. By optimizing tracking transparency, I protected material availability across operations.",
-    valeSector: "Nickel Mining & Processing",
-    valeBullet1: "Analyzed Inventory, Traffic and Procurement data across 1700+ materials and 2500+ POs to identify stock-out risks, overdue POs, vendor issues, and material priorities, supporting weekly supply chain decision-making.",
-    valeBullet2: "Developed an automated inventory and procurement monitoring dashboard using Excel and Power Query, integrating MRP, stock, PO, and vendor data to reduce manual reporting time from 2 days to 1 hour.",
-    valeBullet3: "Coordinated with Procurement and Traffic teams to monitor material availability, procurement status, and delivery risks, supporting timely follow-up of 250+ critical materials.",
-    valeBullet4: "Assessed internal service quality across 25 attributes and 5 SERVQUAL dimensions from 35 users, identifying an overall service gap of -0.431 and significant gaps in 23 of 25 attributes using SPSS and Python.",
-    valeBullet5: "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention.",
-    valePeriod: "Feb 2026 - Aug 2026",
-    valeLocation: "East Luwu, South Sulawesi",
-
-    triatraRole: "Warehouse & Distribution Intern",
-    triatraDesc: "A member of Astra ecosystem and a subsidiary of United Tractors Pandu Engineering, dedicated to advancing businesses with heavy industry distribution.",
-    triatraSector: "Heavy Equipment Distribution",
-    triatraBullet1: "Analyzed 1+ year of shipment data across Air, Land, and Sea Freight to identify delivery-performance patterns and support route and fleet utilization decisions, covering 20 shipment routes.",
-    triatraBullet2: "Developed a QCD-based vendor evaluation framework with 10 criteria across Quality (25%), Delivery (35%), and Cost (40%) to support objective forwarder selection.",
-    triatraBullet3: "Conducted vendor mapping and preliminary performance assessment based on service, delivery, and commercial criteria to support logistics partner shortlisting for the tender process.",
-    triatraBullet4: "Supported tender preparation by organizing vendor evaluation data and documentation, and contributing to the development of SLA and performance-monitoring requirements for selected routes.",
-    triatraPeriod: "Mar 2025 - Jun 2025",
-    triatraLocation: "East Jakarta",
-
-    projectsTitle: "Featured Case Studies",
-    projectsSubtitle: "Operational Impact Realized",
-    projectsContext: "Interactive case records linking directly to actual deliverables, verified files, and active presentation reels.",
-    viewDetails: "View Reference Documentation",
-
-    skillsTitle: "Core Competence Grid",
-    skillsSubtitle: "Technical & Strategic Capabilities",
-    skillsCategory1: "Enterprise Tools",
-    skillsCategory2: "Supply Chain & Logistics Analysis",
-    skillsCategory3: "Methodologies & Quality System",
-    chartHeading: "Multi-Dimensional Skill Radar",
-    chartFooter: "Competence values verified through academic milestones and active industrial internships.",
-
-    achievementsTitle: "Honors & Achievements",
-    achievementsSubtitle: "Performance Standards Recognized",
-    achievementsContext: "Validated in National & Regional arenas",
-    achie1Category: "National Competition — 2025",
-    achie1Rank: "1st Place",
-    achie1Sponsor: "Awarded by Markplus Institute in collaboration with PT Aneka Tambang (Antam).",
-    achie2Category: "Regional Competition — 2025",
-    achie2Rank: "2nd Place",
-    achie2Sponsor: "Secured second place inside the South Sulawesi Regional competitive division.",
-
-    eduOrgTitle: "Education & Leadership",
-    eduOrgSubtitle: "Academic & Organizational Track",
-    eduHeading: "Education",
-    orgHeading: "Leadership & Community",
-
-    expectedGrad: "Aug 2022 – Expected 2026",
-    eduFocus: "Focusing academic concentration on Lean Manufacturing, Quality Engineering, and Supply Chain Management (SCM) to design optimized operational systems.",
-    tpsTraining: "Completed intensive Toyota Production System (TPS) training, mastering JIT, Heijunka, Jidoka, Kaizen, and hands-on operational simulations.",
-    mfgAssistant: "Served as a Manufacturing Systems Laboratory Assistant and PIC of the TPS module, coordinating practicum sessions and developing learning materials for Lean Manufacturing concepts.",
-    physicsAssistant: "Served as a Basic Physics Laboratory Assistant, mentoring 100+ engineering students in physics practicum while ensuring safety and analytical precision.",
-
-    org1Title: "HMTI FT-UH",
-    org1Role: "Head of Entrepreneurship Division",
-    org1Date: "Jul 2024 - Feb 2025",
-    org1Desc: "Led end-to-end program structures to promote startup iterations, managing business development programs like INCREASE and START-UP.",
-    org2Title: "ISLI CAMP",
-    org2Role: "Event Organizing Committee",
-    org2Date: "Aug 2024 - Oct 2024",
-    org2Desc: "Member of the Event Organizing Committee for the Indonesia Supply Chain & Logistics Institute (ISLI) national training camp. Handled participant coordination, schedules, and event flows.",
-
-    contactTitle: "Initiate Dialogue",
-    contactSubtitle: "Opportunities & Inquiries",
-    contactPrompt: "I am currently actively seeking career opportunities in operational roles where high-impact analytical capability is required.",
-    footerTagline: "",
-    backToTop: "UP",
-
-    widgetTitle: "Decision Intelligence Engine",
-    widgetProcessName: "STATISTICAL DEMAND FORECAST",
-    widgetSubtitle: "94.2% Accuracy in Safety Stock optimization",
-    widgetTech: "Python, SQL, & Power BI Pipeline",
-    widgetStatus: "OPTIMIZED",
-    competencyDesc: "Competence values verified through academic milestones and active industrial internships.",
-    leaderNetworkLabel: "Leadership Network",
-
-    axisData: "Data Analysis",
-    axisScm: "Supply Chain Management",
-    axisProcess: "Problem Solving",
-    axisLean: "Continuous Improvement",
-    axisReporting: "Reporting / BI"
-  },
-  id: {
-    navAbout: "Tentang",
-    navExperience: "Pengalaman",
-    navProjects: "Proyek",
-    navSkills: "Kompetensi",
-    navEdu: "Edukasi & Kepemimpinan",
-    navContact: "Hubungi Saya",
-
-    roleTitle: "Teknik Industri",
-    badgeOpportunity: "Terbuka untuk Peluang Kerja",
-    heroGreeting: "Diva Delvira.",
-    heroSubText: "Lulusan Teknik Industri yang memiliki pengalaman magang di bidang logistik. Mampu memadukan disiplin teknik dengan analisis data untuk menerjemahkan kumpulan data rumit menjadi wawasan operasional yang strategis.",
-    ctaViewWork: "Telusuri Portofolio Pilihan",
-    ctaContact: "Hubungi Saya",
-
-    aboutTitle: "Filosofi Kerja",
-    aboutSubtitle: "Identitas & Misi Utama",
-    aboutBio: "Saya adalah seorang profesional Teknik Industri yang berdedikasi untuk menganalisis, merancang, dan mengoptimalkan sistem operasional yang kompleks. Menggunakan analisis data terapan, saya berfokus pada efisiensi manajemen rantai pasok (SCM), mengeliminasi waste proses berdasarkan metodologi Lean, dan merumuskan keputusan terstruktur yang didorong oleh metrik kinerja terukur. Sepanjang perjalanan akademis dan magang, saya telah terlatih untuk menerjemahkan kumpulan data operasional yang kompleks menjadi visualisasi dasbor taktis yang praktis. Saya berkomitmen penuh untuk memberikan solusi pragmatis yang menjembatani disiplin teknik dengan kemampuan alat analisis modern.",
-    aboutLabel1: "OPERASI CERDAS",
-    aboutLabel2: "Analis Rantai Pasok | SCM Specialist",
-    aboutLabel3: "Status Universitas",
-
-    stat1Val: "100+",
-    stat1Lbl: "Mentees & Siswa",
-    stat2Val: "3.77",
-    stat2Lbl: "IPK Kumulatif / 4.00",
-    stat3Val: "2+ Yr",
-    stat3Lbl: "Analisis data",
-
-    proficienciesTitle: "Kekuatan Utama",
-    experienceTitle: "Pengalaman Profesional",
-    experienceSubtitle: "Riwayat Penempatan Kerja",
-    experienceContext: "Pemetaan garis waktu karier terperinci untuk peran analitis di berbagai industri utama Indonesia.",
-    clickPromptExpand: "Klik kartu untuk melihat detail pencapaian",
-    clickPromptCollapse: "Klik untuk menyembunyikan detail",
-    experienceLinkedinCTA: "Kunjungi profil LinkedIn saya untuk mempelajari pengalaman saya lebih lanjut",
-    industryTag: "Sektor",
-
-    valeRole: "Magang Manajemen Rantai Pasok (SCM)",
-    valeDesc: "PT Vale Indonesia adalah pemimpin global dalam pertambangan dan peleburan nikel. Dengan mengoptimalkan transparansi pelacakan, saya menjaga ketersediaan material di seluruh operasional.",
-    valeSector: "Pertambangan & Pengolahan Nikel",
-    valeBullet1: "Menganalisis data Inventaris, Lalu Lintas Logistik, dan Pengadaan pada lebih dari 1700 material dan 2500 PO untuk mengidentifikasi risiko kehabisan stok, PO yang terlambat, masalah vendor, serta prioritas material, guna mendukung pengambilan keputusan rantai pasok mingguan.",
-    valeBullet2: "Mengembangkan dasbor pemantauan inventaris dan pengadaan otomatis menggunakan Excel dan Power Query, yang mengintegrasikan data MRP, stok, PO, dan vendor untuk memangkas waktu pelaporan manual dari 2 hari menjadi 1 jam.",
-    valeBullet3: "Berkoordinasi dengan tim Pengadaan dan Lalu Lintas Logistik untuk memantau ketersediaan material, status pengadaan, dan risiko pengiriman, guna mendukung tindak lanjut yang tepat waktu atas 250+ material kritis.",
-    valeBullet4: "Menilai kualitas layanan internal di 25 atribut dan 5 dimensi SERVQUAL dari 35 pengguna, serta mengidentifikasi kesenjangan layanan keseluruhan sebesar -0.431 dan kesenjangan signifikan pada 23 dari 25 atribut menggunakan SPSS dan Python.",
-    valeBullet5: "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera.",
-    valePeriod: "Feb 2026 - Agt 2026",
-    valeLocation: "Luwu Timur, Sulawesi Selatan",
-
-    triatraRole: "Magang Pergudangan & Distribusi",
-    triatraDesc: "Anggota dari ekosistem Astra dan anak perusahaan United Tractors Pandu Engineering, yang berdedikasi untuk memajukan bisnis melalui distribusi industri berat.",
-    triatraSector: "Distribusi Alat Berat",
-    triatraBullet1: "Menganalisis lebih dari 1 tahun data pengiriman di seluruh Kargo Udara, Darat, dan Laut untuk mengidentifikasi pola kinerja pengiriman serta mendukung keputusan pemanfaatan rute dan armada yang mencakup 20 rute pengiriman.",
-    triatraBullet2: "Mengembangkan kerangka evaluasi vendor berbasis QCD dengan 10 kriteria yang mencakup Kualitas (25%), Pengiriman (35%), dan Biaya (40%) untuk mendukung seleksi forwarder yang objektif.",
-    triatraBullet3: "Melakukan pemetaan vendor dan penilaian kinerja awal berdasarkan kriteria layanan, pengiriman, dan komersial untuk mendukung pengerucutan daftar (shortlisting) mitra logistik dalam proses tender.",
-    triatraBullet4: "Mendukung persiapan tender dengan menyusun data dan dokumentasi evaluasi vendor, serta berkontribusi pada penyusunan persyaratan SLA dan pemantauan kinerja untuk rute-rute terpilih.",
-    triatraPeriod: "Mar 2025 - Jun 2025",
-    triatraLocation: "Jakarta Timur",
-
-    projectsTitle: "Penyelesaian Kasus Pilihan",
-    projectsSubtitle: "Dampak Operasional Nyata",
-    projectsContext: "Catatan studi kasus interaktif yang terhubung langsung ke hasil kerja nyata, file terverifikasi, dan video presentasi aktif.",
-    viewDetails: "Lihat Berkas Referensi",
-
-    skillsTitle: "Grid Kompetensi Utama",
-    skillsSubtitle: "Pengetahuan Teknis & Strategis",
-    skillsCategory1: "Enterprise Tools",
-    skillsCategory2: "Analisis Rantai Pasok & Logistik",
-    skillsCategory3: "Metodologi & Sistem Kualitas",
-    chartHeading: "Radar Keahlian Multi-Dimensi",
-    chartFooter: "Nilai kompetensi yang divalidasi melalui pencapaian akademis dan magang industri aktif.",
-
-    achievementsTitle: "Penghargaan & Prestasi",
-    achievementsSubtitle: "Apresiasi Atas Standar Kinerja",
-    achievementsContext: "Tervalidasi di Ajang Kompetisi Nasional & Regional",
-    achie1Category: "Kompetisi Tingkat Nasional — 2025",
-    achie1Rank: "Juara 1",
-    achie1Sponsor: "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam).",
-    achie2Category: "Kompetisi Tingkat Regional — 2025",
-    achie2Rank: "Juara 2",
-    achie2Sponsor: "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan.",
-
-    eduOrgTitle: "Edukasi & Organisasi",
-    eduOrgSubtitle: "Akademik & Pengalaman Memimpin",
-    eduHeading: "Pendidikan",
-    orgHeading: "Kepemimpinan & Komunitas",
-
-    expectedGrad: "Agu 2022 – Angkatan 2026",
-    eduFocus: "Berfokus pada konsentrasi akademik di bidang Lean Manufacturing, Quality Engineering, dan Supply Chain Management (SCM) untuk merancang sistem operasional yang teroptimasi.",
-    tpsTraining: "Selesai mengikuti pelatihan intensif Toyota Production System (TPS) yang mencakup pemahaman mendalam tentang JIT, Heijunka, Jidoka, Kaizen, serta simulasi operasional.",
-    mfgAssistant: "Menjabat sebagai Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS, mengoordinasikan sesi praktikum serta mengembangkan materi pembelajaran konsep Lean Manufacturing.",
-    physicsAssistant: "Menjabat sebagai Asisten Laboratorium Fisika Dasar, membimbing lebih dari 100 mahasiswa teknik dalam praktikum fisika dengan fokus pada keselamatan kerja dan ketelitian analisis.",
-
-    org1Title: "HMTI FT-UH",
-    org1Role: "Ketua Divisi Kewirausahaan",
-    org1Date: "Jul 2024 - Feb 2025",
-    org1Desc: "Memimpin struktur program ujung-ke-ujung untuk mempromosikan iterasi startup, mengelola program pengembangan bisnis mahasiswa seperti INCREASE dan START-UP.",
-    org2Title: "ISLI CAMP",
-    org2Role: "Panitia Pelaksana Acara",
-    org2Date: "Agu 2024 - Okt 2024",
-    org2Desc: "Bagian dari Divisi Acara untuk kamp pelatihan nasional Indonesia Supply Chain & Logistics Institute (ISLI). Berkontribusi dalam mengelola alur acara, koordinasi peserta, serta logistik kegiatan.",
-
-    contactTitle: "Mulai Percakapan",
-    contactSubtitle: "Peluang Kerja & Kolaborasi",
-    contactPrompt: "Saat ini saya aktif mencari peluang karir di peran operasional yang membutuhkan kapabilitas analitis berdampak tinggi.",
-    footerTagline: "",
-    backToTop: "ATAS",
-
-    widgetTitle: "Sistem Inteligensia Keputusan",
-    widgetProcessName: "PERAMALAN PERMINTAAN STATISTIS",
-    widgetSubtitle: "Akurasi 94.2% dalam optimasi stok pengaman",
-    widgetTech: "Alur Data Python, SQL, & Power BI",
-    widgetStatus: "TEROPTIMASI",
-    competencyDesc: "Nilai kompetensi divalidasi melalui pencapaian akademis dan program magang industri.",
-    leaderNetworkLabel: "Jejaring Kepemimpinan",
-
-    axisData: "Analisis Data",
-    axisScm: "Manajemen Rantai Pasok",
-    axisProcess: "Pemecahan Masalah",
-    axisLean: "Continuous Improvement",
-    axisReporting: "Reporting / BI"
-  }
-};
+function socialIcon(key: string) {
+  if (key === "linkedin") return <Linkedin size={16} />;
+  if (key === "instagram") return <Instagram size={16} />;
+  if (key === "tiktok") return <Music size={16} />;
+  return <Mail size={16} />;
+}
 
 export default function App() {
   const [lang, setLang] = useState<"en" | "id">(() => {
     const saved = localStorage.getItem("portfolio_lang");
-    return (saved === "en" || saved === "id") ? saved : "en";
+    return saved === "en" || saved === "id" ? saved : "en";
   });
 
   useEffect(() => {
@@ -428,9 +144,38 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [expandVale, setExpandVale] = useState(false);
-  const [expandTriatra, setExpandTriatra] = useState(false);
+  const [expandedExperience, setExpandedExperience] = useState<Record<string, boolean>>({});
+  const [evidence, setEvidence] = useState<{
+    title: string;
+    photos: string[];
+    index: number;
+  } | null>(null);
+  const evidenceTrigger = useRef<HTMLButtonElement | null>(null);
+  const [profileMissing, setProfileMissing] = useState(false);
+  const [logoMissing, setLogoMissing] = useState(false);
+  const [eduOpen, setEduOpen] = useState(false);
+  const openEvidence = (
+    title: string,
+    photos: string[],
+    index: number,
+    trigger: HTMLButtonElement,
+  ) => {
+    evidenceTrigger.current = trigger;
+    setEvidence({ title, photos, index });
+  };
+  const stepEvidence = (direction: number) => {
+    setEvidence((current) =>
+      current && current.photos.length > 1
+        ? {
+            ...current,
+            index: (current.index + direction + current.photos.length) % current.photos.length,
+          }
+        : current,
+    );
+  };
   const [activeProjectMetric, setActiveProjectMetric] = useState(0);
+  const [projectFilter, setProjectFilter] = useState<"all" | ProjectGroup>("all");
+  const [activeProject, setActiveProject] = useState<string | null>(null);
   const [typingIndex, setTypingIndex] = useState(0);
   const [typingText, setTypingText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -455,7 +200,9 @@ export default function App() {
   const [toastType, setToastType] = useState<"success" | "error">("success");
 
   // Track window width for real-time responsiveness
-  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200,
+  );
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -474,13 +221,35 @@ export default function App() {
   }, [showToast]);
 
   const chartRef = useRef<HTMLCanvasElement>(null);
+  const shelfRef = useRef<HTMLDivElement>(null);
+  const [shelfEdge, setShelfEdge] = useState({ start: true, end: false });
+  const updateShelfEdge = () => {
+    const el = shelfRef.current;
+    if (!el) return;
+    setShelfEdge({
+      start: el.scrollLeft <= 8,
+      end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4,
+    });
+  };
+  useEffect(() => {
+    updateShelfEdge();
+    window.addEventListener("resize", updateShelfEdge);
+    return () => window.removeEventListener("resize", updateShelfEdge);
+  }, [projectFilter, lang]);
   const chartInstance = useRef<Chart | null>(null);
 
   const t = translations[lang];
+  const profile = profileContent;
+  const experienceItems = profile.experience.items;
+  const education = profile.education;
+  const metricIndex = Math.min(activeProjectMetric, Math.max(0, presentation.heroMetrics.length - 1));
+  const activeMetric = presentation.heroMetrics[metricIndex];
+  const leadership = profile.leadership.items;
 
   // Language persist
   useEffect(() => {
     localStorage.setItem("portfolio_lang", lang);
+    document.documentElement.lang = lang;
   }, [lang]);
 
   // Reset typing states on language change to prevent layout jumping bugs
@@ -490,13 +259,12 @@ export default function App() {
     setTypingIndex(0);
   }, [lang]);
 
+  const typingTitles = rolesContent.items.length ? rolesContent.items.map((role) => role[lang]) : [""];
+  const typingLongest = typingTitles.reduce((a, b) => (b.length > a.length ? b : a));
+
   // Typing effect
   useEffect(() => {
-    const titles = t.heroSubText ? [
-      lang === "en" ? "Data-Driven Problem Solver" : "Pemecah Masalah Berbasis Data",
-      lang === "en" ? "Process Improvement Enthusiast" : "Antusias Peningkatan Proses",
-      lang === "en" ? "Supply Chain Management Enthusiast" : "Antusias Manajemen Rantai Pasok"
-    ] : [];
+    const titles = typingTitles;
 
     let timer: NodeJS.Timeout;
     const currentFull = titles[typingIndex];
@@ -534,7 +302,16 @@ export default function App() {
 
       setShowBackToTop(window.scrollY > 300);
 
-      const sections = ["hero", "about", "experience", "projects", "skills", "edu", "contact"];
+      const sections = [
+        "hero",
+        "about",
+        "experience",
+        "projects",
+        "skills",
+        "edu",
+        "training",
+        "contact",
+      ];
       let current = "hero";
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -562,12 +339,12 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
-    document.querySelectorAll(".reveal-on-scroll").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".summer-section").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [lang]);
+  }, []);
 
   // Render Skill Radar Chart using Chart.js on competency tab / language change
   useEffect(() => {
@@ -578,13 +355,13 @@ export default function App() {
 
       const ctx = chartRef.current.getContext("2d");
       const isMobileScreen = windowWidth < 640;
-      
+
       const chartLabels = [
         t.axisData,
         isMobileScreen ? "SCM" : t.axisScm,
-        isMobileScreen ? (lang === "en" ? "Problem Solving" : "Solusi Masalah") : t.axisProcess,
+        isMobileScreen ? (t.mobileAxisProcess) : t.axisProcess,
         t.axisLean,
-        t.axisReporting
+        t.axisReporting,
       ];
 
       if (ctx) {
@@ -594,60 +371,70 @@ export default function App() {
             labels: chartLabels,
             datasets: [
               {
-                label: lang === "en" ? "Competency Score" : "Estimasi Skor Kompetensi",
-                data: [92, 89, 95, 88, 87],
-                backgroundColor: "rgba(201, 168, 76, 0.15)",
-                borderColor: "rgba(201, 168, 76, 1)",
-                pointBackgroundColor: "#0A1628",
-                pointBorderColor: "#C9A84C",
-                pointHoverBackgroundColor: "#C9A84C",
-                pointHoverBorderColor: "#0A1628",
+                label: t.competencyScore,
+                data: [presentation.radar.data, presentation.radar.scm, presentation.radar.process, presentation.radar.lean, presentation.radar.reporting],
+                backgroundColor: "rgba(75, 139, 128, 0.16)",
+                borderColor: "#4b8b80",
+                pointBackgroundColor: "#ffffff",
+                pointBorderColor: "#4b8b80",
+                pointHoverBackgroundColor: "#c44832",
+                pointHoverBorderColor: "#ffffff",
                 borderWidth: 2,
                 pointRadius: 4,
-              }
-            ]
+              },
+            ],
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-              padding: isMobileScreen ? 14 : 6
+              padding: 20,
             },
             scales: {
               r: {
                 angleLines: {
-                  color: "rgba(10, 22, 40, 0.1)"
+                  color: "rgba(10, 22, 40, 0.1)",
                 },
                 grid: {
-                  color: "rgba(10, 22, 40, 0.08)"
+                  color: "rgba(10, 22, 40, 0.08)",
                 },
                 pointLabels: {
+                  callback: (label: string) =>
+                    label.length > 16
+                      ? label.split(" ").reduce<string[]>((lines, word) => {
+                          const last = lines.length - 1;
+                          if (last >= 0 && `${lines[last]} ${word}`.length <= 16)
+                            lines[last] += ` ${word}`;
+                          else lines.push(word);
+                          return lines;
+                        }, [])
+                      : label,
                   color: "#0A1628",
                   font: {
-                    family: "Inter",
+                    family: "Nunito Sans",
                     size: isMobileScreen ? 9 : 11,
-                    weight: "normal"
-                  }
+                    weight: "normal",
+                  },
                 },
                 ticks: {
                   display: false,
-                  maxTicksLimit: 5
+                  maxTicksLimit: 5,
                 },
                 suggestedMin: 50,
-                suggestedMax: 100
-              }
+                suggestedMax: 100,
+              },
             },
             plugins: {
               legend: {
-                display: false
+                display: false,
               },
               tooltip: {
                 callbacks: {
-                  label: (context) => ` ${context.raw}%`
-                }
-              }
-            }
-          }
+                  label: (context) => ` ${context.raw}%`,
+                },
+              },
+            },
+          },
         });
       }
     }
@@ -659,12 +446,10 @@ export default function App() {
     };
   }, [lang, t, windowWidth]);
 
-  const toggleLang = () => setLang(prev => prev === "en" ? "id" : "en");
-
   // Custom contact submission to online Firebase Firestore
   const handleContactSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // Check network connectivity status
     if (!navigator.onLine) {
       setToastType("error");
@@ -680,7 +465,7 @@ export default function App() {
         timestamp: new Date().toLocaleString(),
         name: contactName || "N/A",
         contact: contactInfo || "N/A",
-        message: contactMessage || ""
+        message: contactMessage || "",
       };
 
       // Set document in Firestore
@@ -706,17 +491,21 @@ export default function App() {
     if (!isLoggedIn) return;
 
     const q = collection(db, "contacts");
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const messagesList: any[] = [];
-      snapshot.forEach((docSnap) => {
-        messagesList.push(docSnap.data());
-      });
-      // Sort messagesList chronologically descending (newest ID/timestamp first)
-      messagesList.sort((a, b) => b.id.localeCompare(a.id));
-      setCommsDb(messagesList);
-    }, (error) => {
-      console.error("Failed to fetch real-time updates from Firestore:", error);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const messagesList: any[] = [];
+        snapshot.forEach((docSnap) => {
+          messagesList.push(docSnap.data());
+        });
+        // Sort messagesList chronologically descending (newest ID/timestamp first)
+        messagesList.sort((a, b) => b.id.localeCompare(a.id));
+        setCommsDb(messagesList);
+      },
+      (error) => {
+        console.error("Failed to fetch real-time updates from Firestore:", error);
+      },
+    );
 
     return () => unsubscribe();
   }, [isLoggedIn]);
@@ -729,7 +518,9 @@ export default function App() {
       setShowSecretPanel(true);
       setLoginError("");
     } else {
-      setLoginError(lang === "en" ? "Invalid security credentials" : "Kredensial keamanan tidak valid");
+      setLoginError(
+        lang === "en" ? "Invalid security credentials" : "Kredensial keamanan tidak valid",
+      );
     }
   };
 
@@ -749,10 +540,11 @@ export default function App() {
   };
 
   const handleClearAllMessages = async () => {
-    const confirmMsg = lang === "en"
-      ? "Delete all entries from the online database permanently (this is irreversible)?"
-      : "Hapus semua entri dari database online secara permanen (tindakan ini tidak dapat dibatalkan)?";
-    
+    const confirmMsg =
+      lang === "en"
+        ? "Delete all entries from the online database permanently (this is irreversible)?"
+        : "Hapus semua entri dari database online secara permanen (tindakan ini tidak dapat dibatalkan)?";
+
     if (window.confirm(confirmMsg)) {
       try {
         const querySnapshot = await getDocs(collection(db, "contacts"));
@@ -768,15 +560,16 @@ export default function App() {
   const handleDownloadCsv = () => {
     if (commsDb.length === 0) return;
     const headers = ["ID", "Timestamp", "Name", "Contact", "Message"];
-    const rows = commsDb.map(m => [
+    const rows = commsDb.map((m) => [
       `"${m.id}"`,
       `"${m.timestamp}"`,
       `"${m.name.replace(/"/g, '""')}"`,
       `"${m.contact.replace(/"/g, '""')}"`,
-      `"${m.message.replace(/"/g, '""')}"`
+      `"${m.message.replace(/"/g, '""')}"`,
     ]);
-    const csvContent = "data:text/csv;charset=utf-8," 
-      + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -789,44 +582,86 @@ export default function App() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      el.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
     }
   };
 
+  const featuredProjects = projectsContent.items.map((project) => Object.fromEntries(
+    Object.entries(project).map(([key, value]) => [key, key === "id" ? value : localize(value, lang)]),
+  )) as FeaturedProject[];
+  // Drop award photos in public/honors/, then add paths to photos. Empty arrays show a placeholder.
+  const awards = awardsContent.items.map((award) => Object.fromEntries(
+    Object.entries(award).map(([key, value]) => [key, key === "id" ? value : localize(value, lang)]),
+  ));
+  const visibleProjects = featuredProjects.filter(
+    (p) => projectFilter === "all" || p.group === projectFilter,
+  );
+  const emptyProject: FeaturedProject = {
+    id: "empty-project",
+    title: t.emptyProjectsTitle,
+    cat: "",
+    desc: "",
+    link: "",
+    tags: [],
+    group: "lean",
+    result: { label: t.projectResultLabel, value: "—" },
+    image: "",
+    gallery: [],
+  };
+  const stageProject =
+    visibleProjects.find((p) => p.id === activeProject) ?? visibleProjects[0] ?? emptyProject;
+  const stageProjectTone = Math.max(0, featuredProjects.indexOf(stageProject)) % 4;
+
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden selection:bg-brand-accent/20 selection:text-brand-primary">
+    <div className="summer-portfolio relative min-h-screen w-full selection:bg-brand-accent/20 selection:text-brand-primary">
+      <a href="#main-content" className="skip-link">
+        {t.skipToContent}
+      </a>
       {/* Scroll Progress Bar */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
       {/* Primary Sticky Header */}
-      <header className="fixed top-0 left-0 w-full z-40 px-2 py-2 sm:px-6 sm:py-6 md:px-12 pointer-events-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-between lux-glass rounded-full px-2.5 py-1.5 sm:px-8 sm:py-4 pointer-events-auto">
+      <header className="summer-header">
+        <div className="summer-header-inner">
           {/* Visual Logo / Overlapping Initials */}
-          <button onClick={() => scrollToSection("hero")} className="flex items-center space-x-1.5 sm:space-x-4 group cursor-pointer text-left">
-            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center font-serif font-bold text-sm sm:text-base transition-transform group-hover:scale-110 duration-300 shrink-0">
-              <span className="absolute top-0 left-0 w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-[#0A1628] text-white flex items-center justify-center border border-[#C9A84C]/30 z-10 shadow-sm leading-none pt-0.5">D</span>
-              <span className="absolute bottom-0 right-0 w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-[#C9A84C] text-[#0A1628] flex items-center justify-center border border-[#0A1628]/30 z-20 shadow-md leading-none pt-0.5 font-black">D</span>
-            </div>
+          <button
+            onClick={() => scrollToSection("hero")}
+            className="flex items-center space-x-1.5 sm:space-x-4 group cursor-pointer text-left"
+          >
+            <span className="summer-monogram" aria-hidden="true">
+              {profile.monogram}
+            </span>
             <div>
-              <span className="block font-serif text-xs min-[360px]:text-sm sm:text-base font-semibold text-brand-primary leading-tight">Diva Delvira</span>
-              <span className="hidden sm:block text-[8px] font-mono tracking-widest text-[#C9A84C] uppercase">Personal Portfolio</span>
+              <span className="block text-sm font-bold text-brand-primary leading-tight">
+                {profile.name}
+              </span>
+              <span className="hidden sm:block text-xs text-brand-primary/70">{t.roleTitle}</span>
             </div>
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-10 pl-6">
+          <nav
+            aria-label={t.mainNavigation}
+            className="hidden lg:flex items-center gap-6"
+          >
             {[
               { id: "about", label: t.navAbout },
               { id: "experience", label: t.navExperience },
               { id: "projects", label: t.navProjects },
               { id: "skills", label: t.navSkills },
               { id: "edu", label: t.navEdu },
-              { id: "contact", label: t.navContact }
-            ].map(item => (
+              { id: "training", label: t.navTraining },
+              { id: "contact", label: t.navContact },
+            ].map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`nav-link ${activeSection === item.id ? "nav-link-active text-[#0A1628]" : ""}`}
+                aria-current={activeSection === item.id ? "location" : undefined}
+                className={`nav-link ${activeSection === item.id ? "nav-link-active" : ""}`}
               >
                 {item.label}
               </button>
@@ -839,37 +674,36 @@ export default function App() {
               <button
                 onClick={() => setLang("en")}
                 className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
-                  lang === "en" 
-                    ? "bg-[#0A1628] text-white font-bold" 
-                    : "text-brand-primary opacity-60 hover:opacity-100"
+                  lang === "en"
+                    ? "bg-[#0A1628] text-white font-bold"
+                    : "text-brand-primary hover:bg-brand-soft"
                 }`}
               >
-                EN
+                {t.languageEnglishButton}
               </button>
               <button
                 onClick={() => setLang("id")}
                 className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
-                  lang === "id" 
-                    ? "bg-[#0A1628] text-white font-bold" 
-                    : "text-brand-primary opacity-60 hover:opacity-100"
+                  lang === "id"
+                    ? "bg-[#0A1628] text-white font-bold"
+                    : "text-brand-primary hover:bg-brand-soft"
                 }`}
               >
-                ID
+                {t.languageIndonesianButton}
               </button>
             </div>
 
-            <a 
-              href="mailto:divakemur@gmail.com" 
-              className="hidden sm:inline-flex px-6 py-2.5 bg-[#0A1628] text-white text-xs font-mono uppercase tracking-widest rounded-full hover:bg-[#C9A84C] transition-all duration-300 whitespace-nowrap shrink-0"
-            >
-              Mail
+            <a href={`mailto:${profile.email}`} className="summer-mail hidden sm:inline-flex">
+              {t.mail}
             </a>
-            
+
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setShowMobileMenu(!showMobileMenu)}
               className="lg:hidden p-1.5 sm:p-2.5 rounded-full bg-[#0A1628]/5 border border-brand-accent/20 text-[#0A1628] hover:bg-[#C9A84C]/10 transition-colors pointer-events-auto cursor-pointer shrink-0 animate-fade-in"
-              aria-label="Toggle Menu"
+              aria-label={t.toggleMenu}
+              aria-expanded={showMobileMenu}
+              aria-controls="mobile-navigation"
             >
               {showMobileMenu ? <X size={14} /> : <Menu size={14} />}
             </button>
@@ -885,7 +719,8 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-[82px] left-3 right-3 z-40 lg:hidden rounded-2xl lux-glass p-5 border border-white/60 shadow-2xl flex flex-col space-y-5"
+            id="mobile-navigation"
+            className="summer-mobile-menu fixed left-3 right-3 z-40 lg:hidden p-5 flex flex-col space-y-5"
           >
             <nav className="flex flex-col space-y-3">
               {[
@@ -894,8 +729,9 @@ export default function App() {
                 { id: "projects", label: t.navProjects },
                 { id: "skills", label: t.navSkills },
                 { id: "edu", label: t.navEdu },
-                { id: "contact", label: t.navContact }
-              ].map(item => (
+                { id: "training", label: t.navTraining },
+                { id: "contact", label: t.navContact },
+              ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => {
@@ -903,8 +739,8 @@ export default function App() {
                     setShowMobileMenu(false);
                   }}
                   className={`w-full py-3 px-4 rounded-xl text-left font-sans text-sm font-medium tracking-wide transition-all ${
-                    activeSection === item.id 
-                      ? "bg-[#0A1628] text-white pl-6" 
+                    activeSection === item.id
+                      ? "bg-[#0A1628] text-white pl-6"
                       : "text-[#0A1628] hover:bg-[#C9A84C]/10 hover:pl-6"
                   }`}
                 >
@@ -914,915 +750,1016 @@ export default function App() {
             </nav>
             <div className="h-px bg-brand-primary/5 w-full" />
             <div className="flex flex-col gap-3 w-full">
-              <a 
-                href="mailto:divakemur@gmail.com" 
+              <a
+                href={`mailto:${profile.email}`}
                 className="w-full py-3.5 bg-[#0A1628] text-white hover:bg-[#C9A84C] hover:text-[#0A1628] text-center font-mono text-xs uppercase tracking-widest rounded-2xl transition-all duration-300"
               >
-                Email Diva Delvira
+                {t.emailLabel} {profile.name}
               </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* --- SECTION 1: HERO --- */}
-      <section id="hero" className="min-h-screen flex items-center pt-24 sm:pt-32 pb-12 sm:pb-16 md:pb-24 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto overflow-x-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
-          <div className="col-span-1 lg:col-span-8 space-y-6 sm:space-y-8 md:space-y-10">
-            <div className="inline-flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-1.5 rounded-full bg-brand-soft/50 border border-brand-accent/20 text-[10px] font-mono uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#0A1628]">
-              <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full animate-ping" />
-              <span>{t.badgeOpportunity}</span>
-            </div>
-
-            <div className="space-y-4">
-              <h1 className="text-3xl min-[360px]:text-4xl sm:text-6xl lg:text-[7rem] font-serif leading-[0.95] tracking-tighter text-brand-primary">
-                {t.heroGreeting}
-              </h1>
-              {/* Dynamic typing cursor element */}
-              <div className="min-h-[3rem] sm:h-12 flex items-center">
-                <p className="text-base sm:text-xl md:text-3xl font-serif italic text-[#C9A84C] font-light">
-                  {typingText}<span className="inline-block w-[3px] h-6 bg-[#C9A84C] ml-1 animate-pulse" />
+      <main id="main-content">
+        {/* --- SECTION 1: HERO --- */}
+        <section id="hero" className="summer-hero">
+          <div className="summer-hero-inner">
+            <div className="summer-hero-copy">
+              <h1>{profile.name}.</h1>
+              <p className="summer-role">{t.roleTitle}</p>
+              <div className="summer-typing">
+                {/* Invisible longest phrase reserves the wrapped height so nothing jumps or clips. */}
+                <p aria-hidden="true" className="summer-typing-ghost">
+                  {typingLongest}
+                  <span className="typing-cursor" />
+                </p>
+                <p>
+                  {typingText}
+                  <span className="typing-cursor" aria-hidden="true" />
                 </p>
               </div>
+              <p className="summer-introduction text-justify">{t.heroSubText}</p>
+              <div className="summer-hero-actions">
+                <button onClick={() => scrollToSection("experience")} className="summer-primary">
+                  {t.ctaViewWork} <ExternalLink size={17} aria-hidden="true" />
+                </button>
+                <button onClick={() => scrollToSection("contact")} className="summer-secondary">
+                  {t.ctaContact} <Mail size={17} aria-hidden="true" />
+                </button>
+              </div>
+              <p className="summer-availability">
+                <span aria-hidden="true" />
+                {t.badgeOpportunity}
+              </p>
             </div>
 
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light max-w-2xl leading-relaxed text-justify">
-              {t.heroSubText}
-            </p>
+            <div className="summer-hero-visual">
+              <img
+                className="summer-illustration"
+                src={profile.heroImage}
+                width="1500"
+                height="1275"
+                alt={profile.heroImageAlt[lang]}
+                fetchPriority="high"
+              />
+              <div className="summer-metrics">
+                <div className="flex justify-between items-center pb-4 border-b border-brand-primary/5">
+                  <span className="summer-metrics-title">
+                    {t.verifiedProjectMetrics}
+                  </span>
+                  <Sparkles size={16} className="text-[#C9A84C]" />
+                </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button 
-                onClick={() => scrollToSection("experience")}
-                className="w-full sm:w-auto text-center px-4 min-[380px]:px-6 sm:px-10 py-3.5 sm:py-5 bg-[#0A1628] text-white text-xs font-mono uppercase tracking-[0.2em] rounded-full hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-500 shadow-xl shadow-brand-primary/10 cursor-pointer sm:whitespace-nowrap leading-relaxed"
-              >
-                {t.ctaViewWork}
-              </button>
-              <button 
-                onClick={() => scrollToSection("contact")}
-                className="w-full sm:w-auto text-center px-4 min-[380px]:px-6 sm:px-10 py-3.5 sm:py-5 border border-brand-primary/20 text-[#0A1628] text-xs font-mono uppercase tracking-[0.2em] rounded-full hover:border-[#0A1628] hover:bg-brand-primary/5 transition-all duration-500 cursor-pointer sm:whitespace-nowrap leading-relaxed"
-              >
-                {t.ctaContact}
-              </button>
+                {/* Tab Selector Links */}
+                <div
+                  className="summer-metric-tabs"
+                  role="group"
+                  aria-label={t.projectMetrics}
+                >
+                  {presentation.heroMetrics.map((tab, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveProjectMetric(idx)}
+                      aria-pressed={metricIndex === idx}
+                      className={metricIndex === idx ? "is-selected" : ""}
+                    >
+                      {tab.name[lang]}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Displayed Interactive Metric Content */}
+                <div className="summer-metric-result space-y-4" aria-live="polite">
+                  {activeMetric && (
+                    <>
+                      <div className="space-y-2">
+                        <p className="text-xs text-gray-500 font-mono">{activeMetric.heading[lang]}</p>
+                        <div className="flex items-baseline space-x-2">
+                          <span className={`font-serif font-bold text-brand-primary ${metricIndex === 0 ? "text-4xl" : metricIndex === 2 ? "text-2xl" : "text-3xl"}`}>
+                            {activeMetric.value[lang]}
+                          </span>
+                          {activeMetric.caption[lang] && (
+                            <span className="text-xs text-emerald-600 font-mono font-semibold">{activeMetric.caption[lang]}</span>
+                          )}
+                        </div>
+                        <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
+                          <div className={`h-full ${metricIndex === 1 ? "bg-brand-primary" : "bg-[#C9A84C]"}`} style={{ width: `${activeMetric.progress}%` }} />
+                        </div>
+                        <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">{activeMetric.description[lang]}</p>
+                      </div>
+                      <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
+                        <span>{t.primaryTools}</span>
+                        <span className="text-[#C9A84C] font-semibold text-right">{activeMetric.tools[lang]}</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* VERIFIED PROJECTS INSIGHT PANEL */}
-          <div className="col-span-1 lg:col-span-4 space-y-8 mt-8 lg:mt-0 relative max-w-full overflow-hidden">
-            <div className="absolute inset-0 bg-[#C9A84C]/5 blur-[80px] -z-10 rounded-full transform scale-100 sm:scale-150" />
-            
-            <div className="lux-glass rounded-[32px] p-4 min-[380px]:p-6 sm:p-8 border border-white/60 space-y-6">
-              <div className="flex justify-between items-center pb-4 border-b border-brand-primary/5">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
-                  {lang === "en" ? "VERIFIED PROJECTS METRICS" : "METRIK PROYEK TERVERIFIKASI"}
-                </span>
-                <Sparkles size={16} className="text-[#C9A84C]" />
+        {/* --- SECTION 2: ABOUT / PHILOSOPHY --- */}
+        <section id="about" className="summer-section summer-about">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 relative">
+              {/* BIO CONTENT (Left Column) */}
+              <div className="col-span-1 lg:col-span-8 space-y-8">
+                <div className="summer-bio space-y-6">
+                  <div className="summer-heading">
+                    <div className="flex items-center space-x-3">
+                      <div className="h-px w-8 bg-[#C9A84C]" />
+                      <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                        {t.aboutSubtitle}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif text-brand-primary font-light italic">
+                      {t.aboutTitle}
+                    </h2>
+                  </div>
+                  <div className="summer-profile-bio">
+                    {/* Drop the owner's portrait at public/profile.jpg. */}
+                    <div className="summer-profile-photo">
+                      {profileMissing ? (
+                        <div className="summer-project-photo-placeholder">
+                          <ImageIcon size={28} aria-hidden="true" />
+                          <span>{t.profilePhoto}</span>
+                        </div>
+                      ) : (
+                        <img
+                          src={profile.profileImage}
+                          alt={profile.profileAlt[lang]}
+                          loading="lazy"
+                          onError={() => setProfileMissing(true)}
+                        />
+                      )}
+                    </div>
+                    <p className="text-base md:text-lg text-gray-700 leading-relaxed font-light text-justify whitespace-pre-line">
+                      {t.aboutBio}
+                    </p>
+                  </div>
+
+                  {/* LANGUAGE SKILLS (Bar Chart visual) */}
+                  <div className="pt-8 border-t border-brand-primary/10 space-y-5">
+                    <div className="flex items-center space-x-2">
+                      <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
+                      <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C9A84C] font-bold">
+                        {t.languageProficiency}
+                      </h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Indonesian (Native) */}
+                      <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
+                        <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
+                          <span className="font-semibold">
+                            {t.indonesian}
+                          </span>
+                          <span className="text-[#C9A84C] font-semibold">
+                            {t.nativeSpeaker}
+                          </span>
+                        </div>
+                        <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#C9A84C] rounded-full" style={{ width: `${presentation.languageProgress.indonesian}%` }} />
+                        </div>
+                      </div>
+
+                      {/* English (B2 / Upper-Intermediate) */}
+                      <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
+                        <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
+                          <span className="font-semibold">
+                            {t.english}
+                          </span>
+                          <span className="text-brand-primary font-semibold">
+                            {t.englishLevel}
+                          </span>
+                        </div>
+                        <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#0A1628] rounded-full" style={{ width: `${presentation.languageProgress.english}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              {/* Tab Selector Links */}
-              <div className="grid grid-cols-3 gap-1.5 border-b border-brand-primary/5 pb-4">
-                {[
-                  { label: "P1", name: "SCM" },
-                  { label: "P2", name: "MSA" },
-                  { label: "P3", name: "TENDER" }
-                ].map((tab, idx) => (
-                  <button 
-                    key={idx}
-                    onClick={() => setActiveProjectMetric(idx)}
-                    className={`py-1.5 px-0.5 text-center rounded-lg text-[8px] min-[320px]:text-[9px] min-[360px]:text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
-                      activeProjectMetric === idx 
-                        ? "bg-[#0A1628] text-white font-bold animate-pulse" 
-                        : "bg-brand-primary/5 text-brand-primary hover:bg-[#C9A84C]/10"
-                    }`}
+
+              {/* PERSISTENT STAT CARDS (Right Column) */}
+              <div className="summer-stats col-span-1 lg:col-span-4 grid grid-cols-1 min-[480px]:grid-cols-3 lg:grid-cols-1 gap-2.5 min-[380px]:gap-3 sm:gap-6 justify-center">
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
+                  <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">
+                    {t.stat1Val}
+                  </p>
+                  <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">
+                    {t.stat1Lbl}
+                  </p>
+                </div>
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
+                  <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">
+                    {education.gpa.split(" / ")[0]}
+                  </p>
+                  <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">
+                    {t.stat2Lbl}
+                  </p>
+                </div>
+                <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-[#0A1628] border border-white/5 rounded-2xl shadow-md flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-xl transition-all duration-300 text-white">
+                  <p className="text-xl sm:text-3xl font-serif font-bold text-[#C9A84C]">
+                    {t.stat3Val}
+                  </p>
+                  <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-gray-300 uppercase tracking-wider leading-snug">
+                    {t.stat3Lbl}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- SECTION 3: WORK EXPERIENCE WITH COLLAPSIBLE CARDS --- */}
+        <section id="experience" className="summer-section summer-experience">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+              <div className="col-span-1 lg:col-span-5">
+                <div className="summer-heading lg:sticky lg:top-32 space-y-6">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.experienceSubtitle}
+                  </span>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.experienceTitle}
+                  </h2>
+                  <p className="text-gray-500 font-light leading-relaxed max-w-md text-justify">
+                    {t.experienceContext}
+                  </p>
+                  <a
+                    href={profile.socials.find((item) => item.key === "linkedin")?.href ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block p-5 bg-[#0A1628] text-center rounded-2xl border border-[#C9A84C]/25 text-xs font-mono text-white hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md cursor-pointer uppercase tracking-wider"
                   >
-                    {tab.name}
+                    {t.experienceLinkedinCTA} →
+                  </a>
+                </div>
+              </div>
+
+              <div className="col-span-1 lg:col-span-7 space-y-6">
+                {experienceItems.map((experience, index) => {
+                  const experienceKey = experience.key || String(index);
+                  const expanded = expandedExperience[experienceKey] ?? false;
+                  const toggleExpanded = () =>
+                    setExpandedExperience((current) => ({
+                      ...current,
+                      [experienceKey]: !expanded,
+                    }));
+
+                  return (
+                    <div
+                      key={experienceKey}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={expanded}
+                      onClick={toggleExpanded}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          toggleExpanded();
+                        }
+                      }}
+                      className="summer-experience-record group"
+                    >
+                      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
+                        <div>
+                          <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
+                            {experience.company}
+                          </span>
+                          <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">
+                            {experience.role[lang]}
+                          </h3>
+                        </div>
+                        <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
+                          <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                            {experience.period[lang]}
+                          </p>
+                          <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
+                            <MapPin size={10} className="mr-1" /> {experience.location[lang]}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
+                        {experience.description[lang]}
+                      </p>
+                      <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
+                        <span>
+                          {t.industryTag}: {experience.sector[lang]}
+                        </span>
+                      </div>
+
+                      {/* Expander Trigger */}
+                      <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
+                        <span>{expanded ? t.clickPromptCollapse : t.clickPromptExpand}</span>
+                        {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </div>
+
+                      {/* Collapsed Bullet Content */}
+                      <AnimatePresence>
+                        {expanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden mt-6"
+                          >
+                            <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
+                              {experience.bullets[lang].map((bullet) => (
+                                <li key={bullet} className="flex items-start text-justify">
+                                  <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
+                                  <span>{bullet}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- SECTION 4: PROJECTS / CASE STUDIES --- */}
+        <section id="projects" className="summer-section summer-projects">
+          <div className="max-w-7xl mx-auto">
+            <div className="summer-project-heading">
+              <div className="summer-heading">
+                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">
+                  {t.projectsSubtitle}
+                </span>
+                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                  {t.projectsTitle}
+                </h2>
+              </div>
+              <div className="summer-project-intro">
+                <p className="text-gray-500 font-light text-justify">{t.projectsContext}</p>
+                <div
+                  className="summer-project-filter"
+                  role="group"
+                  aria-label={t.filterCaseStudies}
+                >
+                  {projectGroups.map((g) => (
+                    <button
+                      key={g.key}
+                      type="button"
+                      aria-pressed={projectFilter === g.key}
+                      onClick={() => setProjectFilter(g.key)}
+                    >
+                      {g.label[lang]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="summer-project-shelf-wrap">
+              <button
+                type="button"
+                className="summer-shelf-arrow is-left"
+                aria-label={t.firstProject}
+                disabled={shelfEdge.start}
+                onClick={() => shelfRef.current?.scrollTo({ left: 0, behavior: "smooth" })}
+              >
+                <ChevronLeft size={20} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="summer-shelf-arrow is-right"
+                aria-label={t.lastProject}
+                disabled={shelfEdge.end}
+                onClick={() =>
+                  shelfRef.current?.scrollTo({
+                    left: shelfRef.current.scrollWidth,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <ChevronRight size={20} aria-hidden="true" />
+              </button>
+              <div
+                ref={shelfRef}
+                onScroll={updateShelfEdge}
+                className="summer-project-shelf"
+                tabIndex={0}
+                role="region"
+                aria-label={t.projectCards}
+              >
+                {visibleProjects.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className={`summer-project-card tone-${featuredProjects.indexOf(p) % 4}`}
+                    aria-pressed={p === stageProject}
+                    aria-controls="project-stage"
+                    onClick={() => setActiveProject(p.id)}
+                  >
+                    <ProjectResultFigure result={p.result} />
+                    <span className="summer-project-card-title">{p.title}</span>
                   </button>
                 ))}
               </div>
-
-              {/* Displayed Interactive Metric Content */}
-              <div className="space-y-4 min-h-[140px] flex flex-col justify-between">
-                {activeProjectMetric === 0 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-gray-500 font-mono">
-                      VALE — AUTOMATION DASHBOARD
-                    </p>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-4xl font-serif font-bold text-brand-primary">96%</span>
-                      <span className="text-xs text-emerald-600 font-mono font-semibold">
-                        {lang === "en" ? "Time Saved" : "Pangkas Waktu"}
-                      </span>
-                    </div>
-                    <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                      <div className="h-full bg-[#C9A84C] w-[96%]" />
-                    </div>
-                    <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                      {lang === "en" 
-                        ? "Advanced Excel/Power Query dashboard reduced supply chain monitoring reporting from 2 days down to 1 hour."
-                        : "Dasbor Excel/Power Query memangkas siklus pelaporan pengawasan SCM dari 2 hari menjadi 1 jam saja."}
-                    </p>
-                  </div>
-                )}
-
-                {activeProjectMetric === 1 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "JAPFA — MSA" : "JAPFA — MSA"}
-                    </p>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-serif font-bold text-brand-primary">2.91%</span>
-                      <span className="text-xs text-emerald-600 font-mono font-semibold">%GRR</span>
-                    </div>
-                    <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                      <div className="h-full bg-brand-primary w-[91%]" />
-                    </div>
-                    <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                      {lang === "en" 
-                        ? "Crossed Gage R&R ANOVA statistical tests validated extreme precision in raw material testing instruments."
-                        : "Uji ANOVA Crossed Gage R&R memvalidasi presisi maksimal instrumen pengujian kadar air jagung bahan baku pakan."}
-                    </p>
-                  </div>
-                )}
-
-                {activeProjectMetric === 2 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-gray-500 font-mono">
-                      {lang === "en" ? "TRIATRA — VENDOR EVALUATION" : "TRIATRA — VENDOR EVALUATION"}
-                    </p>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-2xl font-serif font-bold text-brand-primary">
-                        {lang === "en" ? "Tender Preparation" : "Persiapan Tender"}
-                      </span>
-                    </div>
-                    <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                      <div className="h-full bg-[#C9A84C] w-[100%]" />
-                    </div>
-                    <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                      {lang === "en"
-                        ? "Evaluating logistics vendors and structuring comprehensive scoring metrics to optimize new tender processes."
-                        : "Mengevaluasi performa vendor logistik dan menyusun metrik penilaian komprehensif untuk mempermudah proses seleksi tender baru."}
-                    </p>
-                  </div>
-                )}
-
-                
-                {/* Visual Label Indicator */}
-                <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
-                  <span>{lang === "en" ? "Primary Tools" : "Alat Kerja Utama"}</span>
-                  <span className="text-[#C9A84C] font-semibold text-right">
-                    {activeProjectMetric === 0 && "Excel, Power Query"}
-                    {activeProjectMetric === 1 && "SPSS, Minitab"}
-                    {activeProjectMetric === 2 && "Root Cause Analysis, Problem Solving"}
-                  </span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 2: ABOUT / PHILOSOPHY --- */}
-      <section id="about" className="scroll-mt-24 sm:scroll-mt-32 py-12 sm:py-16 md:py-32 px-4 sm:px-8 md:px-12 bg-[#F3EFE6] border-y border-brand-accent/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 relative">
-            
-            {/* BIO CONTENT (Left Column) */}
-            <div className="col-span-1 lg:col-span-8 space-y-8">
-              <div className="reveal-on-scroll space-y-6">
-                <div className="flex items-center space-x-3">
-                  <div className="h-px w-8 bg-[#C9A84C]" />
-                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">{t.aboutSubtitle}</span>
-                </div>
-                <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif text-brand-primary font-light italic">
-                  {t.aboutTitle}
-                </h2>
-                <p className="text-base md:text-lg text-gray-700 leading-relaxed font-light text-justify whitespace-pre-line">
-                  {t.aboutBio}
-                </p>
-
-                {/* LANGUAGE SKILLS (Bar Chart visual) */}
-                <div className="pt-8 border-t border-brand-primary/10 space-y-5">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
-                    <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C9A84C] font-bold">
-                      {lang === "en" ? "Language Proficiency" : "Keahlian Bahasa"}
-                    </h4>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Indonesian (Native) */}
-                    <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
-                      <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
-                        <span className="font-semibold">{lang === "en" ? "Indonesian" : "Bahasa Indonesia"}</span>
-                        <span className="text-[#C9A84C] font-semibold">{lang === "en" ? "Native Speaker" : "Penutur Asli"}</span>
-                      </div>
-                      <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
-                        <div className="h-full bg-[#C9A84C] w-full rounded-full" />
-                      </div>
-                    </div>
-
-                    {/* English (B2 / Upper-Intermediate) */}
-                    <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
-                      <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
-                        <span className="font-semibold">{lang === "en" ? "English" : "Bahasa Inggris"}</span>
-                        <span className="text-brand-primary font-semibold">B2 (Upper Intermediate)</span>
-                      </div>
-                      <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
-                        <div className="h-full bg-[#0A1628] w-[85%] rounded-full" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
             </div>
 
-            {/* PERSISTENT STAT CARDS (Right Column) */}
-            <div className="col-span-1 lg:col-span-4 grid grid-cols-1 min-[480px]:grid-cols-3 lg:grid-cols-1 gap-2.5 min-[380px]:gap-3 sm:gap-6 justify-center">
-              <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
-                <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">{t.stat1Val}</p>
-                <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">{t.stat1Lbl}</p>
-              </div>
-              <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
-                <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">{t.stat2Val}</p>
-                <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">{t.stat2Lbl}</p>
-              </div>
-              <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-[#0A1628] border border-white/5 rounded-2xl shadow-md space-y-1 sm:space-y-2 text-center lg:text-left hover:shadow-xl transition-all duration-300 text-white">
-                <p className="text-xl sm:text-3xl font-serif font-bold text-[#C9A84C]">{t.stat3Val}</p>
-                <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-gray-300 uppercase tracking-wider leading-snug">{t.stat3Lbl}</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 3: WORK EXPERIENCE WITH COLLAPSIBLE CARDS --- */}
-      <section id="experience" className="scroll-mt-24 sm:scroll-mt-32 py-12 sm:py-16 md:py-32 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-          <div className="col-span-1 lg:col-span-4">
-            <div className="lg:sticky lg:top-32 space-y-6">
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">{t.experienceSubtitle}</span>
-              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                {t.experienceTitle}
-              </h2>
-              <p className="text-gray-500 font-light leading-relaxed max-w-md text-left">
-                {t.experienceContext}
-              </p>
-              <a 
-                href="https://www.linkedin.com/in/diva-delvira-ba9874294/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block p-5 bg-[#0A1628] text-center rounded-2xl border border-[#C9A84C]/25 text-xs font-mono text-white hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md cursor-pointer uppercase tracking-wider"
-              >
-                {t.experienceLinkedinCTA} →
-              </a>
-            </div>
-          </div>
-
-          <div className="col-span-1 lg:col-span-8 space-y-12">
-            
-            {/* EXPERIENCE CARD 1: PT VALE INDONESIA */}
-            <div 
-              onClick={() => setExpandVale(!expandVale)}
-              className="bg-white border border-brand-soft/40 p-4 min-[380px]:p-6 sm:p-8 rounded-3xl shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 group"
+            <article
+              key={stageProject.title}
+              id="project-stage"
+              className={`summer-project-stage tone-${stageProjectTone}`}
             >
-              <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
-                <div>
-                  <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
-                    PT Vale Indonesia Tbk.
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">{t.valeRole}</h3>
-                </div>
-                <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
-                  <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">{t.valePeriod}</p>
-                  <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
-                    <MapPin size={10} className="mr-1" /> {t.valeLocation}
-                  </p>
-                </div>
-              </div>
-              <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
-                {t.valeDesc}
-              </p>
-              <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
-                <span>{t.industryTag}: {t.valeSector}</span>
-              </div>
-
-              {/* Expander Trigger */}
-              <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
-                <span>{expandVale ? t.clickPromptCollapse : t.clickPromptExpand}</span>
-                {expandVale ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </div>
-
-              {/* Collapsed Bullet Content */}
-              <AnimatePresence>
-                {expandVale && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden mt-6"
-                  >
-                    <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.valeBullet1}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.valeBullet2}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.valeBullet3}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.valeBullet4}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.valeBullet5}</span>
-                      </li>
-                    </ul>
-                  </motion.div>
+              <div className="summer-project-media">
+                {stageProject.image ? (
+                  <img src={stageProject.image} alt={stageProject.title} loading="lazy" />
+                ) : (
+                  <div className="summer-project-photo-placeholder">
+                    <ImageIcon size={28} aria-hidden="true" />
+                    <span>{t.projectPhoto}</span>
+                  </div>
                 )}
-              </AnimatePresence>
-            </div>
-
-            {/* EXPERIENCE CARD 2: PT TRIATRA SINERGIA PRATAMA */}
-            <div 
-              onClick={() => setExpandTriatra(!expandTriatra)}
-              className="bg-white border border-brand-soft/40 p-4 min-[380px]:p-6 sm:p-8 rounded-3xl shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 group"
-            >
-              <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center pb-6 border-b border-brand-soft/50 mb-6">
-                <div>
-                  <span className="inline-block px-3 py-1 bg-brand-soft text-[9px] font-mono uppercase text-[#0A1628] rounded-full mb-2">
-                    PT Triatra Sinergia Pratama
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-primary">{t.triatraRole}</h3>
-                </div>
-                <div className="text-left md:text-right mt-4 md:mt-0 space-y-1">
-                  <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">{t.triatraPeriod}</p>
-                  <p className="text-[10px] text-[#C9A84C] uppercase tracking-tighter flex items-center md:justify-end">
-                    <MapPin size={10} className="mr-1" /> {t.triatraLocation}
-                  </p>
+                <div className="summer-evidence">
+                  <h4>{t.evidenceHeading}</h4>
+                  <div className="summer-evidence-strip">
+                    {stageProject.gallery.length
+                      ? stageProject.gallery.map((photo, index) => (
+                          <button
+                            key={`${photo}-${index}`}
+                            type="button"
+                            aria-haspopup="dialog"
+                            aria-label={`${t.openEvidencePhoto} ${index + 1}: ${stageProject.title}`}
+                            onClick={(event) =>
+                              openEvidence(
+                                stageProject.title,
+                                stageProject.gallery,
+                                index,
+                                event.currentTarget,
+                              )
+                            }
+                          >
+                            <img
+                              src={photo}
+                              alt={`${stageProject.title}, ${t.evidenceAlt} ${index + 1}`}
+                              loading="lazy"
+                            />
+                          </button>
+                        ))
+                      : [1, 2, 3].map((tile) => (
+                          <div key={tile} className="summer-project-photo-placeholder">
+                            <ImageIcon size={20} aria-hidden="true" />
+                            <span>
+                              {t.photoLabel} {tile}
+                            </span>
+                          </div>
+                        ))}
+                  </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed italic mb-4 max-w-3xl text-justify">
-                {t.triatraDesc}
-              </p>
-              <div className="flex items-center space-x-2 text-[10px] font-mono uppercase text-[#C9A84C] mb-6">
-                <span>{t.industryTag}: {t.triatraSector}</span>
-              </div>
-
-              {/* Expander Trigger */}
-              <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
-                <span>{expandTriatra ? t.clickPromptCollapse : t.clickPromptExpand}</span>
-                {expandTriatra ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </div>
-
-              {/* Collapsed Bullet Content */}
-              <AnimatePresence>
-                {expandTriatra && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden mt-6"
-                  >
-                    <ul className="space-y-4 pt-4 border-t border-brand-soft/20 text-sm text-gray-600">
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.triatraBullet1}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.triatraBullet2}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.triatraBullet3}</span>
-                      </li>
-                      <li className="flex items-start text-justify">
-                        <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full mt-2 mr-3 shrink-0" />
-                        <span>{t.triatraBullet4}</span>
-                      </li>
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 4: PROJECTS / CASE STUDIES --- */}
-      <section id="projects" className="scroll-mt-24 sm:scroll-mt-32 py-16 md:py-32 px-4 sm:px-8 md:px-12 bg-white border-y border-brand-soft/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20">
-            <div className="space-y-4">
-              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">{t.projectsSubtitle}</span>
-              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                {t.projectsTitle}
-              </h2>
-            </div>
-            <p className="text-gray-500 font-light max-w-md mt-4 md:mt-0 text-justify">
-              {t.projectsContext}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-            {[
-              {
-                title: "Kaizen Project for Tuyere Material Delivery",
-                cat: "Lean & Process Improvement",
-                desc: lang === "en"
-                  ? "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities."
-                  : "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added.",
-                link: "https://drive.google.com/file/d/1Y4U_q2OoKWOxacNIXvolfFmBGj_Fy4NI/view?usp=drive_link",
-                tags: ["kaizen", "PDCA", "problemsolving"]
-              },
-              {
-                title: "Improvement Monitoring of Priority Materials",
-                cat: "Excel & Power Query Integration",
-                desc: lang === "en" 
-                  ? "Faced with high rates of material stock-outs due to a lack of integrated inventory and procurement visibility across the supply chain, I developed a data-driven automated monitoring dashboard using Excel and Power Query to track inventory risks, order status, and vendor delivery performance in real time. This initiative successfully reduced operational monitoring time from 2 days to less than 1 hour and facilitated more proactive and targeted decision-making."
-                  : "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah.",
-                link: "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
-                tags: ["dashboard", "automation", "excel", "powerquery"]
-              },
-              {
-                title: "Vendor Selection & Tender Preparation",
-                cat: "Multi-Modal Freight Analytics",
-                desc: lang === "en" 
-                  ? "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCD (Quality, Cost, Delivery) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays."
-                  : "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCD. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman.",
-                link: "https://drive.google.com/file/d/1kgZ0OOe5Ltb_9DJt55rY_HsGd6tW4kd1/view?usp=drive_link",
-                tags: ["analytics", "routing", "vendormanagement", "logistics", "traffic"]
-              },
-              {
-                title: "Measurement System Analysis (MSA)",
-                cat: "Statistical Quality Engineering",
-                desc: lang === "en"
-                  ? "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy."
-                  : "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen.",
-                link: "https://drive.google.com/file/d/1aK1MC8T_nsP4UtgSSnbw4AuBQmY3N0zr/view",
-                tags: ["SPSS", "Minitab", "qualitycontrol"]
-              },
-              {
-                title: "SMART FEED Capstone Project",
-                cat: "Product Design & Lean Systems",
-                desc: lang === "en"
-                  ? "The high cost of commercial fish feed accounts for 60–70% of fish farmers’ operating expenses, while industrial waste such as tofu pulp has not yet been fully utilized. I integrated the principles of Production Planning and Lean Manufacturing to design and develop a high-nutrient, environmentally friendly alternative fish feed product made from tofu residue. This product successfully reduced production costs, allowing it to be sold at a very affordable price (Rp7,000 per 100 grams), and was empirically proven to maintain a positive growth trend in tilapia during a three-week monitoring period."
-                  : "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu.",
-                link: "https://drive.google.com/file/d/1ljOZ9QJ38fZ05cG0M57KJ3gqG0auZWXy/view",
-                tags: ["designproduct", "leanmanufacturing", "productionplanning"]
-              }
-            ].map((p, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ y: -6 }}
-                className="group flex flex-col justify-between bg-[#F8F6F1]/50 border border-brand-soft/50 rounded-3xl p-4 min-[380px]:p-6 sm:p-8 hover:shadow-xl hover:shadow-[#C9A84C]/5 transition-all duration-500 hover:border-brand-accent/40"
-              >
-                <div className="space-y-6">
-                  <span className="inline-block text-[9px] font-mono uppercase tracking-[0.2em] text-[#C9A84C] bg-[#F3EFE6] px-3 py-1 rounded-full">
-                    {p.cat}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-serif text-brand-primary group-hover:italic transition-all duration-300 leading-tight">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed font-light text-justify">
-                    {p.desc}
-                  </p>
-                </div>
-                
-                <div className="pt-8 mt-8 border-t border-brand-soft/65 flex flex-col space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {p.tags.map(tag => (
-                      <span key={tag} className="text-[10px] font-mono text-gray-400">#{tag}</span>
+              <div className="summer-project-story">
+                <header>
+                  <h3>{stageProject.title}</h3>
+                  <p className="summer-project-cat">{stageProject.cat}</p>
+                </header>
+                <p className="summer-project-desc text-justify">{stageProject.desc}</p>
+                <div className="summer-project-foot">
+                  <ul className="summer-project-tags">
+                    {stageProject.tags.map((tag) => (
+                      <li key={tag}>#{tag}</li>
                     ))}
-                  </div>
-                  {p.link && (
-                    <a 
-                      href={p.link} 
-                      target="_blank" 
+                  </ul>
+                  {stageProject.link && (
+                    <a
+                      href={stageProject.link}
+                      target="_blank"
                       rel="noreferrer"
-                      className="flex items-center space-x-2 text-[#0A1628] hover:text-[#C9A84C] font-mono text-xs uppercase tracking-wider transition-colors duration-300"
+                      className="summer-project-link"
                     >
-                      <span>{t.viewDetails}</span>
-                      <ExternalLink size={14} />
+                      <span>{stageProject.linkLabel ?? t.viewDetails}</span>
+                      <ExternalLink size={15} aria-hidden="true" />
+                    </a>
+                  )}
+                  {stageProject.docLink && (
+                    <a
+                      href={stageProject.docLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="summer-project-link"
+                    >
+                      <span>{t.viewDocumentation}</span>
+                      <ExternalLink size={15} aria-hidden="true" />
                     </a>
                   )}
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </article>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* --- SECTION 5: COMPETENCY MATRIX / RADAR CHART --- */}
-      <section id="skills" className="scroll-mt-24 sm:scroll-mt-32 py-12 sm:py-16 md:py-32 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          
-          <div className="col-span-1 lg:col-span-6 space-y-8 md:space-y-12">
-            <div className="space-y-4">
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">{t.skillsSubtitle}</span>
-              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                {t.skillsTitle}
-              </h2>
-            </div>
-
-            {/* Competency Group 1: Tools */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">{t.skillsCategory1}</h4>
-              <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                {["Power BI", "Microsoft Excel", "Minitab", "SPSS", "Canva", "SAP"].map(skill => (
-                  <span key={skill} className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300">
-                    {skill}
+        {/* --- SECTION 5: COMPETENCY MATRIX / RADAR CHART --- */}
+        <section id="skills" className="summer-section summer-skills">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+              <div className="col-span-1 lg:col-span-6 space-y-6">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.skillsSubtitle}
                   </span>
-                ))}
-              </div>
-            </div>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.skillsTitle}
+                  </h2>
+                </div>
 
-            {/* Competency Group 2: SCM */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">{t.skillsCategory2}</h4>
-              <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                {["Inventory Analysis", "Vendor Evaluation", "MRP Control", "Lead Time Optimization", "Forecast Modeling"].map(skill => (
-                  <span key={skill} className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
+                {/* Competency Group 1: Tools */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
+                    {t.skillsCategory1}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {credentialsContent.skillHighlights.tools.map((skill) => (
+                        <span
+                          key={`${skill.en}-${skill.id}`}
+                          className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300"
+                        >
+                          {skill[lang]}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
 
-            {/* Competency Group 3: Methodologies */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-mono uppercase text-[#C9A84C] tracking-widest">{t.skillsCategory3}</h4>
-              <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                {["Lean Manufacturing", "Measurement System Analysis", "Toyota Production System", "Kaizen / Continuous Improvement", "Just In Time (JIT)", "Root Cause Analysis (RCA)"].map(skill => (
-                  <span key={skill} className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300">
-                    {skill}
-                  </span>
-                ))}
+                {/* Competency Group 2: SCM */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
+                    {t.skillsCategory2}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {credentialsContent.skillHighlights.supplyChain.map((skill) => (
+                      <span
+                        key={`${skill.en}-${skill.id}`}
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300"
+                      >
+                        {skill[lang]}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Competency Group 3: Methodologies */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono uppercase text-[#C9A84C] tracking-widest">
+                    {t.skillsCategory3}
+                  </h4>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                    {credentialsContent.skillHighlights.methodologies.map((skill) => (
+                      <span
+                        key={`${skill.en}-${skill.id}`}
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300"
+                      >
+                        {skill[lang]}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Interactive Core Radar Canvas */}
+              <div className="summer-radar col-span-1 lg:col-span-6 flex flex-col items-center mt-6 lg:mt-0 w-full">
+                <h4 className="text-sm font-mono uppercase text-[#C9A84C] tracking-[0.2em] mb-8 text-center">
+                  {t.chartHeading}
+                </h4>
+                <div className="w-full aspect-square relative max-w-[260px] min-[380px]:max-w-[310px] sm:max-w-[420px]">
+                  <canvas
+                    ref={chartRef}
+                    id="competencyChart"
+                    className="w-full h-full"
+                    role="img"
+                    aria-label={`${t.axisData}: ${presentation.radar.data}%; ${t.axisScm}: ${presentation.radar.scm}%; ${t.axisProcess}: ${presentation.radar.process}%; ${t.axisLean}: ${presentation.radar.lean}%; ${t.axisReporting}: ${presentation.radar.reporting}%`}
+                  />
+                </div>
+                <p className="text-[11px] text-gray-400 text-justify font-mono mt-8 leading-relaxed max-w-sm">
+                  {t.chartFooter}
+                </p>
               </div>
             </div>
+            <SkillsInventory lang={lang} />
           </div>
+        </section>
 
-          {/* Interactive Core Radar Canvas */}
-          <div className="col-span-1 lg:col-span-6 border border-brand-soft/40 bg-[#F3EFE6]/30 p-4 min-[380px]:p-6 sm:p-8 rounded-[36px] flex flex-col items-center mt-6 lg:mt-0 w-full overflow-x-hidden">
-            <h4 className="text-sm font-mono uppercase text-[#C9A84C] tracking-[0.2em] mb-8 text-center">{t.chartHeading}</h4>
-            <div className="w-full aspect-square relative max-w-[260px] min-[380px]:max-w-[310px] sm:max-w-[420px]">
-              <canvas ref={chartRef} id="competencyChart" className="w-full h-full" style={{ width: "100%" }} />
-            </div>
-            <p className="text-[11px] text-gray-400 text-center font-mono mt-8 leading-relaxed max-w-sm">
-              {t.chartFooter}
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* --- SECTION 6: TOURNAMENTS & RECOGNITIONS --- */}
-      <section className="py-16 md:py-32 px-4 sm:px-8 md:px-12 bg-brand-primary text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20 space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-brand-soft">{t.achievementsSubtitle}</span>
-            <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic font-light text-brand-soft">
-              {t.achievementsTitle}
-            </h2>
-            <p className="text-xs text-white/50 font-mono tracking-widest uppercase">{t.achievementsContext}</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-            {/* Cert Card 1 */}
-            <div className="p-4 min-[380px]:p-6 sm:p-10 border border-white/10 rounded-[32px] bg-white/[0.02] flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8 items-start relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                <Trophy size={120} />
-              </div>
-              <div className="w-14 h-14 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0">
-                <Award size={28} />
-              </div>
-              <div className="space-y-4">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-brand-soft/60">{t.achie1Category}</span>
-                <h3 className="text-2xl sm:text-3xl font-serif text-white">{t.achie1Rank}</h3>
-                <p className="text-lg font-serif italic text-brand-soft">Content Marketing Competition 2025 — Manado</p>
-                <div className="h-px bg-white/10" />
-                <p className="text-sm text-white/60 font-light">{t.achie1Sponsor}</p>
-              </div>
-            </div>
-
-            {/* Cert Card 2 */}
-            <div className="p-4 min-[380px]:p-6 sm:p-10 border border-white/10 rounded-[32px] bg-white/[0.02] flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8 items-start relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                <Trophy size={120} />
-              </div>
-              <div className="w-14 h-14 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0">
-                <Award size={28} />
-              </div>
-              <div className="space-y-4">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-brand-soft/60">{t.achie2Category}</span>
-                <h3 className="text-3xl font-serif text-white">{t.achie2Rank}</h3>
-                <p className="text-lg font-serif italic text-brand-soft">Astra Motor Business Case Competition</p>
-                <div className="h-px bg-white/10" />
-                <p className="text-sm text-white/60 font-light">{t.achie2Sponsor}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 7: EDUCATION & ORGANIZATIONAL --- */}
-      <section id="edu" className="scroll-mt-24 sm:scroll-mt-32 py-16 md:py-32 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 xl:gap-20">
-          
-          {/* Left: Edu info */}
-          <div className="space-y-8 md:space-y-12">
-            <div className="space-y-4">
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">{t.eduOrgSubtitle}</span>
-              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                {t.eduHeading}
+        {/* --- SECTION 6: TOURNAMENTS & RECOGNITIONS --- */}
+        <section className="summer-section summer-honors">
+          <div className="max-w-7xl mx-auto">
+            <div className="summer-heading max-w-3xl mb-8 md:mb-10">
+              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-brand-soft">
+                {t.achievementsSubtitle}
+              </span>
+              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic font-light text-brand-soft">
+                {t.achievementsTitle}
               </h2>
+              <p className="text-xs text-white/50 font-mono tracking-widest uppercase">
+                {t.achievementsContext}
+              </p>
             </div>
 
-            {/* Campus 1 */}
-            <a 
-              href="https://www.instagram.com/hasanuddin_univ/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/edu p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-            >
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/edu:text-[#C9A84C] transition-colors duration-300">
-                <ExternalLink size={14} />
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                <GraduationCap size={24} />
-              </div>
-              <div className="space-y-3 w-full">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">UNHAS</span>
-                <h4 className="text-2xl font-serif font-semibold text-brand-primary leading-tight">Universitas Hasanuddin</h4>
-                <p className="text-sm italic font-serif text-[#C9A84C]">{lang === "en" ? "Bachelor of Industrial Engineering" : "S1 Teknik Industri"}</p>
-                <p className="text-xs font-mono text-gray-500">{t.expectedGrad} · GPA 3.77 / 4.00</p>
-                
-                <div className="h-px bg-brand-soft/50 my-2 w-full" />
-                
-                <ul className="space-y-2 text-xs text-gray-500 leading-relaxed font-light text-justify">
-                  <li>• {t.eduFocus}</li>
-                  <li>• {t.tpsTraining}</li>
-                  <li>• {t.mfgAssistant}</li>
-                  <li>• {t.physicsAssistant}</li>
-                </ul>
-              </div>
-            </a>
-          </div>
-
-          {/* Right: Org Info */}
-          <div className="space-y-8 md:space-y-12">
-            <div className="space-y-4">
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">{t.leaderNetworkLabel}</span>
-              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                {t.orgHeading}
-              </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {awards.map((award) => (
+                <button
+                  key={award.id}
+                  type="button"
+                  className="summer-award-card"
+                  aria-haspopup="dialog"
+                  onClick={(event) => {
+                    openEvidence(
+                      `${award.rank}: ${award.title}`,
+                      award.photos,
+                      0,
+                      event.currentTarget,
+                    );
+                  }}
+                >
+                  <Award size={28} aria-hidden="true" />
+                  <span className="summer-award-copy">
+                    <span className="text-xs">{award.category}</span>
+                    <span className="summer-award-rank">{award.rank}</span>
+                    <span className="text-lg font-bold">{award.title}</span>
+                    <span className="text-sm">{award.sponsor}</span>
+                    <span className="summer-project-link">
+                      {t.viewAwardPhoto}{" "}
+                      <ImageIcon size={16} aria-hidden="true" />
+                    </span>
+                  </span>
+                </button>
+              ))}
             </div>
-
-            {/* Org position 1: HMTI FT-UH */}
-            <a 
-              href="https://www.instagram.com/p/DAjD8sDzF8M/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/org1 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-            >
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org1:text-[#C9A84C] transition-colors duration-300">
-                <ExternalLink size={14} />
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                <Users size={24} />
-              </div>
-              <div className="space-y-2 w-full">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">HMTI FT-UH</span>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">{t.org1Role}</h4>
-                <p className="text-xs font-mono text-gray-500">{t.org1Date}</p>
-                <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                  {t.org1Desc}
-                </p>
-              </div>
-            </a>
-
-            {/* Org position 2: ISLI CAMP */}
-            <a 
-              href="https://www.instagram.com/islicamp2024/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/org2 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-            >
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org2:text-[#C9A84C] transition-colors duration-300">
-                <ExternalLink size={14} />
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                <Layout size={24} />
-              </div>
-              <div className="space-y-2 w-full">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">ISLI CAMP</span>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">{t.org2Role}</h4>
-                <p className="text-xs font-mono text-gray-500">{t.org2Date}</p>
-                <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                  {t.org2Desc}
-                </p>
-              </div>
-            </a>
-
-            {/* Org position 3: Mechanical Retreat XXVII */}
-            <a 
-              href="https://www.instagram.com/reel/C4pPnOPP8sL/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/org3 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-            >
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org3:text-[#C9A84C] transition-colors duration-300">
-                <ExternalLink size={14} />
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                <Calendar size={24} />
-              </div>
-              <div className="space-y-2 w-full">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">Mechanical Retreat XXVII</span>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">Event Coordinator</h4>
-                <p className="text-xs font-mono text-gray-500">Feb 2024 - Mar 2024</p>
-                <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                  {lang === "en" 
-                    ? "Led the planning of a fully coordinated and customizable event, and organized a two-day large-scale event for more than 200 active participants in Pinrang, South Sulawesi."
-                    : "Memimpin perencanaan acara yang terkoordinasi sepenuhnya dan dapat disesuaikan, serta menyelenggarakan acara berskala besar selama dua hari untuk lebih dari 200 peserta aktif di Pinrang, Sulawesi Selatan."}
-                </p>
-              </div>
-            </a>
-
-            {/* Org position 4: KKN-T 114 Universitas Hasanuddin */}
-            <a 
-              href="https://www.instagram.com/p/DLksZsqyI4znzM4R4JTxUJaF6vOfrdSkSydC-00/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/org4 p-4 min-[380px]:p-6 sm:p-8 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
-            >
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover/org4:text-[#C9A84C] transition-colors duration-300">
-                <ExternalLink size={14} />
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
-                <Sparkles size={24} />
-              </div>
-              <div className="space-y-2 w-full">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">KKN-T 114 UNHAS</span>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">Team Secretary</h4>
-                <p className="text-xs font-mono text-gray-500">Jul 2024 - Aug 2024</p>
-                <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
-                  {lang === "en"
-                    ? "As Team Secretary, I led the administrative coordination and ensured transparent program reporting while actively driving community empowerment initiatives. Specifically, I initiated a 'Moringa-infused Chocolate' training program designed to provide healthy snacks for children and create sustainable economic opportunities for local mothers."
-                    : "Sebagai Sekretaris Tim, saya memimpin koordinasi administratif dan memastikan pelaporan program yang transparan sambil aktif mendorong inisiatif pemberdayaan masyarakat. Secara khusus, saya memprakarsai program pelatihan 'Cokelat Kelor' yang dirancang untuk menyediakan camilan sehat bagi anak-anak dan menciptakan peluang ekonomi berkelanjutan bagi para ibu setempat."}
-                </p>
-              </div>
-            </a>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* --- SECTION 7: EDUCATION & ORGANIZATIONAL --- */}
+        <section id="edu" className="summer-section summer-education">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col gap-10">
+              {/* Top: Edu info */}
+              <div className="flex flex-col gap-3">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.eduOrgSubtitle}
+                  </span>
+                  <h2 className="flex items-center gap-3 text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    <span className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                      <GraduationCap size={26} aria-hidden="true" />
+                    </span>
+                    {t.eduHeading}
+                  </h2>
+                </div>
+
+                {/* Campus 1 */}
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  onClick={() => setEduOpen(true)}
+                  className="group/edu text-left w-full p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                >
+                  <div className="space-y-1.5 w-full min-w-0">
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                      {education.shortName}
+                    </span>
+                    <h4 className="text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                      {education.institution}
+                    </h4>
+                    <p className="text-sm italic font-serif text-[#C9A84C]">
+                      {education.degree[lang]}
+                    </p>
+                    <p className="text-xs font-mono text-gray-500">
+                      {education.period[lang]} · {t.educationGpaLabel} {education.gpa}
+                    </p>
+
+                    <div className="h-px bg-brand-soft/50 my-1 w-full" />
+
+                    <ul className="space-y-1 text-xs text-gray-500 leading-relaxed font-light text-justify">
+                      {education.focus[lang].map((item) => (
+                        <li key={item}>• {item}</li>
+                      ))}
+                    </ul>
+                    <span className="summer-project-link pt-1">
+                      {t.studyOverviewLink}{" "}
+                      <ArrowRight size={14} aria-hidden="true" />
+                    </span>
+                  </div>
+                  {/* Source: commons.wikimedia.org/wiki/File:Logo-Resmi-Unhas-1.png */}
+                  <div
+                    className={`summer-edu-logo order-first sm:order-none${logoMissing ? "" : " has-image"}`}
+                  >
+                    {logoMissing ? (
+                      <>
+                        <ImageIcon size={22} aria-hidden="true" />
+                        <span>{t.logoPlaceholder}</span>
+                      </>
+                    ) : (
+                      <img
+                        src={education.logo}
+                        alt={education.logoAlt}
+                        loading="lazy"
+                        onError={() => setLogoMissing(true)}
+                      />
+                    )}
+                  </div>
+                </button>
+              </div>
+
+              {/* Bottom: Org Info, 2x2 */}
+              <div className="flex flex-col gap-3">
+                <div className="summer-heading">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                    {t.leaderNetworkLabel}
+                  </span>
+                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                    {t.orgHeading}
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                  {leadership.map((item) => (
+                    <a
+                      key={item.key}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group p-4 min-[380px]:p-6 sm:p-6 bg-white border border-brand-soft rounded-[30px] flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 cursor-pointer relative"
+                    >
+                      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-300 group-hover:text-[#C9A84C] transition-colors duration-300">
+                        <ExternalLink size={14} />
+                      </div>
+                      <div className="w-12 h-12 rounded-2xl bg-[#C9A84C]/10 text-[#C9A84C] flex items-center justify-center shrink-0">
+                        {leadershipIcon(item.icon)}
+                      </div>
+                      <div className="space-y-1 w-full">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-semibold">
+                          {item.title}
+                        </span>
+                        <h4 className="text-lg sm:text-xl md:text-2xl font-serif font-semibold text-brand-primary leading-tight">
+                          {item.role[lang]}
+                        </h4>
+                        <p className="text-xs font-mono text-gray-500">{item.date[lang]}</p>
+                        <p className="text-sm text-gray-600 font-light leading-relaxed text-justify">
+                          {item.description[lang]}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <TrainingSection lang={lang} />
+        <EduOverview lang={lang} open={eduOpen} onClose={() => setEduOpen(false)} />
 
         {/* --- SECTION 8: CONTACT ME --- */}
-      <section id="contact" className="scroll-mt-24 sm:scroll-mt-32 py-16 md:py-32 px-4 sm:px-8 md:px-12 bg-[#FBFBFA] border-t border-brand-soft/45 transition-colors duration-500 relative overflow-hidden" style={{ backgroundImage: "radial-gradient(#C9A84C 1.2px, transparent 1.2px)", backgroundSize: "32px 32px" }}>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FBFBFA]/10 to-[#F3EFE6]/10 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto space-y-12 md:space-y-20 relative z-10">
-          
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C] font-semibold">{t.contactSubtitle}</span>
-            </div>
-            <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-6xl font-serif italic text-brand-primary font-light">
-              {t.contactTitle}
-            </h2>
-            <p className="text-gray-600 max-w-xl mx-auto font-light leading-relaxed text-sm text-[#0A1628]/80 text-justify md:text-center px-2">
-              {t.contactPrompt}
-            </p>
-          </div>
-
-          {/* Centered Elegant Dialogue Form */}
-          <div className="max-w-xl mx-auto w-full">
-            <form onSubmit={handleContactSubmit} className="bg-white border border-brand-accent/25 rounded-[32px] p-4 min-[380px]:p-6 sm:p-8 md:p-12 shadow-xl shadow-brand-primary/5 space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-brand-primary/5 mb-4">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-bold">
-                  {lang === "en" ? "TRANSMIT MESSAGE" : "KIRIM PESANAN"}
+        <section id="contact" className="summer-section summer-contact">
+          <div className="max-w-7xl mx-auto space-y-8 md:space-y-10 relative z-10">
+            <div className="summer-heading summer-contact-heading">
+              <div className="inline-flex items-center space-x-2">
+                <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
+                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C] font-semibold">
+                  {t.contactSubtitle}
                 </span>
-                <Sparkles size={14} className="text-[#C9A84C]" />
               </div>
+              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-6xl font-serif italic text-brand-primary font-light">
+                {t.contactTitle}
+              </h2>
+              <p className="text-gray-600 max-w-xl mx-auto font-light leading-relaxed text-sm text-[#0A1628]/80 text-justify px-2">
+                {t.contactPrompt}
+              </p>
+            </div>
 
-              {/* YOUR IDENTITY */}
-              <div className="space-y-2 text-left">
-                <label className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60">
-                  {lang === "en" ? "Name or Initial" : "Nama atau Inisial"}
-                </label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder={lang === "en" ? "Type your name..." : "Tulis nama Anda..."}
-                  value={contactName}
-                  onChange={(e) => setContactName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
-                />
-              </div>
+            {/* Centered Elegant Dialogue Form */}
+            <div className="max-w-xl mx-auto w-full">
+              <form onSubmit={handleContactSubmit} className="summer-contact-form space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-brand-primary/5 mb-4">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-bold">
+                    {t.transmitMessage}
+                  </span>
+                  <Sparkles size={14} className="text-[#C9A84C]" />
+                </div>
 
-              {/* COMMS PROTOCOL */}
-              <div className="space-y-2 text-left">
-                <label className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60">
-                  {lang === "en" ? "Contact Point / Email / Social" : "Kontak / Email / Media Sosial"}
-                </label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="e.g., mail@example.com / @username"
-                  value={contactInfo}
-                  onChange={(e) => setContactInfo(e.target.value)}
-                  className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
-                />
-              </div>
+                {/* YOUR IDENTITY */}
+                <div className="space-y-2 text-left">
+                  <label
+                    htmlFor="contact-name"
+                    className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
+                  >
+                    {t.nameLabel}
+                  </label>
+                  <input
+                    id="contact-name"
+                    aria-label={t.nameLabel}
+                    autoComplete="name"
+                    type="text"
+                    required
+                    placeholder={t.namePlaceholder}
+                    value={contactName}
+                    onChange={(e) => setContactName(e.target.value)}
+                    className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
+                  />
+                </div>
 
-              {/* THE PAYLOAD */}
-              <div className="space-y-2 text-left">
-                <label className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60">
-                  {lang === "en" ? "Message payload" : "Isi Pesan"}
-                </label>
-                <textarea 
-                  required
-                  rows={4}
-                  placeholder={lang === "en" ? "Type your message details..." : "Tulis detail pesan Anda..."}
-                  value={contactMessage}
-                  onChange={(e) => setContactMessage(e.target.value)}
-                  className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all resize-none"
-                />
-              </div>
+                {/* COMMS PROTOCOL */}
+                <div className="space-y-2 text-left">
+                  <label
+                    htmlFor="contact-info"
+                    className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
+                  >
+                    {t.contactPointLabel}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    id="contact-info"
+                    aria-label={
+                      t.contactPointLabel
+                    }
+                    placeholder={t.contactPointPlaceholder}
+                    value={contactInfo}
+                    onChange={(e) => setContactInfo(e.target.value)}
+                    className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
+                  />
+                </div>
 
-              <button 
-                type="submit"
-                className="w-full py-4.5 bg-[#0A1628] text-white font-mono text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md flex items-center justify-center space-x-2 cursor-pointer mt-8"
-              >
-                <span>{lang === "en" ? "SEND MESSAGE" : "KIRIM PESANAN"}</span>
-                <ExternalLink size={12} />
-              </button>
-            </form>
+                {/* THE PAYLOAD */}
+                <div className="space-y-2 text-left">
+                  <label
+                    htmlFor="contact-message"
+                    className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
+                  >
+                    {t.messagePayloadLabel}
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    aria-label={t.messagePayloadLabel}
+                    required
+                    rows={4}
+                    placeholder={
+                      t.messagePlaceholder
+                    }
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
+                    className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-4.5 bg-[#0A1628] text-white font-mono text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md flex items-center justify-center space-x-2 cursor-pointer mt-8"
+                >
+                  <span>{t.sendMessage}</span>
+                  <ExternalLink size={12} />
+                </button>
+              </form>
+            </div>
           </div>
+        </section>
+      </main>
 
-          <div className="h-px bg-[#0A1628]/5 max-w-4xl mx-auto w-full" />
-
-          {/* Social connections underneath the dialogue box */}
+      <footer className="summer-footer">
+        <div className="max-w-7xl mx-auto">
+          {/* Social connections */}
           <div className="space-y-8 w-full max-w-5xl mx-auto">
             <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] text-center font-bold">
-              {lang === "en" ? "OTHER CONNECTION CHANNELS" : "SALURAN HUBUNGAN LAINNYA"}
+              {profile.socialHeading[lang]}
             </h3>
-            
+
             <div className="grid grid-cols-1 min-[340px]:grid-cols-2 md:grid-cols-4 gap-4 w-full">
-              {[
-                { href: "mailto:divakemur@gmail.com", label: "Email", icon: <Mail size={16} />, detail: "divakemur@gmail.com", target: "" },
-                { href: "https://www.linkedin.com/in/diva-delvira-ba9874294/", label: "LinkedIn", icon: <Linkedin size={16} />, detail: "Diva Delvira", target: "_blank" },
-                { href: "https://www.instagram.com/dvdlvra_?igsh=M3ZseTVkNGkzNnp6", label: "Instagram", icon: <Instagram size={16} />, detail: "dvdlvra_", target: "_blank" },
-                { href: "https://www.tiktok.com/@itsdipyay?_r=1&_t=ZS-969Cy3BRtVn", label: "TikTok", icon: <Music size={16} />, detail: "@itsdipyay", target: "_blank" }
-              ].map((chan, idx) => (
-                <a 
-                  key={idx}
+              {profile.socials.map((chan) => (
+                <a
+                  key={chan.key}
                   href={chan.href}
                   target={chan.target}
                   rel={chan.target ? "noreferrer" : undefined}
                   className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl border border-brand-soft bg-white text-brand-primary hover:border-[#C9A84C] hover:shadow-lg transition-all duration-300 text-center space-y-2 group group-hover:bg-brand-soft min-w-0"
                 >
                   <div className="text-[#C9A84C] group-hover:scale-110 transition-transform duration-300">
-                    {chan.icon}
+                    {socialIcon(chan.key)}
                   </div>
-                  <span className="block text-[10px] font-mono uppercase tracking-wider font-bold truncate max-w-full">{chan.label}</span>
-                  <span className="block text-[9px] text-gray-400 font-mono truncate max-w-full">{chan.detail}</span>
+                  <span className="block text-[10px] font-mono uppercase tracking-wider font-bold truncate max-w-full">
+                    {chan.label}
+                  </span>
+                  <span className="block text-[9px] text-gray-400 font-mono truncate max-w-full">
+                    {chan.detail}
+                  </span>
                 </a>
               ))}
             </div>
           </div>
 
           {/* Elegant Footer Details */}
-          <div className="pt-12 mt-12 md:pt-24 md:mt-24 border-t border-[#0A1628]/10 w-full flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#0A1628] text-center md:text-left space-y-4 md:space-y-0 text-center">
-            <button 
+          <div className="pt-8 mt-8 md:pt-12 md:mt-12 border-t border-[#0A1628]/10 w-full flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#0A1628] text-center md:text-left space-y-4 md:space-y-0 text-center">
+            <button
               onClick={() => {
                 setLoginError("");
                 setShowLoginModal(true);
               }}
-              className="text-center md:text-left font-mono uppercase tracking-[0.3em] text-[#0A1628]/60 hover:text-[#C9A84C] transition-colors duration-300 focus:outline-none cursor-pointer"
+              className="text-center md:text-left font-mono uppercase tracking-[0.3em] text-[#0A1628]/60 hover:text-[#C9A84C] transition-colors duration-300 cursor-pointer"
             >
-              © 2026 Diva Delvira. All rights reserved.
+              © {presentation.copyrightYear} {profile.name}. {t.rightsReserved}
             </button>
-            <p className="mt-2 md:mt-0 italic text-[#C9A84C]">{t.footerTagline}</p>
+            {t.footerTagline && (
+              <p className="mt-2 md:mt-0 italic text-[#C9A84C]">{t.footerTagline}</p>
+            )}
           </div>
         </div>
-      </section>
+      </footer>
+
+      {evidence !== null && (
+        <dialog
+          className="summer-award-dialog"
+          aria-labelledby="evidence-photo-title"
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+              stepEvidence(event.key === "ArrowLeft" ? -1 : 1);
+            }
+          }}
+          ref={(dialog) => {
+            if (dialog && !dialog.open) dialog.showModal();
+          }}
+          onClose={() => {
+            setEvidence(null);
+            evidenceTrigger.current?.focus();
+          }}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              const rect = event.currentTarget.getBoundingClientRect();
+              if (
+                event.clientX < rect.left ||
+                event.clientX > rect.right ||
+                event.clientY < rect.top ||
+                event.clientY > rect.bottom
+              )
+                event.currentTarget.close();
+            }
+          }}
+        >
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <h2 id="evidence-photo-title" className="text-xl font-bold">
+              {evidence.title}
+            </h2>
+            <button
+              type="button"
+              className="summer-award-close"
+              onClick={(event) => event.currentTarget.closest("dialog")?.close()}
+            >
+              <X size={18} aria-hidden="true" /> {t.close}
+            </button>
+          </div>
+          {evidence.photos.length ? (
+            <figure>
+              <img
+                src={evidence.photos[evidence.index]}
+                alt={`${evidence.title}, ${t.photo} ${evidence.index + 1}`}
+              />
+              <figcaption className="summer-evidence-controls">
+                <button
+                  type="button"
+                  className="summer-award-close"
+                  disabled={evidence.photos.length < 2}
+                  aria-label={t.previousPhoto}
+                  onClick={() => stepEvidence(-1)}
+                >
+                  <ChevronLeft size={20} aria-hidden="true" />
+                </button>
+                <span aria-live="polite">
+                  {evidence.index + 1} / {evidence.photos.length}
+                </span>
+                <button
+                  type="button"
+                  className="summer-award-close"
+                  disabled={evidence.photos.length < 2}
+                  aria-label={t.nextPhoto}
+                  onClick={() => stepEvidence(1)}
+                >
+                  <ChevronRight size={20} aria-hidden="true" />
+                </button>
+              </figcaption>
+            </figure>
+          ) : (
+            <div className="summer-project-photo-placeholder">
+              <ImageIcon size={40} aria-hidden="true" />
+              <p>
+                {t.awardPhotoPlaceholder}
+              </p>
+            </div>
+          )}
+        </dialog>
+      )}
 
       {/* Floating back to top button */}
       {showBackToTop && (
-        <button 
+        <button
           onClick={() => scrollToSection("hero")}
           className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 rounded-full lux-glass flex items-center justify-center text-xs font-mono font-bold tracking-widest z-50 text-brand-primary hover:bg-[#0A1628] hover:text-white transition-all cursor-pointer shadow-lg"
         >
@@ -1833,27 +1770,29 @@ export default function App() {
       {/* Dynamic Toast Notifications */}
       <AnimatePresence>
         {showToast && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            role="status"
             className={`fixed bottom-20 left-4 right-4 sm:left-auto sm:right-8 z-50 p-4 sm:p-5 rounded-2xl shadow-xl flex items-center space-x-3 text-xs font-mono uppercase tracking-widest border border-brand-accent/20 ${
-              toastType === "success" 
-                ? "bg-white text-emerald-600" 
-                : "bg-white text-red-600"
+              toastType === "success" ? "bg-white text-emerald-600" : "bg-white text-red-600"
             }`}
           >
-            <span className={`w-2 h-2 rounded-full ${toastType === "success" ? "bg-emerald-500" : "bg-red-500"}`} />
+            <span
+              className={`w-2 h-2 rounded-full ${toastType === "success" ? "bg-emerald-500" : "bg-red-500"}`}
+            />
             <span>
-              {toastType === "success" 
-                ? (lang === "en" ? "Message sent successfully!" : "Pesan berhasil dikirim!")
-                : (lang === "en" ? "Transmitting failed. Try again." : "Transmisi gagal. Coba lagi.")}
+              {toastType === "success"
+                ? t.messageSent
+                : t.messageFailed}
             </span>
-            <button 
-              onClick={() => setShowToast(false)} 
+            <button
+              onClick={() => setShowToast(false)}
+              aria-label={t.dismissNotification}
               className="ml-4 font-bold text-gray-400 hover:text-brand-primary"
             >
-              ✕
+              <X size={16} />
             </button>
           </motion.div>
         )}
@@ -1862,8 +1801,15 @@ export default function App() {
       {/* --- ADMINISTRATIVE DATABASE SECURE LOGIN DIALOGUE --- */}
       <AnimatePresence>
         {showLoginModal && (
-          <div className="fixed inset-0 bg-brand-primary/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <motion.div 
+          <dialog
+            aria-label={lang === "en" ? "Administrator login" : "Login administrator"}
+            ref={(dialog) => {
+              if (dialog && !dialog.open) dialog.showModal();
+            }}
+            onCancel={() => setShowLoginModal(false)}
+            className="summer-dialog fixed inset-0 bg-brand-primary/85 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -1876,7 +1822,7 @@ export default function App() {
                     {lang === "en" ? "Secure Database Login" : "Login Basis Data Aman"}
                   </span>
                 </div>
-                <button 
+                <button
                   type="button"
                   onClick={() => setShowLoginModal(false)}
                   className="font-mono text-xs font-bold text-gray-400 hover:text-brand-primary cursor-pointer"
@@ -1889,11 +1835,16 @@ export default function App() {
 
               <form onSubmit={handleAdminLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60">
+                  <label
+                    htmlFor="admin-user"
+                    className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
+                  >
                     {lang === "en" ? "Operator Username" : "Username Operator"}
                   </label>
-                  <input 
-                    type="text" 
+                  <input
+                    id="admin-user"
+                    autoComplete="username"
+                    type="text"
                     required
                     value={adminUser}
                     onChange={(e) => setAdminUser(e.target.value)}
@@ -1903,11 +1854,16 @@ export default function App() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60">
+                  <label
+                    htmlFor="admin-pass"
+                    className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
+                  >
                     {lang === "en" ? "Security Keyphrase" : "Kata Sandi Keamanan"}
                   </label>
-                  <input 
-                    type="password" 
+                  <input
+                    id="admin-pass"
+                    autoComplete="current-password"
+                    type="password"
                     required
                     value={adminPass}
                     onChange={(e) => setAdminPass(e.target.value)}
@@ -1917,12 +1873,10 @@ export default function App() {
                 </div>
 
                 {loginError && (
-                  <p className="text-red-600 font-mono text-xs leading-relaxed">
-                    ⚠ {loginError}
-                  </p>
+                  <p className="text-red-600 font-mono text-xs leading-relaxed">{loginError}</p>
                 )}
 
-                <button 
+                <button
                   type="submit"
                   className="w-full py-4 bg-[#0A1628] hover:bg-[#C9A84C] text-white hover:text-[#0A1628] font-mono text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 shadow-md cursor-pointer flex items-center justify-center"
                 >
@@ -1930,31 +1884,43 @@ export default function App() {
                 </button>
               </form>
             </motion.div>
-          </div>
+          </dialog>
         )}
       </AnimatePresence>
 
       {/* --- SECURE DATABASE INBOX MESSAGES DASHBOARD --- */}
       <AnimatePresence>
         {showSecretPanel && (
-          <div className="fixed inset-0 bg-brand-primary/95 backdrop-blur-md z-50 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
-            <motion.div 
+          <dialog
+            aria-label={lang === "en" ? "Administrator inbox" : "Kotak masuk administrator"}
+            ref={(dialog) => {
+              if (dialog && !dialog.open) dialog.showModal();
+            }}
+            onCancel={(event) => {
+              event.preventDefault();
+              handleAdminLogout();
+            }}
+            className="summer-dialog fixed inset-0 bg-brand-primary/95 z-50 flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+          >
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#FBFBFA] border border-[#C9A84C]/45 rounded-[36px] max-w-5xl w-full p-8 md:p-12 shadow-2xl space-y-8 flex flex-col max-h-[90vh]"
+              className="summer-inbox bg-[#FBFBFA] max-w-5xl w-full space-y-8 flex flex-col max-h-[90vh]"
             >
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-6 border-b border-brand-primary/5 shrink-0">
                 <div className="space-y-3 text-left">
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" />
-                    <span className="text-[10px] font-mono tracking-widest text-[#C9A84C] font-bold uppercase font-semibold">SECURE COMMUNICATIONS HUB</span>
+                    <span className="text-[10px] font-mono tracking-widest text-[#C9A84C] font-bold uppercase font-semibold">
+                      SECURE COMMUNICATIONS HUB
+                    </span>
                   </div>
                   <div className="flex flex-wrap items-center gap-4">
                     <h2 className="text-3xl font-serif text-brand-primary font-normal">
                       {lang === "en" ? "Administrator Inbox" : "Kotak Masuk Administrator"}
                     </h2>
-                    
+
                     {/* View Mode Toggle */}
                     <div className="flex border border-brand-soft rounded-full p-0.5 bg-[#0A1628]/5 shrink-0 select-none">
                       <button
@@ -1976,7 +1942,11 @@ export default function App() {
                             ? "bg-brand-primary text-white font-bold"
                             : "text-brand-primary/60 hover:text-brand-primary"
                         }`}
-                        title={lang === "en" ? "Switch to Spreadsheet Mode" : "Ubah ke Mode Tabel Spreadsheet"}
+                        title={
+                          lang === "en"
+                            ? "Switch to Spreadsheet Mode"
+                            : "Ubah ke Mode Tabel Spreadsheet"
+                        }
                       >
                         <Table size={11} />
                         <span>{lang === "en" ? "Spreadsheet" : "Tabel"}</span>
@@ -1984,9 +1954,9 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-                
-                <div className="flex items-center space-x-2 w-full lg:w-auto">
-                  <button 
+
+                <div className="summer-inbox-actions flex items-center w-full lg:w-auto">
+                  <button
                     onClick={handleDownloadCsv}
                     disabled={commsDb.length === 0}
                     className="px-4 py-2.5 bg-brand-primary border border-brand-primary text-white text-[10px] font-mono uppercase tracking-wider rounded-xl hover:bg-[#C9A84C] hover:text-[#0A1628] disabled:opacity-35 disabled:hover:bg-brand-primary disabled:hover:text-white transition-all duration-350 cursor-pointer flex items-center space-x-2"
@@ -1994,16 +1964,16 @@ export default function App() {
                     <Download size={14} />
                     <span>Export</span>
                   </button>
-                  <button 
+                  <button
                     onClick={handleClearAllMessages}
                     disabled={commsDb.length === 0}
-                    className="px-4 py-2.5 border border-[#C9A84C]/30 text-brand-primary hover:border-red-600 hover:text-red-750 text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all duration-350 disabled:opacity-35 disabled:hover:border-[#C9A84C]/30 disabled:hover:text-brand-primary cursor-pointer"
+                    className="px-4 py-2.5 border border-brand-soft text-brand-primary hover:border-red-600 hover:text-red-700 text-xs font-mono rounded-xl transition-colors disabled:opacity-35 cursor-pointer"
                   >
                     {lang === "en" ? "Clear Database" : "Kosongkan Basis data"}
                   </button>
-                  <button 
+                  <button
                     onClick={handleAdminLogout}
-                    className="px-4 py-2.5 bg-[#C9A84C] text-[#0A1628] font-bold text-[10px] font-mono uppercase tracking-wider rounded-xl hover:bg-red-650 hover:text-white transition-all duration-300 cursor-pointer flex items-center space-x-2"
+                    className="px-4 py-2.5 bg-brand-accent text-white font-bold text-xs font-mono rounded-xl hover:bg-red-700 transition-colors cursor-pointer flex items-center space-x-2"
                   >
                     <LogOut size={14} />
                     <span>{lang === "en" ? "Exit" : "Keluar"}</span>
@@ -2012,14 +1982,21 @@ export default function App() {
               </div>
 
               {/* Message List area supporting both modes */}
-              <div className="flex-grow overflow-y-auto pr-2" style={{ maxHeight: "calc(90vh - 280px)" }}>
+              <div
+                className="flex-grow overflow-y-auto pr-2"
+                style={{ maxHeight: "calc(90vh - 280px)" }}
+              >
                 {commsDb.length === 0 ? (
-                  <div className="py-20 text-center space-y-3">
+                  <div className="py-12 text-center space-y-3">
                     <p className="font-serif italic text-lg text-gray-400">
-                      {lang === "en" ? "No incoming communications archived." : "Tidak ada pesan komunikasi masuk yang diarsipkan."}
+                      {lang === "en"
+                        ? "No incoming communications archived."
+                        : "Tidak ada pesan komunikasi masuk yang diarsipkan."}
                     </p>
                     <p className="text-xs font-mono text-gray-400">
-                      {lang === "en" ? "Online Cloud Database is operational. 0 records index." : "Sistem basis data online beroperasi. 0 rekaman terindeks."}
+                      {lang === "en"
+                        ? "Online Cloud Database is operational. 0 records index."
+                        : "Sistem basis data online beroperasi. 0 rekaman terindeks."}
                     </p>
                   </div>
                 ) : databaseViewMode === "spreadsheet" ? (
@@ -2029,16 +2006,26 @@ export default function App() {
                       <table className="w-full text-left font-mono text-xs border-collapse">
                         <thead>
                           <tr className="bg-brand-primary text-[#C9A84C] border-b border-brand-soft uppercase tracking-wider text-[9px] sm:text-[10px]">
-                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[130px]">{lang === "en" ? "Date" : "Tanggal"}</th>
-                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[140px]">{lang === "en" ? "Name" : "Nama"}</th>
-                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[180px]">{lang === "en" ? "Channel" : "Jalur / Kontak"}</th>
-                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[300px]">{lang === "en" ? "Message" : "Isi Pesan"}</th>
-                            <th className="p-4 font-bold text-center w-[80px]">{lang === "en" ? "Action" : "Aksi"}</th>
+                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[130px]">
+                              {lang === "en" ? "Date" : "Tanggal"}
+                            </th>
+                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[140px]">
+                              {lang === "en" ? "Name" : "Nama"}
+                            </th>
+                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[180px]">
+                              {lang === "en" ? "Channel" : "Jalur / Kontak"}
+                            </th>
+                            <th className="p-4 font-bold border-r border-[#C9A84C]/10 min-w-[300px]">
+                              {lang === "en" ? "Message" : "Isi Pesan"}
+                            </th>
+                            <th className="p-4 font-bold text-center w-[80px]">
+                              {lang === "en" ? "Action" : "Aksi"}
+                            </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-brand-soft">
                           {commsDb.map((msg, idx) => (
-                            <tr 
+                            <tr
                               key={msg.id}
                               className={`hover:bg-[#F3EFE6]/40 transition-colors ${
                                 idx % 2 === 0 ? "bg-white" : "bg-[#FBFBFA]"
@@ -2057,9 +2044,9 @@ export default function App() {
                                 {msg.message}
                               </td>
                               <td className="p-4 align-top text-center">
-                                <button 
+                                <button
                                   onClick={() => handleDeleteMessage(msg.id)}
-                                  className="p-2 text-gray-300 hover:text-red-650 hover:bg-red-50 rounded-xl transition-all duration-200 cursor-pointer inline-flex items-center justify-center"
+                                  className="p-2 text-brand-primary hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors cursor-pointer inline-flex items-center justify-center"
                                   title="Delete record"
                                 >
                                   <Trash2 size={14} />
@@ -2075,13 +2062,13 @@ export default function App() {
                   /* CLASSIC CARDS MODE DISPLAY */
                   <div className="space-y-6">
                     {commsDb.map((msg) => (
-                      <div 
+                      <div
                         key={msg.id}
                         className="p-6 bg-white border border-brand-soft rounded-2xl relative shadow-sm hover:shadow-md transition-all duration-300 text-left"
                       >
-                        <button 
+                        <button
                           onClick={() => handleDeleteMessage(msg.id)}
-                          className="absolute top-6 right-6 p-2 text-gray-300 hover:text-red-650 hover:bg-red-50 rounded-xl transition-colors duration-200 cursor-pointer"
+                          className="absolute top-6 right-6 p-2 text-brand-primary hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                           title="Delete record"
                         >
                           <Trash2 size={16} />
@@ -2096,9 +2083,10 @@ export default function App() {
                               {msg.timestamp}
                             </span>
                           </div>
-                          
+
                           <p className="text-[11px] font-mono text-[#C9A84C] font-semibold">
-                            {lang === "en" ? "Channel" : "Jalur"}: <span className="text-brand-primary">{msg.contact}</span>
+                            {lang === "en" ? "Channel" : "Jalur"}:{" "}
+                            <span className="text-brand-primary">{msg.contact}</span>
                           </p>
 
                           <p className="text-sm text-gray-700 leading-relaxed font-light text-justify bg-[#FBFBFA] p-4 rounded-xl border border-brand-soft/40 whitespace-pre-wrap">
@@ -2114,10 +2102,12 @@ export default function App() {
               {/* Status footer line */}
               <div className="pt-6 border-t border-brand-primary/5 flex justify-between items-center text-[10px] font-mono text-gray-400 shrink-0">
                 <span>{lang === "en" ? "DB_POOL: ACTIVE" : "STATUS_DATABASE: AKTIF"}</span>
-                <span>{commsDb.length} {lang === "en" ? "Record(s) Loaded" : "Rekaman Dimuat"}</span>
+                <span>
+                  {commsDb.length} {lang === "en" ? "Record(s) Loaded" : "Rekaman Dimuat"}
+                </span>
               </div>
             </motion.div>
-          </div>
+          </dialog>
         )}
       </AnimatePresence>
     </div>

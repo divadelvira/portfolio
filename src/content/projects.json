@@ -1,0 +1,437 @@
+{
+  "items": [
+    {
+      "id": "projects-01",
+      "title": {
+        "en": "Warehouse Appointment Scheduling System (WASS)",
+        "id": "Warehouse Appointment Scheduling System (WASS)"
+      },
+      "cat": {
+        "en": "Design Thinking for Warehouse Systems",
+        "id": "Design Thinking untuk Sistem Gudang"
+      },
+      "desc": {
+        "en": "Vendors delivering to the warehouse arrived unannounced and were served first come, first served, while inbound volume swung about four times between the quietest and busiest month. With no shared platform, the crew only knew what was coming once the truck reached the gate. I designed WASS, a web-based dock appointment system, using Design Thinking (user personas, journey mapping, affinity diagram, 5 Whys) and Rapid Application Development over three prototype iterations. Vendors book their own dock slot (40 slots a day), multi-PO deliveries get consecutive slots automatically, and the warehouse sees the day's load in advance. The system passed 12 of 12 Black Box test scenarios and scored 85.45 on the System Usability Scale (Grade A, Excellent) among 11 warehouse users.",
+        "id": "Vendor yang mengirim barang ke gudang datang tanpa pemberitahuan dan dilayani siapa cepat dia dapat, sementara volume inbound bisa berbeda sekitar empat kali lipat antara bulan tersepi dan tersibuk. Tanpa platform bersama, tim gudang baru tahu muatan apa yang datang saat truk sudah di gerbang. Saya merancang WASS, sistem janji temu dock berbasis web, dengan Design Thinking (user persona, journey map, affinity diagram, 5 Whys) dan Rapid Application Development dalam tiga iterasi prototipe. Vendor memesan sendiri slot dock (40 slot per hari), pengiriman dengan beberapa PO otomatis mendapat slot berurutan, dan gudang dapat melihat beban harian sebelum truk tiba. Sistem lolos 12 dari 12 skenario Black Box Testing dan meraih skor 85,45 pada System Usability Scale (Grade A, Excellent) dari 11 pengguna gudang."
+      },
+      "link": {
+        "en": "https://wass-demo.netlify.app/",
+        "id": "https://wass-demo.netlify.app/"
+      },
+      "linkLabel": {
+        "en": "View Live Demo",
+        "id": "Lihat Demo"
+      },
+      "docLink": {
+        "en": "https://drive.google.com/file/d/1chrJ3X3Oh-jUTPAQP7xU6apzG3SDONsi/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/1XDnOsTcyOR7fLQSjIvVt1Y3fpAr38k7w/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "designthinking",
+          "rapidappdevelopment",
+          "warehousing",
+          "dockscheduling",
+          "usability"
+        ],
+        "id": [
+          "designthinking",
+          "rapidappdevelopment",
+          "warehousing",
+          "dockscheduling",
+          "usability"
+        ]
+      },
+      "group": {
+        "en": "scm",
+        "id": "scm"
+      },
+      "result": {
+        "label": {
+          "en": "System Usability Scale",
+          "id": "System Usability Scale"
+        },
+        "value": {
+          "en": "85.45",
+          "id": "85,45"
+        },
+        "note": {
+          "en": "Grade A (Excellent), 12/12 Black Box tests",
+          "id": "Grade A (Excellent), 12/12 uji Black Box"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-02",
+      "title": {
+        "en": "Kaizen Project for Tuyere Material Delivery",
+        "id": "Kaizen Project for Tuyere Material Delivery"
+      },
+      "cat": {
+        "en": "Lean & Process Improvement",
+        "id": "Lean & Process Improvement"
+      },
+      "desc": {
+        "en": "As a Continuous Improvement Facilitator, I assisted the Inventory Management team in formulating a Kaizen project within the PDCA framework. By facilitating Process Mapping, Root Cause Analysis, and Business Impact calculations, we transformed field findings into a data-driven narrative that demonstrated a 33% reduction in lead time (from 12 to 8 days) and a 50% increase in labor efficiency by eliminating non-value-added activities.",
+        "id": "Sebagai Fasilitator Continuous Improvement, saya membantu tim Inventory Management menyusun proyek Kaizen dalam kerangka kerja PDCA. Melalui fasilitasi Process Mapping, Root Cause Analysis, dan kalkulasi Business Impact, kami merumuskan temuan lapangan menjadi narasi data terstruktur yang mendemonstrasikan penurunan lead time sebesar 33% (dari 12 menjadi 8 hari) serta peningkatan efisiensi tenaga kerja sebesar 50% dengan mengeliminasi aktivitas non-value-added."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/1BXCU3QOt1M8CNwPIOM84ODhyssk6Ydb5/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/1pmIR8LrwtvomHuQFXOi9nwodL6cFYUcC/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "kaizen",
+          "PDCA",
+          "problemsolving"
+        ],
+        "id": [
+          "kaizen",
+          "PDCA",
+          "problemsolving"
+        ]
+      },
+      "group": {
+        "en": "lean",
+        "id": "lean"
+      },
+      "result": {
+        "label": {
+          "en": "Lead time",
+          "id": "Lead time"
+        },
+        "before": {
+          "en": "12 days",
+          "id": "12 hari"
+        },
+        "after": {
+          "en": "8 days",
+          "id": "8 hari"
+        },
+        "ratio": {
+          "en": 0.6666666666666666,
+          "id": 0.6666666666666666
+        },
+        "note": {
+          "en": "+50% labor efficiency",
+          "id": "+50% efisiensi tenaga kerja"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-03",
+      "title": {
+        "en": "Improvement Monitoring of Priority Materials",
+        "id": "Improvement Monitoring of Priority Materials"
+      },
+      "cat": {
+        "en": "Excel & Power Query Integration",
+        "id": "Excel & Power Query Integration"
+      },
+      "desc": {
+        "en": "Faced with high rates of material stock-outs due to a lack of integrated inventory and procurement visibility across the supply chain, I developed a data-driven automated monitoring dashboard using Excel and Power Query to track inventory risks, order status, and vendor delivery performance in real time. This initiative successfully reduced operational monitoring time from 2 days to less than 1 hour and facilitated more proactive and targeted decision-making.",
+        "id": "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
+        "id": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link"
+      },
+      "tags": {
+        "en": [
+          "dashboard",
+          "automation",
+          "excel",
+          "powerquery"
+        ],
+        "id": [
+          "dashboard",
+          "automation",
+          "excel",
+          "powerquery"
+        ]
+      },
+      "group": {
+        "en": "scm",
+        "id": "scm"
+      },
+      "result": {
+        "label": {
+          "en": "Monitoring time",
+          "id": "Waktu pemantauan"
+        },
+        "before": {
+          "en": "2 days",
+          "id": "2 hari"
+        },
+        "after": {
+          "en": "< 1 hour",
+          "id": "< 1 jam"
+        },
+        "ratio": {
+          "en": 0.020833333333333332,
+          "id": 0.020833333333333332
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-04",
+      "title": {
+        "en": "Vendor Selection & Tender Preparation",
+        "id": "Vendor Selection & Tender Preparation"
+      },
+      "cat": {
+        "en": "Multi-Modal Freight Analytics",
+        "id": "Multi-Modal Freight Analytics"
+      },
+      "desc": {
+        "en": "The company has several high-volume shipping routes that lack binding contracts, clear performance metrics, and SLA (Service Level Agreement) standards for forwarding vendors. I designed a comprehensive trial tender selection mechanism and vendor evaluation system using a QCD (Quality, Cost, Delivery) assessment matrix. This implementation resulted in a standardized monthly vendor performance monitoring system, complete with a penalty scheme based on a percentage of logistics costs to strictly minimize delivery delays.",
+        "id": "Perusahaan memiliki beberapa rute pengiriman volume tinggi yang belum memiliki kontrak mengikat, metrik kinerja yang jelas, serta standar SLA untuk vendor forwarding. Saya merancang mekanisme seleksi tender uji coba komprehensif dan sistem evaluasi vendor menggunakan matriks penilaian QCD. Implementasi ini menghasilkan sistem pemantauan kinerja bulanan vendor yang terstandarisasi, lengkap dengan skema penalti berbasis persentase biaya logistik untuk meminimalkan keterlambatan pengiriman."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/1dQHsqP_k5NxGLqWJGSbr-vY9VkjPvBeE/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/1-p0mjd2WO_5vD66y7d3IPsTdWyMVFiXk/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "analytics",
+          "routing",
+          "vendormanagement",
+          "logistics",
+          "traffic"
+        ],
+        "id": [
+          "analytics",
+          "routing",
+          "vendormanagement",
+          "logistics",
+          "traffic"
+        ]
+      },
+      "group": {
+        "en": "scm",
+        "id": "scm"
+      },
+      "result": {
+        "label": {
+          "en": "Vendor assessment matrix",
+          "id": "Matriks penilaian vendor"
+        },
+        "value": {
+          "en": "QCD",
+          "id": "QCD"
+        },
+        "note": {
+          "en": "Monthly scorecard with penalty scheme",
+          "id": "Penilaian bulanan dengan skema penalti"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-05",
+      "title": {
+        "en": "Measurement System Analysis (MSA)",
+        "id": "Measurement System Analysis (MSA)"
+      },
+      "cat": {
+        "en": "Statistical Quality Engineering",
+        "id": "Statistical Quality Engineering"
+      },
+      "desc": {
+        "en": "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy.",
+        "id": "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/18VRQzoig-ltFOdykqzcO7-WGgMpC2_jf/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/1jvySSHcmohOKzhZ4mQZaoqGpll1xULBO/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "SPSS",
+          "Minitab",
+          "qualitycontrol"
+        ],
+        "id": [
+          "SPSS",
+          "Minitab",
+          "qualitycontrol"
+        ]
+      },
+      "group": {
+        "en": "quality",
+        "id": "quality"
+      },
+      "result": {
+        "label": {
+          "en": "%GRR",
+          "id": "%GRR"
+        },
+        "value": {
+          "en": "2.91%",
+          "id": "2,91%"
+        },
+        "note": {
+          "en": "Crossed Gage R&R (ANOVA)",
+          "id": "Crossed Gage R&R (ANOVA)"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-06",
+      "title": {
+        "en": "Internal Service Quality Analysis of a Material Management Division",
+        "id": "Internal Service Quality Analysis of a Material Management Division"
+      },
+      "cat": {
+        "en": "Service Quality & Data Analysis",
+        "id": "Kualitas Layanan & Analisis Data"
+      },
+      "desc": {
+        "en": "As an Inventory Analyst Intern, I measured how well the Material Management division of a nickel mining company serves its internal users. I designed a 25-attribute SERVQUAL survey, collected responses from 35 planners and part coordinators, and validated the data (validity, reliability, normality) before running any analysis. All five service dimensions showed a negative gap (overall −0.431), with 23 of 25 attributes statistically significant. Importance-Performance Analysis then isolated the top priorities, which I turned into a 12-month improvement roadmap with KPIs and owners.",
+        "id": "Sebagai Inventory Analyst Intern, saya mengukur seberapa baik divisi Material Management di sebuah perusahaan tambang nikel melayani user internalnya. Saya merancang survei SERVQUAL dengan 25 atribut, mengumpulkan respons dari 35 planner dan part coordinator, lalu menguji validitas, reliabilitas, dan normalitas data sebelum analisis dijalankan. Kelima dimensi layanan menunjukkan gap negatif (keseluruhan −0,431), dengan 23 dari 25 atribut signifikan secara statistik. Importance-Performance Analysis kemudian menyaring prioritas utama, yang saya terjemahkan menjadi roadmap perbaikan 12 bulan lengkap dengan KPI dan PIC."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/1sp74KJgzWagbFv2FytjMyLxVdroYvIoR/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/18hQ4uOo-5alNZcJa7eao-bTCTwT1X96l/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "servqual",
+          "ipa",
+          "statistics",
+          "python",
+          "inventorymanagement"
+        ],
+        "id": [
+          "servqual",
+          "ipa",
+          "statistika",
+          "python",
+          "inventorymanagement"
+        ]
+      },
+      "group": {
+        "en": "quality",
+        "id": "quality"
+      },
+      "result": {
+        "label": {
+          "en": "Overall service gap",
+          "id": "Gap layanan keseluruhan"
+        },
+        "value": {
+          "en": "−0.431",
+          "id": "−0,431"
+        },
+        "note": {
+          "en": "23 of 25 attributes significant",
+          "id": "23 dari 25 atribut signifikan"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    },
+    {
+      "id": "projects-07",
+      "title": {
+        "en": "SMART FEED Capstone Project",
+        "id": "SMART FEED Capstone Project"
+      },
+      "cat": {
+        "en": "Product Design & Lean Systems",
+        "id": "Product Design & Lean Systems"
+      },
+      "desc": {
+        "en": "The high cost of commercial fish feed accounts for 60–70% of fish farmers’ operating expenses, while industrial waste such as tofu pulp has not yet been fully utilized. I integrated the principles of Production Planning and Lean Manufacturing to design and develop a high-nutrient, environmentally friendly alternative fish feed product made from tofu residue. This product successfully reduced production costs, allowing it to be sold at a very affordable price (Rp7,000 per 100 grams), and was empirically proven to maintain a positive growth trend in tilapia during a three-week monitoring period.",
+        "id": "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu."
+      },
+      "link": {
+        "en": "https://drive.google.com/file/d/1SvJ3Xd9yge0r6bEsKrJ1fgHwo3NjBglN/view?usp=sharing",
+        "id": "https://drive.google.com/file/d/1DyDkeZYXNrB5xl_rnlIyBRh4xAdC1J6n/view?usp=sharing"
+      },
+      "tags": {
+        "en": [
+          "designproduct",
+          "leanmanufacturing",
+          "productionplanning"
+        ],
+        "id": [
+          "designproduct",
+          "leanmanufacturing",
+          "productionplanning"
+        ]
+      },
+      "group": {
+        "en": "lean",
+        "id": "lean"
+      },
+      "result": {
+        "label": {
+          "en": "Selling price",
+          "id": "Harga jual"
+        },
+        "value": {
+          "en": "Rp7,000",
+          "id": "Rp7.000"
+        },
+        "note": {
+          "en": "per 100 grams",
+          "id": "per 100 gram"
+        }
+      },
+      "image": {
+        "en": "",
+        "id": ""
+      },
+      "gallery": {
+        "en": [],
+        "id": []
+      }
+    }
+  ]
+}
