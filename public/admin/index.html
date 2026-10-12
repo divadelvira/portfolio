@@ -7,16 +7,50 @@
     <meta name="referrer" content="no-referrer" />
     <title>Editor Portofolio Diva</title>
     <link rel="icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/admin/editor.css" />
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
+    <header class="cms-brandbar">
+      <span class="cms-monogram" aria-hidden="true">dd.</span>
+      <div class="cms-brand-copy">
+        <p>Editor portofolio</p>
+        <small>Diva Delvira</small>
+      </div>
+      <a class="cms-site-link" href="/" target="_blank" rel="noopener noreferrer">
+        <span>Lihat website</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+    </header>
+    <button id="cms-menu-toggle" type="button" aria-controls="cms-sidebar" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+      Pilih bagian website
+    </button>
+    <aside id="cms-sidebar" class="cms-sidebar">
+      <h2>Bagian website</h2>
+      <nav id="cms-section-nav" aria-label="Bagian website"></nav>
+      <p class="cms-sidebar-note">Urutan mengikuti website. Isi kedua bahasa dalam satu item. Tekan <strong>Simpan</strong> untuk menerapkan perubahan. Di mode lokal, perubahan belum dipublikasikan online.</p>
+    </aside>
+    <main id="cms-dashboard">
+      <h1 class="cms-page-title">Konten website</h1>
+      <p class="cms-page-description">Pilih bagian yang ingin diperbarui. Anda dapat menambah, mengedit, mengurutkan, atau menghapus item di dalamnya.</p>
+      <table class="cms-section-table">
+        <thead><tr><th scope="col">Bagian</th><th scope="col">Yang dapat diperbarui</th><th scope="col">Tindakan</th></tr></thead>
+        <tbody id="cms-section-rows"></tbody>
+      </table>
+    </main>
+    <section id="cms-editor-guide" aria-labelledby="cms-editor-title">
+      <h1 id="cms-editor-title" class="cms-page-title">Editor konten</h1>
+      <p id="cms-editor-description" class="cms-page-description">Perbarui field yang diperlukan, lalu tekan Simpan.</p>
+    </section>
     <p id="cms-loading" role="status">Memuat editor portofolio…</p>
     <noscript>Aktifkan JavaScript di browser untuk mengedit portofolio.</noscript>
+    <script src="/admin/editor.js"></script>
     <script
       src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
       integrity="sha256-fB79a2FrR4biea7vGU3SFkmnIFjTvI0feJAbV0YQ37g="
       crossorigin="anonymous"
-      onload="document.getElementById('cms-loading').remove()"
+      onload="window.startPortfolioEditor()"
       onerror="document.getElementById('cms-loading').textContent='Editor gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.'"
     ></script>
   </body>

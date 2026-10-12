@@ -9,9 +9,9 @@ npm ci
 npm run dev
 ```
 
-`npm run dev` otomatis menjalankan website dan server CMS lokal. Buka **http://localhost:3000/admin** untuk mengedit tanpa GitHub; website ada di http://localhost:3000. Jika ada tombol login lokal, klik **Login** tanpa memasukkan akun GitHub.
+`npm run dev` otomatis menjalankan website dan server CMS lokal. Buka **http://localhost:3000/admin** untuk mengedit tanpa GitHub; website ada di http://localhost:3000. Jika ada tombol masuk lokal, klik **Masuk** tanpa memasukkan akun GitHub.
 
-Klik **Publish** untuk menyimpan perubahan ke file proyek. Tidak ada commit atau push otomatis; website lokal mengikuti perubahan lewat Vite. Kedua server hanya mendengarkan koneksi lokal. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya.
+Klik **Simpan** untuk menyimpan perubahan ke file proyek. Tidak ada commit atau push otomatis; website lokal mengikuti perubahan lewat Vite. Kedua server hanya mendengarkan koneksi lokal. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya.
 
 ## Pemeriksaan
 
@@ -29,4 +29,4 @@ npm run check:cms:ui
 
 Panduan pemilik website, setup GitHub OAuth, environment variables Vercel, dan langkah rilis ada di **[docs/cms.md](docs/cms.md)**.
 
-Konten tersimpan di `src/content/*.json`; unggahan CMS masuk ke `public/uploads`. Editor produksi membuat commit ke `main`, lalu Vercel membangun ulang website. Implementasi di `dev` perlu dirilis ke `main` sebelum editor produksi dapat dipakai.
+Konten tersimpan satu file per bagian di `src/content/`: `hero.json`, `about.json`, `experience.json`, `projects.json`, `skills.json`, `awards.json`, `education.json`, `training.json`, dan `contact.json`; pengaturan umum berada di berkas terpisah seperti `site.json` dan `metadata.json`. Unggahan CMS masuk ke `public/uploads`. Daftar bilingual proyek, penghargaan, dan profesi dikelola sekali; ID internal stabil menjaga bukti tetap terkait saat urutan berubah. Editor produksi membuat commit ke `main`, lalu Vercel membangun ulang website.

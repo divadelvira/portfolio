@@ -44,6 +44,8 @@ spacing:
   group: "24px"
   panel: "32px"
   section: "96px"
+  admin-row-inline: "16px"
+  admin-nav-inline: "14px"
 components:
   button-primary:
     backgroundColor: "{colors.coral}"
@@ -64,11 +66,23 @@ components:
     textColor: "{colors.text}"
     rounded: "{rounded.panel}"
     padding: "{spacing.panel}"
+  admin-button-primary:
+    backgroundColor: "#16534d"
+    textColor: "#ffffff"
+    rounded: "5px"
+    padding: "10px 14px"
+    height: "40px"
+  admin-index-row:
+    backgroundColor: "#fcfbf7"
+    textColor: "#1e2b2c"
+    padding: "22px 16px"
 ---
 
 # Design System: Diva Delvira
 
 ## Overview
+
+The portfolio-wide soft-summer tokens below remain the default. The separately approved `/admin` route uses a scoped Editorial Index extension documented in `.impeccable/surfaces/public-admin-index-html.md`; it does not redefine this global experience.
 
 **Creative North Star: "Soft summer engineering"**
 
@@ -128,6 +142,10 @@ Controls use gently rounded corners, usually 10–14px. Main panels and dialogs 
 
 ## Components
 
+### `/admin` Editorial Index (route-scoped extension)
+
+These are observed admin-only values from `public/admin/editor.css`; they do not change public surfaces or the Firebase inbox. Locally hosted Nunito Sans regular and bold is used throughout admin controls. The desktop identity bar is 84px and the section rail is 260px; at 1000px the rail is 220px, and at 760px and below the rail becomes a labelled menu. Admin has no global display face; headings use bold Nunito Sans (34px desktop, 26px editor heading on mobile). Content rows are flat, separated by hairlines; destructive actions use the dedicated red token. Primary Add/Save controls are deep green with compact 5px corners.
+
 ### Buttons
 
 Primary actions use coral with white text and at least 52px height. Hover darkens the fill and lifts the action by 2px; press lowers it by 1px. Secondary actions are dark-teal text with a quiet surface hover. Focus uses a 3px blue outline with 5px offset.
@@ -157,7 +175,7 @@ Admin login and inbox use native modal dialogs for focus containment and Escape 
 ### Do:
 
 - **Do** preserve all bilingual copy, factual metrics and external documentation links.
-- **Do** carry the summer palette across public and private surfaces.
+- **Do** carry the summer palette across public surfaces and private surfaces by default; `/admin` is the approved Editorial Index exception, while the Firebase inbox remains summer.
 - **Do** use original engineering/data illustration rather than beach objects.
 - **Do** honor reduced motion, visible keyboard focus and clear labels.
 

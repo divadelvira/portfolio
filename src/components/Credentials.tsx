@@ -1,56 +1,29 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { ArrowRight, BadgeCheck, BarChart3, ImageIcon, Monitor, Truck, Users, Workflow } from "lucide-react";
-import credentials from "../content/credentials.json";
-import profile from "../content/profile.json";
+import { credentials, profile } from "../content";
 import "./credentials.css";
 
 type Lang = "en" | "id";
 type Copy = Record<Lang, string>;
-type Training = {
-  title: Copy;
-  provider: Copy;
-  date: Copy;
-  summary: Copy;
-  skills: string[];
-  photos: string[];
-};
-type SkillGroup = {
-  title: Copy;
-  items: { skill: Copy; evidence: Copy; kind: string }[];
-};
 type Education = {
   academicAreas: Copy;
   activities: Copy[];
   thesis: Record<"title" | "abstract" | "method" | "result", Copy>;
 };
-type CredentialsContent = {
-  training: Training[];
-  skillGroups: SkillGroup[];
-  education: Education;
-};
-type ProfileContent = {
-  education: {
-    shortName: string;
-    institution: string;
-    degree: Copy;
-    gpa: string;
-  };
-};
-const copy = (en: string, id: string): Copy => ({ en, id });
-const { training, skillGroups, education } = credentials as CredentialsContent;
-const profileEducation = (profile as ProfileContent).education;
+const { training, skillGroups, education, ui } = credentials;
+const profileEducation = profile.education;
 
 const groupIcons = [Monitor, BarChart3, Truck, Workflow, Users];
 const evidenceKinds: Record<string, Copy> = {
-  project: copy("Project", "Proyek"),
-  work: copy("Work", "Kerja"),
-  training: copy("Training", "Pelatihan"),
-  campus: copy("Campus", "Kampus"),
-  award: copy("Competition", "Kompetisi"),
-  tool: copy("Toolkit", "Perangkat"),
+  project: ui.projectKind,
+  work: ui.workKind,
+  training: ui.trainingKind,
+  campus: ui.campusKind,
+  award: ui.awardKind,
+  tool: ui.toolKind,
 };
-const fallbackKind = copy("Evidence", "Bukti");
+const fallbackKind = ui.fallbackKind;
 
 export function SkillsInventory({ lang }: { lang: "en" | "id" }) {
   const [filter, setFilter] = useState(-1);
@@ -61,19 +34,17 @@ export function SkillsInventory({ lang }: { lang: "en" | "id" }) {
     <div className="credentials-inventory">
       <div className="credentials-inventory-head">
         <div>
-          <h3>{lang === "en" ? "Skills in practice" : "Keterampilan dalam praktik"}</h3>
+          <h3>{ui.skillsHeading[lang]}</h3>
           <p className="credentials-muted">
-            {lang === "en"
-              ? "Every skill is tied to where it was used or proven."
-              : "Setiap keterampilan disertai tempat ia digunakan atau dibuktikan."}
+            {ui.skillsSubtitle[lang]}
           </p>
         </div>
         <div
           className="credentials-skill-filter"
           role="group"
-          aria-label={lang === "en" ? "Filter skills" : "Saring keterampilan"}
+          aria-label={ui.skillFilterLabel[lang]}
         >
-          {[copy("All", "Semua"), ...skillGroups.map((group) => group.title)].map((label, i) => (
+          {[ui.allFilter, ...skillGroups.map((group) => group.title)].map((label, i) => (
             <button
               key={label.en}
               type="button"
@@ -143,29 +114,27 @@ function closeOnBackdrop(event: MouseEvent<HTMLDialogElement>) {
 }
 
 export function TrainingSection({ lang }: { lang: "en" | "id" }) {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const dialog = useNativeDialog(selected !== null);
   const heading = useId();
-  const entry = selected === null ? null : training[selected];
+  const entry = training.find((item) => item.id === selected) ?? null;
   return (
     <section id="training" className="summer-section credentials-training active">
       <div className="credentials-container">
         <div className="summer-heading">
-          <h2>{lang === "en" ? "Training & Certification" : "Pelatihan & Sertifikasi"}</h2>
+          <h2>{ui.trainingHeading[lang]}</h2>
           <p>
-            {lang === "en"
-              ? "Tap a training to see its overview and documentation."
-              : "Ketuk pelatihan untuk melihat ringkasan dan dokumentasinya."}
+            {ui.trainingIntro[lang]}
           </p>
         </div>
         <div className="credentials-training-list">
-          {training.map((item, index) => (
+          {training.map((item) => (
             <button
-              key={item.title.en}
+              key={item.id}
               type="button"
               aria-haspopup="dialog"
               className="credentials-training-card"
-              onClick={() => setSelected(index)}
+              onClick={() => setSelected(item.id)}
             >
               <span>
                 <span className="credentials-training-title">{item.title[lang]}</span>
@@ -183,7 +152,7 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
                   </span>
                 )}
                 <span className="credentials-training-more">
-                  {lang === "en" ? "Overview & documentation" : "Ringkasan & dokumentasi"}
+                  {ui.trainingOverviewDocumentation[lang]}
                   <ArrowRight size={14} aria-hidden="true" />
                 </span>
               </span>
@@ -201,7 +170,7 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
         <div className="credentials-dialog-header">
           <h2 id={heading}>{entry?.title[lang]}</h2>
           <button autoFocus className="credentials-button" onClick={() => dialog.current?.close()}>
-            {lang === "en" ? "Close" : "Tutup"}
+            {ui.close[lang]}
           </button>
         </div>
         {entry && (
@@ -209,7 +178,7 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
             <p className="credentials-muted">
               {entry.provider[lang]} · {entry.date[lang]}
             </p>
-            <h3>{lang === "en" ? "Overview" : "Ringkasan"}</h3>
+            <h3>{ui.overview[lang]}</h3>
             <p>{entry.summary[lang]}</p>
             {entry.skills.length > 0 && (
               <ul className="credentials-tags">
@@ -218,7 +187,7 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
                 ))}
               </ul>
             )}
-            <h3>{lang === "en" ? "Documentation" : "Dokumentasi"}</h3>
+            <h3>{ui.documentation[lang]}</h3>
             <div className="credentials-docs">
               {entry.photos.length > 0
                 ? entry.photos.map((src, i) => (
@@ -227,7 +196,7 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
                 : [0, 1, 2].map((i) => (
                     <div key={i} className="credentials-doc-placeholder">
                       <ImageIcon size={20} aria-hidden="true" />
-                      <span>{lang === "en" ? "Photo coming soon" : "Foto segera hadir"}</span>
+                      <span>{ui.photoComingSoon[lang]}</span>
                     </div>
                   ))}
             </div>
@@ -250,10 +219,10 @@ export function EduOverview({
   const dialog = useNativeDialog(open);
   const heading = useId();
   const thesisLabels: [keyof Education["thesis"], Copy][] = [
-    ["title", copy("Title", "Judul")],
-    ["abstract", copy("Abstract", "Abstrak")],
-    ["method", copy("Method", "Metode")],
-    ["result", copy("Result", "Hasil")],
+    ["title", ui.thesisTitle],
+    ["abstract", ui.thesisAbstract],
+    ["method", ui.thesisMethod],
+    ["result", ui.thesisResult],
   ];
   const degree = profileEducation.degree[lang].replace(/^(Bachelor of |S1 )/, "");
   const gpa = lang === "id" ? profileEducation.gpa.replace(/\./g, ",") : profileEducation.gpa;
@@ -266,26 +235,26 @@ export function EduOverview({
       onClose={onClose}
     >
       <div className="credentials-dialog-header">
-        <h2 id={heading}>{lang === "en" ? "Education overview" : "Ringkasan pendidikan"}</h2>
+        <h2 id={heading}>{ui.educationOverview[lang]}</h2>
         <button autoFocus className="credentials-button" onClick={() => dialog.current?.close()}>
-          {lang === "en" ? "Close" : "Tutup"}
+          {ui.close[lang]}
         </button>
       </div>
       <p className="credentials-degree">
         {profileEducation.institution} ({profileEducation.shortName})
       </p>
       <p>
-        {degree} · {lang === "en" ? "GPA" : "IPK"} {gpa}
+        {degree} · {ui.gpa[lang]} {gpa}
       </p>
-      <h3>{lang === "en" ? "Key academic areas" : "Bidang akademik utama"}</h3>
+      <h3>{ui.keyAcademicAreas[lang]}</h3>
       <p>{education.academicAreas[lang]}</p>
-      <h3>{lang === "en" ? "Activities & organizations" : "Kegiatan & organisasi"}</h3>
+      <h3>{ui.activitiesOrganizations[lang]}</h3>
       <ul className="credentials-activities">
         {education.activities.map((activity) => (
           <li key={activity.en}>{activity[lang]}</li>
         ))}
       </ul>
-      <h3>{lang === "en" ? "Undergraduate thesis (TA)" : "Tugas Akhir (TA)"}</h3>
+      <h3>{ui.undergraduateThesis[lang]}</h3>
       <dl className="credentials-thesis">
         {thesisLabels.map(([field, label]) => (
           <div key={field}>

@@ -1,6 +1,8 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import metadata from './src/content/metadata.json';
+import {renderCmsMetadata} from './lib/cmsMetadata';
 import {defineConfig, loadEnv, type PreviewServer, type ViteDevServer} from 'vite';
 
 // Vite's SPA fallback otherwise serves the portfolio instead of the standalone CMS.
@@ -15,6 +17,12 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss(), {
+      name: 'cms-metadata',
+      transformIndexHtml: {
+        order: 'pre',
+        handler: html => renderCmsMetadata(html, metadata),
+      },
+    }, {
       name: 'decap-admin-route',
       configureServer: serveAdmin,
       configurePreviewServer: serveAdmin,

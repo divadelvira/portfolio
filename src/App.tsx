@@ -38,88 +38,27 @@ import { EduOverview, SkillsInventory, TrainingSection } from "./components/Cred
 import { db } from "./firebase";
 import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
 import siteContent from "./content/site.json";
-import projectsContent from "./content/projects.json";
-import awardsContent from "./content/awards.json";
-import rolesContent from "./content/roles.json";
-import profileContent from "./content/profile.json";
+import { projects as projectsContent, awards as awardsContent, roles as rolesContent, profile as profileContent, credentials as credentialsContent, presentation } from "./content";
 
 // Bilingual Language Dictionary
-interface TranslationSet {
-  navAbout: string;
-  navExperience: string;
-  navProjects: string;
-  navSkills: string;
-  navEdu: string;
-  navContact: string;
-
-  roleTitle: string;
-  badgeOpportunity: string;
-  heroSubText: string;
-  ctaViewWork: string;
-  ctaContact: string;
-
-  aboutTitle: string;
-  aboutSubtitle: string;
-  aboutBio: string;
-
-  stat1Val: string;
-  stat1Lbl: string;
-  stat2Lbl: string;
-  stat3Val: string;
-  stat3Lbl: string;
-
-  experienceTitle: string;
-  experienceSubtitle: string;
-  experienceContext: string;
-  clickPromptExpand: string;
-  clickPromptCollapse: string;
-  experienceLinkedinCTA: string;
-  industryTag: string;
-
-  projectsTitle: string;
-  projectsSubtitle: string;
-  projectsContext: string;
-  viewDetails: string;
-
-  skillsTitle: string;
-  skillsSubtitle: string;
-  skillsCategory1: string;
-  skillsCategory2: string;
-  skillsCategory3: string;
-  chartHeading: string;
-  chartFooter: string;
-
-  achievementsTitle: string;
-  achievementsSubtitle: string;
-  achievementsContext: string;
-  eduOrgSubtitle: string;
-  eduHeading: string;
-  orgHeading: string;
-
-  contactTitle: string;
-  contactSubtitle: string;
-  contactPrompt: string;
-  footerTagline: string;
-  backToTop: string;
-
-  leaderNetworkLabel: string;
-
-  axisData: string;
-  axisScm: string;
-  axisProcess: string;
-  axisLean: string;
-  axisReporting: string;
-}
-
-const translations = siteContent as Record<"en" | "id", TranslationSet>;
+const translations = siteContent;
 
 type ProjectGroup = "lean" | "scm" | "quality";
 
+const localize = (value: any, lang: "en" | "id"): any =>
+  Array.isArray(value)
+    ? value.map((item) => localize(item, lang))
+    : value && typeof value === "object" && "en" in value && "id" in value
+      ? value[lang]
+      : value && typeof value === "object"
+        ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, localize(item, lang)]))
+        : value;
+
 const projectGroups: { key: "all" | ProjectGroup; label: Record<"en" | "id", string> }[] = [
-  { key: "all", label: { en: "All", id: "Semua" } },
-  { key: "lean", label: { en: "Lean & Process", id: "Lean & Proses" } },
-  { key: "scm", label: { en: "Supply Chain", id: "Rantai Pasok" } },
-  { key: "quality", label: { en: "Quality", id: "Kualitas" } },
+  { key: "all", label: presentation.projectGroupLabels.all },
+  { key: "lean", label: presentation.projectGroupLabels.lean },
+  { key: "scm", label: presentation.projectGroupLabels.scm },
+  { key: "quality", label: presentation.projectGroupLabels.quality },
 ];
 
 // Headline result restated from each project's own description.
@@ -133,6 +72,7 @@ type ProjectResult = {
 };
 
 type FeaturedProject = {
+  id: string;
   title: string;
   cat: string;
   desc: string;
@@ -302,6 +242,8 @@ export default function App() {
   const profile = profileContent;
   const experienceItems = profile.experience.items;
   const education = profile.education;
+  const metricIndex = Math.min(activeProjectMetric, Math.max(0, presentation.heroMetrics.length - 1));
+  const activeMetric = presentation.heroMetrics[metricIndex];
   const leadership = profile.leadership.items;
 
   // Language persist
@@ -317,7 +259,7 @@ export default function App() {
     setTypingIndex(0);
   }, [lang]);
 
-  const typingTitles = rolesContent[lang].items.length ? rolesContent[lang].items : [""];
+  const typingTitles = rolesContent.items.length ? rolesContent.items.map((role) => role[lang]) : [""];
   const typingLongest = typingTitles.reduce((a, b) => (b.length > a.length ? b : a));
 
   // Typing effect
@@ -417,7 +359,7 @@ export default function App() {
       const chartLabels = [
         t.axisData,
         isMobileScreen ? "SCM" : t.axisScm,
-        isMobileScreen ? (lang === "en" ? "Problem Solving" : "Solusi Masalah") : t.axisProcess,
+        isMobileScreen ? (t.mobileAxisProcess) : t.axisProcess,
         t.axisLean,
         t.axisReporting,
       ];
@@ -429,8 +371,8 @@ export default function App() {
             labels: chartLabels,
             datasets: [
               {
-                label: lang === "en" ? "Competency Score" : "Estimasi Skor Kompetensi",
-                data: [92, 89, 95, 88, 87],
+                label: t.competencyScore,
+                data: [presentation.radar.data, presentation.radar.scm, presentation.radar.process, presentation.radar.lean, presentation.radar.reporting],
                 backgroundColor: "rgba(75, 139, 128, 0.16)",
                 borderColor: "#4b8b80",
                 pointBackgroundColor: "#ffffff",
@@ -648,31 +590,36 @@ export default function App() {
     }
   };
 
-  const featuredProjects = projectsContent[lang].items as FeaturedProject[];
+  const featuredProjects = projectsContent.items.map((project) => Object.fromEntries(
+    Object.entries(project).map(([key, value]) => [key, key === "id" ? value : localize(value, lang)]),
+  )) as FeaturedProject[];
   // Drop award photos in public/honors/, then add paths to photos. Empty arrays show a placeholder.
-  const awards = awardsContent[lang].items;
+  const awards = awardsContent.items.map((award) => Object.fromEntries(
+    Object.entries(award).map(([key, value]) => [key, key === "id" ? value : localize(value, lang)]),
+  ));
   const visibleProjects = featuredProjects.filter(
     (p) => projectFilter === "all" || p.group === projectFilter,
   );
   const emptyProject: FeaturedProject = {
-    title: lang === "en" ? "No projects available" : "Belum ada proyek",
+    id: "empty-project",
+    title: t.emptyProjectsTitle,
     cat: "",
     desc: "",
     link: "",
     tags: [],
     group: "lean",
-    result: { label: lang === "en" ? "Project" : "Proyek", value: "—" },
+    result: { label: t.projectResultLabel, value: "—" },
     image: "",
     gallery: [],
   };
   const stageProject =
-    visibleProjects.find((p) => p.title === activeProject) ?? visibleProjects[0] ?? emptyProject;
+    visibleProjects.find((p) => p.id === activeProject) ?? visibleProjects[0] ?? emptyProject;
   const stageProjectTone = Math.max(0, featuredProjects.indexOf(stageProject)) % 4;
 
   return (
     <div className="summer-portfolio relative min-h-screen w-full selection:bg-brand-accent/20 selection:text-brand-primary">
       <a href="#main-content" className="skip-link">
-        {lang === "en" ? "Skip to content" : "Langsung ke konten"}
+        {t.skipToContent}
       </a>
       {/* Scroll Progress Bar */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
@@ -698,7 +645,7 @@ export default function App() {
 
           {/* Desktop Navigation */}
           <nav
-            aria-label={lang === "en" ? "Main navigation" : "Navigasi utama"}
+            aria-label={t.mainNavigation}
             className="hidden lg:flex items-center gap-6"
           >
             {[
@@ -707,7 +654,7 @@ export default function App() {
               { id: "projects", label: t.navProjects },
               { id: "skills", label: t.navSkills },
               { id: "edu", label: t.navEdu },
-              { id: "training", label: lang === "en" ? "Training" : "Pelatihan" },
+              { id: "training", label: t.navTraining },
               { id: "contact", label: t.navContact },
             ].map((item) => (
               <button
@@ -732,7 +679,7 @@ export default function App() {
                     : "text-brand-primary hover:bg-brand-soft"
                 }`}
               >
-                EN
+                {t.languageEnglishButton}
               </button>
               <button
                 onClick={() => setLang("id")}
@@ -742,19 +689,19 @@ export default function App() {
                     : "text-brand-primary hover:bg-brand-soft"
                 }`}
               >
-                ID
+                {t.languageIndonesianButton}
               </button>
             </div>
 
             <a href={`mailto:${profile.email}`} className="summer-mail hidden sm:inline-flex">
-              Mail
+              {t.mail}
             </a>
 
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setShowMobileMenu(!showMobileMenu)}
               className="lg:hidden p-1.5 sm:p-2.5 rounded-full bg-[#0A1628]/5 border border-brand-accent/20 text-[#0A1628] hover:bg-[#C9A84C]/10 transition-colors pointer-events-auto cursor-pointer shrink-0 animate-fade-in"
-              aria-label="Toggle Menu"
+              aria-label={t.toggleMenu}
               aria-expanded={showMobileMenu}
               aria-controls="mobile-navigation"
             >
@@ -782,7 +729,7 @@ export default function App() {
                 { id: "projects", label: t.navProjects },
                 { id: "skills", label: t.navSkills },
                 { id: "edu", label: t.navEdu },
-                { id: "training", label: lang === "en" ? "Training" : "Pelatihan" },
+                { id: "training", label: t.navTraining },
                 { id: "contact", label: t.navContact },
               ].map((item) => (
                 <button
@@ -807,7 +754,7 @@ export default function App() {
                 href={`mailto:${profile.email}`}
                 className="w-full py-3.5 bg-[#0A1628] text-white hover:bg-[#C9A84C] hover:text-[#0A1628] text-center font-mono text-xs uppercase tracking-widest rounded-2xl transition-all duration-300"
               >
-                Email {profile.name}
+                {t.emailLabel} {profile.name}
               </a>
             </div>
           </motion.div>
@@ -859,7 +806,7 @@ export default function App() {
               <div className="summer-metrics">
                 <div className="flex justify-between items-center pb-4 border-b border-brand-primary/5">
                   <span className="summer-metrics-title">
-                    {lang === "en" ? "VERIFIED PROJECTS METRICS" : "METRIK PROYEK TERVERIFIKASI"}
+                    {t.verifiedProjectMetrics}
                   </span>
                   <Sparkles size={16} className="text-[#C9A84C]" />
                 </div>
@@ -868,122 +815,45 @@ export default function App() {
                 <div
                   className="summer-metric-tabs"
                   role="group"
-                  aria-label={lang === "en" ? "Project metrics" : "Metrik proyek"}
+                  aria-label={t.projectMetrics}
                 >
-                  {[
-                    { label: "P1", name: "SCM" },
-                    { label: "P2", name: "MSA" },
-                    { label: "P3", name: "TENDER" },
-                    { label: "P4", name: "WASS" },
-                  ].map((tab, idx) => (
+                  {presentation.heroMetrics.map((tab, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveProjectMetric(idx)}
-                      aria-pressed={activeProjectMetric === idx}
-                      className={activeProjectMetric === idx ? "is-selected" : ""}
+                      aria-pressed={metricIndex === idx}
+                      className={metricIndex === idx ? "is-selected" : ""}
                     >
-                      {tab.name}
+                      {tab.name[lang]}
                     </button>
                   ))}
                 </div>
 
                 {/* Displayed Interactive Metric Content */}
                 <div className="summer-metric-result space-y-4" aria-live="polite">
-                  {activeProjectMetric === 0 && (
-                    <div className="space-y-2">
-                      <p className="text-xs text-gray-500 font-mono">VALE: AUTOMATION DASHBOARD</p>
-                      <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl font-serif font-bold text-brand-primary">
-                          96%
-                        </span>
-                        <span className="text-xs text-emerald-600 font-mono font-semibold">
-                          {lang === "en" ? "Time Saved" : "Pangkas Waktu"}
-                        </span>
+                  {activeMetric && (
+                    <>
+                      <div className="space-y-2">
+                        <p className="text-xs text-gray-500 font-mono">{activeMetric.heading[lang]}</p>
+                        <div className="flex items-baseline space-x-2">
+                          <span className={`font-serif font-bold text-brand-primary ${metricIndex === 0 ? "text-4xl" : metricIndex === 2 ? "text-2xl" : "text-3xl"}`}>
+                            {activeMetric.value[lang]}
+                          </span>
+                          {activeMetric.caption[lang] && (
+                            <span className="text-xs text-emerald-600 font-mono font-semibold">{activeMetric.caption[lang]}</span>
+                          )}
+                        </div>
+                        <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
+                          <div className={`h-full ${metricIndex === 1 ? "bg-brand-primary" : "bg-[#C9A84C]"}`} style={{ width: `${activeMetric.progress}%` }} />
+                        </div>
+                        <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">{activeMetric.description[lang]}</p>
                       </div>
-                      <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                        <div className="h-full bg-[#C9A84C] w-[96%]" />
+                      <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
+                        <span>{t.primaryTools}</span>
+                        <span className="text-[#C9A84C] font-semibold text-right">{activeMetric.tools[lang]}</span>
                       </div>
-                      <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                        {lang === "en"
-                          ? "Advanced Excel/Power Query dashboard reduced supply chain monitoring reporting from 2 days down to 1 hour."
-                          : "Dasbor Excel/Power Query memangkas siklus pelaporan pengawasan SCM dari 2 hari menjadi 1 jam saja."}
-                      </p>
-                    </div>
+                    </>
                   )}
-
-                  {activeProjectMetric === 1 && (
-                    <div className="space-y-2">
-                      <p className="text-xs text-gray-500 font-mono">JAPFA: MSA</p>
-                      <div className="flex items-baseline space-x-2">
-                        <span className="text-3xl font-serif font-bold text-brand-primary">
-                          2.91%
-                        </span>
-                        <span className="text-xs text-emerald-600 font-mono font-semibold">
-                          %GRR
-                        </span>
-                      </div>
-                      <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                        <div className="h-full bg-brand-primary w-[91%]" />
-                      </div>
-                      <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                        {lang === "en"
-                          ? "Crossed Gage R&R ANOVA statistical tests validated extreme precision in raw material testing instruments."
-                          : "Uji ANOVA Crossed Gage R&R memvalidasi presisi maksimal instrumen pengujian kadar air jagung bahan baku pakan."}
-                      </p>
-                    </div>
-                  )}
-
-                  {activeProjectMetric === 2 && (
-                    <div className="space-y-2">
-                      <p className="text-xs text-gray-500 font-mono">TRIATRA: VENDOR EVALUATION</p>
-                      <div className="flex items-baseline space-x-2">
-                        <span className="text-2xl font-serif font-bold text-brand-primary">
-                          {lang === "en" ? "Tender Preparation" : "Persiapan Tender"}
-                        </span>
-                      </div>
-                      <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                        <div className="h-full bg-[#C9A84C] w-[100%]" />
-                      </div>
-                      <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                        {lang === "en"
-                          ? "Evaluating logistics vendors and structuring comprehensive scoring metrics to optimize new tender processes."
-                          : "Mengevaluasi performa vendor logistik dan menyusun metrik penilaian komprehensif untuk mempermudah proses seleksi tender baru."}
-                      </p>
-                    </div>
-                  )}
-
-                  {activeProjectMetric === 3 && (
-                    <div className="space-y-2">
-                      <p className="text-xs text-gray-500 font-mono">WASS: DOCK SCHEDULING</p>
-                      <div className="flex items-baseline space-x-2">
-                        <span className="text-3xl font-serif font-bold text-brand-primary">
-                          {lang === "en" ? "85.45" : "85,45"}
-                        </span>
-                        <span className="text-xs text-emerald-600 font-mono font-semibold">
-                          SUS Grade A
-                        </span>
-                      </div>
-                      <div className="h-1.5 bg-brand-soft rounded-full overflow-hidden">
-                        <div className="h-full bg-[#C9A84C] w-[85%]" />
-                      </div>
-                      <p className="text-xs text-gray-600 font-sans leading-relaxed text-justify mt-2 font-light">
-                        {lang === "en"
-                          ? "Web-based dock appointment system passed 12 of 12 Black Box tests and scored Excellent on the System Usability Scale."
-                          : "Sistem janji temu dock berbasis web lolos 12 dari 12 uji Black Box dan meraih predikat Excellent pada System Usability Scale."}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Visual Label Indicator */}
-                  <div className="pt-2 border-t border-brand-primary/5 flex justify-between items-center text-[10px] text-gray-400 font-mono">
-                    <span>{lang === "en" ? "Primary Tools" : "Alat Kerja Utama"}</span>
-                    <span className="text-[#C9A84C] font-semibold text-right">
-                      {activeProjectMetric === 0 && "Excel, Power Query"}
-                      {activeProjectMetric === 1 && "SPSS, Minitab"}
-                      {activeProjectMetric === 2 && "Root Cause Analysis, Problem Solving"}
-                      {activeProjectMetric === 3 && "Design Thinking, RAD"}
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -1014,7 +884,7 @@ export default function App() {
                       {profileMissing ? (
                         <div className="summer-project-photo-placeholder">
                           <ImageIcon size={28} aria-hidden="true" />
-                          <span>{lang === "en" ? "Profile photo" : "Foto profil"}</span>
+                          <span>{t.profilePhoto}</span>
                         </div>
                       ) : (
                         <img
@@ -1035,7 +905,7 @@ export default function App() {
                     <div className="flex items-center space-x-2">
                       <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full" />
                       <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C9A84C] font-bold">
-                        {lang === "en" ? "Language Proficiency" : "Keahlian Bahasa"}
+                        {t.languageProficiency}
                       </h4>
                     </div>
 
@@ -1044,14 +914,14 @@ export default function App() {
                       <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
                         <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
                           <span className="font-semibold">
-                            {lang === "en" ? "Indonesian" : "Bahasa Indonesia"}
+                            {t.indonesian}
                           </span>
                           <span className="text-[#C9A84C] font-semibold">
-                            {lang === "en" ? "Native Speaker" : "Penutur Asli"}
+                            {t.nativeSpeaker}
                           </span>
                         </div>
                         <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#C9A84C] w-full rounded-full" />
+                          <div className="h-full bg-[#C9A84C] rounded-full" style={{ width: `${presentation.languageProgress.indonesian}%` }} />
                         </div>
                       </div>
 
@@ -1059,14 +929,14 @@ export default function App() {
                       <div className="p-4 bg-white/45 backdrop-blur-sm rounded-2xl border border-brand-soft space-y-3">
                         <div className="flex justify-between items-center text-xs font-mono text-brand-primary">
                           <span className="font-semibold">
-                            {lang === "en" ? "English" : "Bahasa Inggris"}
+                            {t.english}
                           </span>
                           <span className="text-brand-primary font-semibold">
-                            B2 (Upper Intermediate)
+                            {t.englishLevel}
                           </span>
                         </div>
                         <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#0A1628] w-[85%] rounded-full" />
+                          <div className="h-full bg-[#0A1628] rounded-full" style={{ width: `${presentation.languageProgress.english}%` }} />
                         </div>
                       </div>
                     </div>
@@ -1235,7 +1105,7 @@ export default function App() {
                 <div
                   className="summer-project-filter"
                   role="group"
-                  aria-label={lang === "en" ? "Filter case studies" : "Saring studi kasus"}
+                  aria-label={t.filterCaseStudies}
                 >
                   {projectGroups.map((g) => (
                     <button
@@ -1255,7 +1125,7 @@ export default function App() {
               <button
                 type="button"
                 className="summer-shelf-arrow is-left"
-                aria-label={lang === "en" ? "Scroll to first project" : "Geser ke proyek pertama"}
+                aria-label={t.firstProject}
                 disabled={shelfEdge.start}
                 onClick={() => shelfRef.current?.scrollTo({ left: 0, behavior: "smooth" })}
               >
@@ -1264,7 +1134,7 @@ export default function App() {
               <button
                 type="button"
                 className="summer-shelf-arrow is-right"
-                aria-label={lang === "en" ? "Scroll to last project" : "Geser ke proyek terakhir"}
+                aria-label={t.lastProject}
                 disabled={shelfEdge.end}
                 onClick={() =>
                   shelfRef.current?.scrollTo({
@@ -1281,16 +1151,16 @@ export default function App() {
                 className="summer-project-shelf"
                 tabIndex={0}
                 role="region"
-                aria-label={lang === "en" ? "Project cards" : "Kartu proyek"}
+                aria-label={t.projectCards}
               >
                 {visibleProjects.map((p) => (
                   <button
-                    key={p.title}
+                    key={p.id}
                     type="button"
                     className={`summer-project-card tone-${featuredProjects.indexOf(p) % 4}`}
                     aria-pressed={p === stageProject}
                     aria-controls="project-stage"
-                    onClick={() => setActiveProject(p.title)}
+                    onClick={() => setActiveProject(p.id)}
                   >
                     <ProjectResultFigure result={p.result} />
                     <span className="summer-project-card-title">{p.title}</span>
@@ -1310,11 +1180,11 @@ export default function App() {
                 ) : (
                   <div className="summer-project-photo-placeholder">
                     <ImageIcon size={28} aria-hidden="true" />
-                    <span>{lang === "en" ? "Project photo" : "Foto proyek"}</span>
+                    <span>{t.projectPhoto}</span>
                   </div>
                 )}
                 <div className="summer-evidence">
-                  <h4>{lang === "en" ? "Evidence" : "Bukti"}</h4>
+                  <h4>{t.evidenceHeading}</h4>
                   <div className="summer-evidence-strip">
                     {stageProject.gallery.length
                       ? stageProject.gallery.map((photo, index) => (
@@ -1322,7 +1192,7 @@ export default function App() {
                             key={`${photo}-${index}`}
                             type="button"
                             aria-haspopup="dialog"
-                            aria-label={`${lang === "en" ? "Open evidence photo" : "Buka foto bukti"} ${index + 1}: ${stageProject.title}`}
+                            aria-label={`${t.openEvidencePhoto} ${index + 1}: ${stageProject.title}`}
                             onClick={(event) =>
                               openEvidence(
                                 stageProject.title,
@@ -1334,7 +1204,7 @@ export default function App() {
                           >
                             <img
                               src={photo}
-                              alt={`${stageProject.title}, ${lang === "en" ? "evidence" : "bukti"} ${index + 1}`}
+                              alt={`${stageProject.title}, ${t.evidenceAlt} ${index + 1}`}
                               loading="lazy"
                             />
                           </button>
@@ -1343,7 +1213,7 @@ export default function App() {
                           <div key={tile} className="summer-project-photo-placeholder">
                             <ImageIcon size={20} aria-hidden="true" />
                             <span>
-                              {lang === "en" ? "Photo" : "Foto"} {tile}
+                              {t.photoLabel} {tile}
                             </span>
                           </div>
                         ))}
@@ -1380,7 +1250,7 @@ export default function App() {
                       rel="noreferrer"
                       className="summer-project-link"
                     >
-                      <span>{lang === "en" ? "View Documentation" : "Lihat Dokumen"}</span>
+                      <span>{t.viewDocumentation}</span>
                       <ExternalLink size={15} aria-hidden="true" />
                     </a>
                   )}
@@ -1410,13 +1280,12 @@ export default function App() {
                     {t.skillsCategory1}
                   </h4>
                   <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {["Power BI", "Microsoft Excel", "Minitab", "SPSS", "Canva", "SAP S/4HANA"].map(
-                      (skill) => (
+                    {credentialsContent.skillHighlights.tools.map((skill) => (
                         <span
-                          key={skill}
+                          key={`${skill.en}-${skill.id}`}
                           className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300"
                         >
-                          {skill}
+                          {skill[lang]}
                         </span>
                       ),
                     )}
@@ -1429,18 +1298,12 @@ export default function App() {
                     {t.skillsCategory2}
                   </h4>
                   <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {[
-                      "Inventory Analysis",
-                      "Vendor Evaluation",
-                      "MRP Control",
-                      "Lead Time Optimization",
-                      "Forecast Modeling",
-                    ].map((skill) => (
+                    {credentialsContent.skillHighlights.supplyChain.map((skill) => (
                       <span
-                        key={skill}
+                        key={`${skill.en}-${skill.id}`}
                         className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300"
                       >
-                        {skill}
+                        {skill[lang]}
                       </span>
                     ))}
                   </div>
@@ -1452,19 +1315,12 @@ export default function App() {
                     {t.skillsCategory3}
                   </h4>
                   <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {[
-                      "Lean Manufacturing",
-                      "Measurement System Analysis",
-                      "Toyota Production System",
-                      "Kaizen / Continuous Improvement",
-                      "Just In Time (JIT)",
-                      "Root Cause Analysis (RCA)",
-                    ].map((skill) => (
+                    {credentialsContent.skillHighlights.methodologies.map((skill) => (
                       <span
-                        key={skill}
+                        key={`${skill.en}-${skill.id}`}
                         className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300"
                       >
-                        {skill}
+                        {skill[lang]}
                       </span>
                     ))}
                   </div>
@@ -1482,7 +1338,7 @@ export default function App() {
                     id="competencyChart"
                     className="w-full h-full"
                     role="img"
-                    aria-label={`${t.axisData}: 92%; ${t.axisScm}: 89%; ${t.axisProcess}: 95%; ${t.axisLean}: 88%; ${t.axisReporting}: 87%`}
+                    aria-label={`${t.axisData}: ${presentation.radar.data}%; ${t.axisScm}: ${presentation.radar.scm}%; ${t.axisProcess}: ${presentation.radar.process}%; ${t.axisLean}: ${presentation.radar.lean}%; ${t.axisReporting}: ${presentation.radar.reporting}%`}
                   />
                 </div>
                 <p className="text-[11px] text-gray-400 text-justify font-mono mt-8 leading-relaxed max-w-sm">
@@ -1512,7 +1368,7 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {awards.map((award) => (
                 <button
-                  key={award.title}
+                  key={award.id}
                   type="button"
                   className="summer-award-card"
                   aria-haspopup="dialog"
@@ -1532,7 +1388,7 @@ export default function App() {
                     <span className="text-lg font-bold">{award.title}</span>
                     <span className="text-sm">{award.sponsor}</span>
                     <span className="summer-project-link">
-                      {lang === "en" ? "View award photo" : "Lihat foto penghargaan"}{" "}
+                      {t.viewAwardPhoto}{" "}
                       <ImageIcon size={16} aria-hidden="true" />
                     </span>
                   </span>
@@ -1578,7 +1434,7 @@ export default function App() {
                       {education.degree[lang]}
                     </p>
                     <p className="text-xs font-mono text-gray-500">
-                      {education.period[lang]} · GPA {education.gpa}
+                      {education.period[lang]} · {t.educationGpaLabel} {education.gpa}
                     </p>
 
                     <div className="h-px bg-brand-soft/50 my-1 w-full" />
@@ -1589,9 +1445,7 @@ export default function App() {
                       ))}
                     </ul>
                     <span className="summer-project-link pt-1">
-                      {lang === "en"
-                        ? "View study overview & undergraduate thesis"
-                        : "Lihat ringkasan kuliah & TA"}{" "}
+                      {t.studyOverviewLink}{" "}
                       <ArrowRight size={14} aria-hidden="true" />
                     </span>
                   </div>
@@ -1602,7 +1456,7 @@ export default function App() {
                     {logoMissing ? (
                       <>
                         <ImageIcon size={22} aria-hidden="true" />
-                        <span>Logo</span>
+                        <span>{t.logoPlaceholder}</span>
                       </>
                     ) : (
                       <img
@@ -1688,7 +1542,7 @@ export default function App() {
               <form onSubmit={handleContactSubmit} className="summer-contact-form space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-brand-primary/5 mb-4">
                   <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C] font-bold">
-                    {lang === "en" ? "TRANSMIT MESSAGE" : "KIRIM PESANAN"}
+                    {t.transmitMessage}
                   </span>
                   <Sparkles size={14} className="text-[#C9A84C]" />
                 </div>
@@ -1699,15 +1553,15 @@ export default function App() {
                     htmlFor="contact-name"
                     className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
                   >
-                    {lang === "en" ? "Name or Initial" : "Nama atau Inisial"}
+                    {t.nameLabel}
                   </label>
                   <input
                     id="contact-name"
-                    aria-label={lang === "en" ? "Name or Initial" : "Nama atau Inisial"}
+                    aria-label={t.nameLabel}
                     autoComplete="name"
                     type="text"
                     required
-                    placeholder={lang === "en" ? "Type your name..." : "Tulis nama Anda..."}
+                    placeholder={t.namePlaceholder}
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
                     className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
@@ -1720,20 +1574,16 @@ export default function App() {
                     htmlFor="contact-info"
                     className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
                   >
-                    {lang === "en"
-                      ? "Contact Point / Email / Social"
-                      : "Kontak / Email / Media Sosial"}
+                    {t.contactPointLabel}
                   </label>
                   <input
                     type="text"
                     required
                     id="contact-info"
                     aria-label={
-                      lang === "en"
-                        ? "Contact Point / Email / Social"
-                        : "Kontak / Email / Media Sosial"
+                      t.contactPointLabel
                     }
-                    placeholder="e.g., mail@example.com / @username"
+                    placeholder={t.contactPointPlaceholder}
                     value={contactInfo}
                     onChange={(e) => setContactInfo(e.target.value)}
                     className="w-full px-5 py-4 bg-white border border-brand-soft rounded-xl font-mono text-sm text-[#0A1628] placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all"
@@ -1746,15 +1596,15 @@ export default function App() {
                     htmlFor="contact-message"
                     className="block text-[10px] font-mono uppercase tracking-widest font-semibold text-brand-primary/60"
                   >
-                    {lang === "en" ? "Message payload" : "Isi Pesan"}
+                    {t.messagePayloadLabel}
                   </label>
                   <textarea
                     id="contact-message"
-                    aria-label={lang === "en" ? "Message payload" : "Isi Pesan"}
+                    aria-label={t.messagePayloadLabel}
                     required
                     rows={4}
                     placeholder={
-                      lang === "en" ? "Type your message details..." : "Tulis detail pesan Anda..."
+                      t.messagePlaceholder
                     }
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
@@ -1766,7 +1616,7 @@ export default function App() {
                   type="submit"
                   className="w-full py-4.5 bg-[#0A1628] text-white font-mono text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#C9A84C] hover:text-[#0A1628] transition-all duration-300 shadow-md flex items-center justify-center space-x-2 cursor-pointer mt-8"
                 >
-                  <span>{lang === "en" ? "SEND MESSAGE" : "KIRIM PESANAN"}</span>
+                  <span>{t.sendMessage}</span>
                   <ExternalLink size={12} />
                 </button>
               </form>
@@ -1815,7 +1665,7 @@ export default function App() {
               }}
               className="text-center md:text-left font-mono uppercase tracking-[0.3em] text-[#0A1628]/60 hover:text-[#C9A84C] transition-colors duration-300 cursor-pointer"
             >
-              © 2026 {profile.name}. All rights reserved.
+              © {presentation.copyrightYear} {profile.name}. {t.rightsReserved}
             </button>
             {t.footerTagline && (
               <p className="mt-2 md:mt-0 italic text-[#C9A84C]">{t.footerTagline}</p>
@@ -1863,21 +1713,21 @@ export default function App() {
               className="summer-award-close"
               onClick={(event) => event.currentTarget.closest("dialog")?.close()}
             >
-              <X size={18} aria-hidden="true" /> {lang === "en" ? "Close" : "Tutup"}
+              <X size={18} aria-hidden="true" /> {t.close}
             </button>
           </div>
           {evidence.photos.length ? (
             <figure>
               <img
                 src={evidence.photos[evidence.index]}
-                alt={`${evidence.title}, ${lang === "en" ? "photo" : "foto"} ${evidence.index + 1}`}
+                alt={`${evidence.title}, ${t.photo} ${evidence.index + 1}`}
               />
               <figcaption className="summer-evidence-controls">
                 <button
                   type="button"
                   className="summer-award-close"
                   disabled={evidence.photos.length < 2}
-                  aria-label={lang === "en" ? "Previous photo" : "Foto sebelumnya"}
+                  aria-label={t.previousPhoto}
                   onClick={() => stepEvidence(-1)}
                 >
                   <ChevronLeft size={20} aria-hidden="true" />
@@ -1889,7 +1739,7 @@ export default function App() {
                   type="button"
                   className="summer-award-close"
                   disabled={evidence.photos.length < 2}
-                  aria-label={lang === "en" ? "Next photo" : "Foto berikutnya"}
+                  aria-label={t.nextPhoto}
                   onClick={() => stepEvidence(1)}
                 >
                   <ChevronRight size={20} aria-hidden="true" />
@@ -1900,7 +1750,7 @@ export default function App() {
             <div className="summer-project-photo-placeholder">
               <ImageIcon size={40} aria-hidden="true" />
               <p>
-                {lang === "en" ? "Award photo coming soon" : "Foto penghargaan segera tersedia"}
+                {t.awardPhotoPlaceholder}
               </p>
             </div>
           )}
@@ -1934,16 +1784,12 @@ export default function App() {
             />
             <span>
               {toastType === "success"
-                ? lang === "en"
-                  ? "Message sent successfully!"
-                  : "Pesan berhasil dikirim!"
-                : lang === "en"
-                  ? "Transmitting failed. Try again."
-                  : "Transmisi gagal. Coba lagi."}
+                ? t.messageSent
+                : t.messageFailed}
             </span>
             <button
               onClick={() => setShowToast(false)}
-              aria-label={lang === "en" ? "Dismiss notification" : "Tutup notifikasi"}
+              aria-label={t.dismissNotification}
               className="ml-4 font-bold text-gray-400 hover:text-brand-primary"
             >
               <X size={16} />

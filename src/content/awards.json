@@ -1,38 +1,50 @@
 {
-  "en": {
-    "items": [
-      {
-        "category": "National Competition, 2025",
-        "rank": "1st Place",
-        "title": "Content Marketing Competition 2025, Manado",
-        "sponsor": "Awarded by Markplus Institute in collaboration with PT Aneka Tambang (Antam).",
-        "photos": []
+  "items": [
+    {
+      "id": "awards-01",
+      "category": {
+        "en": "National Competition, 2025",
+        "id": "Kompetisi Tingkat Nasional, 2025"
       },
-      {
-        "category": "Regional Competition, 2025",
-        "rank": "2nd Place",
-        "title": "Astra Motor Business Case Competition",
-        "sponsor": "Secured second place inside the South Sulawesi Regional competitive division.",
-        "photos": []
-      }
-    ]
-  },
-  "id": {
-    "items": [
-      {
-        "category": "Kompetisi Tingkat Nasional, 2025",
-        "rank": "Juara 1",
-        "title": "Content Marketing Competition 2025, Manado",
-        "sponsor": "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam).",
-        "photos": []
+      "rank": {
+        "en": "1st Place",
+        "id": "Juara 1"
       },
-      {
-        "category": "Kompetisi Tingkat Regional, 2025",
-        "rank": "Juara 2",
-        "title": "Astra Motor Business Case Competition",
-        "sponsor": "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan.",
-        "photos": []
+      "title": {
+        "en": "Content Marketing Competition 2025, Manado",
+        "id": "Content Marketing Competition 2025, Manado"
+      },
+      "sponsor": {
+        "en": "Awarded by Markplus Institute in collaboration with PT Aneka Tambang (Antam).",
+        "id": "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam)."
+      },
+      "photos": {
+        "en": [],
+        "id": []
       }
-    ]
-  }
+    },
+    {
+      "id": "awards-02",
+      "category": {
+        "en": "Regional Competition, 2025",
+        "id": "Kompetisi Tingkat Regional, 2025"
+      },
+      "rank": {
+        "en": "2nd Place",
+        "id": "Juara 2"
+      },
+      "title": {
+        "en": "Astra Motor Business Case Competition",
+        "id": "Astra Motor Business Case Competition"
+      },
+      "sponsor": {
+        "en": "Secured second place inside the South Sulawesi Regional competitive division.",
+        "id": "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan."
+      },
+      "photos": {
+        "en": [],
+        "id": []
+      }
+    }
+  ]
 }

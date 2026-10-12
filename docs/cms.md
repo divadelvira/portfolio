@@ -6,17 +6,17 @@ Production CMS URL: `https://portfolio-divadelvira.vercel.app/admin`.
 
 1. Open `https://portfolio-divadelvira.vercel.app/admin`.
 2. Click **Login with GitHub** and approve the app for `divadelvira/portfolio`.
-3. Choose the portfolio section, then edit its fields. Expand **English** or **Bahasa Indonesia** for language-specific content; update both when appropriate. Use image fields to upload photos.
-4. Publish the entry using the **Publish** button. Decap commits the change to GitHub's `main` branch.
-5. Wait for the Vercel redeploy to finish, then refresh the public site.
+3. Choose a section in website order: **Beranda**, **Tentang saya**, **Pengalaman**, **Proyek**, **Kompetensi**, **Penghargaan**, **Pendidikan**, **Pelatihan**, **Kontak**, then **Teks dan pengaturan**. Bilingual fields show English and Bahasa Indonesia together; use image fields to upload photos.
+4. Use **Tambah** to add list entries, drag entries to reorder, and remove entries to delete. Core sections cannot be deleted. Projects, awards, rotating roles, experience, training, and their photos are stored with each item's stable internal ID, so moving an item keeps its evidence attached.
+5. Click **Simpan** to save. The production GitHub backend commits changes to `main`; wait for the Vercel redeploy, then refresh the public site.
 
 Indonesian quick guide for Diva:
 
 1. Buka `https://portfolio-divadelvira.vercel.app/admin`.
 2. Masuk dengan GitHub akun pemilik repo `divadelvira/portfolio`.
 3. Pilih bagian yang ingin diubah. Isi kolom **English** dan **Bahasa Indonesia** bila kontennya bilingual; klik kolom gambar untuk mengunggah foto.
-4. Klik **Publish** untuk menerbitkan perubahan.
-5. Tunggu Vercel selesai deploy, lalu cek website utama.
+4. Gunakan **Tambah** untuk menambah daftar, seret untuk mengurutkan, dan hapus entri yang tidak diperlukan. Bagian utama tidak dapat dihapus; bukti foto tetap melekat pada entri melalui ID internal yang stabil.
+5. Klik **Simpan** untuk menyimpan perubahan, lalu tunggu Vercel selesai deploy.
 
 ## Local editing
 
@@ -27,7 +27,7 @@ npm ci       # setelah clone atau jika dependency baru belum terpasang
 npm run dev
 ```
 
-Buka **http://localhost:3000/admin**. `npm run dev` otomatis menyalakan Vite di port 3000 dan Decap lokal di port 8081; tidak perlu akun atau OAuth GitHub. Klik **Login** lokal bila diminta, edit konten, lalu **Publish** untuk menyimpan ke file proyek. Lihat hasilnya di http://localhost:3000.
+Buka **http://localhost:3000/admin**. `npm run dev` otomatis menyalakan Vite di port 3000 dan Decap lokal di port 8081; tidak perlu akun atau OAuth GitHub. Klik **Masuk** lokal bila diminta, edit konten, lalu **Simpan** untuk menyimpan ke file proyek. Lihat hasilnya di http://localhost:3000.
 
 Mode lokal menggunakan filesystem: **tidak membuat commit, tidak push, dan tidak mengubah website online**. Perubahan tersimpan di `src/content/*.json` serta `public/uploads`; cek dengan `git diff` sebelum commit. Kedua server terikat ke `127.0.0.1`, bukan jaringan publik. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya. Port 3000 dan 8081 harus bebas; jika salah satu server gagal, runner menghentikan server lainnya.
 
@@ -61,13 +61,14 @@ CMS_SITE_URL=https://portfolio-divadelvira.vercel.app
 
 ## Catatan untuk pemilik website
 
-- **Profil, kontak, pendidikan dan pengalaman:** nama, foto, email, media sosial, pendidikan, riwayat kerja, dan organisasi.
-- **Proyek portofolio / Penghargaan:** tambah, ubah, hapus, atau urutkan entri. Isi tautan dengan URL HTTPS lengkap.
-- **Pelatihan, kompetensi dan tugas akhir:** sertifikasi, keahlian beserta buktinya, kegiatan akademik, serta detail TA.
-- **Judul profesi bergantian / Teks halaman dan tombol:** judul animasi di halaman utama dan teks bilingual lainnya.
-- Perubahan tidak langsung muncul saat mengetik: klik **Publish**, tunggu deploy Vercel, lalu refresh. Jangan memasukkan kata sandi atau data pribadi rahasia ke konten publik.
+- **Beranda:** identitas, gambar hero, metrik, dan daftar profesi berputar bilingual.
+- **Tentang saya / Pengalaman:** foto dan riwayat pekerjaan; daftar pengalaman dapat ditambah, dihapus, dan diurutkan.
+- **Proyek / Penghargaan:** setiap entri dikelola sekali untuk kedua bahasa; masing-masing bahasa tetap memiliki teks, tautan, dan foto sendiri. Foto bukti ikut entri saat diurutkan.
+- **Kompetensi / Pelatihan / Pendidikan:** sorotan kompetensi, radar, sertifikasi, kegiatan akademik, dan detail TA.
+- **Kontak / Teks dan pengaturan:** kontak publik, label bilingual, SEO, dan informasi presentasi. Sembilan bagian utama memiliki satu berkas konten; **Teks dan pengaturan** mengelola beberapa berkas.
+- Perubahan tidak langsung muncul saat mengetik: klik **Simpan**, tunggu deploy Vercel, lalu refresh. Jangan memasukkan kata sandi atau data pribadi rahasia ke konten publik.
 
-Untuk hasil proyek tunggal, isi **Nilai hasil**. Untuk hasil sebelum-sesudah, kosongkan **Nilai hasil**, isi **Sebelum**, **Sesudah**, dan **Perbandingan sesudah / sebelum** (misalnya `8 / 12 = 0.667`).
+Untuk hasil proyek tunggal, isi **Nilai hasil**. Untuk hasil sebelum-sesudah, kosongkan **Nilai hasil**, isi **Sebelum**, **Sesudah**, dan **Perbandingan sesudah / sebelum** (misalnya `8 / 12 = 0.667`). Jangan mengubah field ID internal: ID menjaga identitas entri dan mencegah foto bukti berpindah ke item yang berbeda.
 
 CMS ini terpisah dari login inbox Firebase yang sudah ada; kredensial inbox tidak dipakai untuk CMS.
 

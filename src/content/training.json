@@ -1,0 +1,96 @@
+{
+  "training": [
+    {
+      "id": "training-1",
+      "title": {
+        "en": "Slimstock training",
+        "id": "Pelatihan Slimstock"
+      },
+      "provider": {
+        "en": "Provider TBA",
+        "id": "Penyelenggara belum diisi"
+      },
+      "date": {
+        "en": "Date TBA",
+        "id": "Tanggal belum diisi"
+      },
+      "summary": {
+        "en": "Course scope and learning outcomes TBA.",
+        "id": "Cakupan pelatihan dan hasil pembelajaran belum diisi."
+      },
+      "skills": [],
+      "photos": []
+    },
+    {
+      "id": "training-2",
+      "title": {
+        "en": "SAP S/4HANA training",
+        "id": "Pelatihan SAP S/4HANA"
+      },
+      "provider": {
+        "en": "Provider TBA",
+        "id": "Penyelenggara belum diisi"
+      },
+      "date": {
+        "en": "Date TBA",
+        "id": "Tanggal belum diisi"
+      },
+      "summary": {
+        "en": "Covers the MM (Materials Management) module in SAP S/4HANA.",
+        "id": "Mencakup modul MM (Materials Management) di SAP S/4HANA."
+      },
+      "skills": [
+        "SAP S/4HANA",
+        "MM (Materials Management)"
+      ],
+      "photos": []
+    },
+    {
+      "id": "training-3",
+      "title": {
+        "en": "Toyota Production System (TPS) training",
+        "id": "Pelatihan Toyota Production System (TPS)"
+      },
+      "provider": {
+        "en": "Provider TBA",
+        "id": "Penyelenggara belum diisi"
+      },
+      "date": {
+        "en": "Date TBA",
+        "id": "Tanggal belum diisi"
+      },
+      "summary": {
+        "en": "Intensive training in JIT, Heijunka, Jidoka and Kaizen, with hands-on operational simulations.",
+        "id": "Pelatihan intensif JIT, Heijunka, Jidoka dan Kaizen dengan simulasi operasional langsung."
+      },
+      "skills": [
+        "JIT",
+        "Heijunka",
+        "Jidoka",
+        "Kaizen"
+      ],
+      "photos": []
+    },
+    {
+      "id": "training-4",
+      "title": {
+        "en": "Bootcamp: name TBA",
+        "id": "Bootcamp: nama belum diisi"
+      },
+      "provider": {
+        "en": "Provider TBA",
+        "id": "Penyelenggara belum diisi"
+      },
+      "date": {
+        "en": "Date TBA",
+        "id": "Tanggal belum diisi"
+      },
+      "summary": {
+        "en": "Topic, course scope and learning outcomes TBA.",
+        "id": "Topik, cakupan pelatihan dan hasil pembelajaran belum diisi."
+      },
+      "skills": [],
+      "photos": []
+    }
+  ]
+}

@@ -1,86 +1,80 @@
 {
-  "training": [
-    {
-      "title": {
-        "en": "Slimstock training",
-        "id": "Pelatihan Slimstock"
+  "skillHighlights": {
+    "tools": [
+      {
+        "en": "Power BI",
+        "id": "Power BI"
       },
-      "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+      {
+        "en": "Microsoft Excel",
+        "id": "Microsoft Excel"
       },
-      "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+      {
+        "en": "Minitab",
+        "id": "Minitab"
       },
-      "summary": {
-        "en": "Course scope and learning outcomes TBA.",
-        "id": "Cakupan pelatihan dan hasil pembelajaran belum diisi."
+      {
+        "en": "SPSS",
+        "id": "SPSS"
       },
-      "skills": [],
-      "photos": []
-    },
-    {
-      "title": {
-        "en": "SAP S/4HANA training",
-        "id": "Pelatihan SAP S/4HANA"
+      {
+        "en": "Canva",
+        "id": "Canva"
       },
-      "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+      {
+        "en": "SAP S/4HANA",
+        "id": "SAP S/4HANA"
+      }
+    ],
+    "supplyChain": [
+      {
+        "en": "Inventory Analysis",
+        "id": "Inventory Analysis"
       },
-      "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+      {
+        "en": "Vendor Evaluation",
+        "id": "Vendor Evaluation"
       },
-      "summary": {
-        "en": "Covers the MM (Materials Management) module in SAP S/4HANA.",
-        "id": "Mencakup modul MM (Materials Management) di SAP S/4HANA."
+      {
+        "en": "MRP Control",
+        "id": "MRP Control"
       },
-      "skills": ["SAP S/4HANA", "MM (Materials Management)"],
-      "photos": []
-    },
-    {
-      "title": {
-        "en": "Toyota Production System (TPS) training",
-        "id": "Pelatihan Toyota Production System (TPS)"
+      {
+        "en": "Lead Time Optimization",
+        "id": "Lead Time Optimization"
       },
-      "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+      {
+        "en": "Forecast Modeling",
+        "id": "Forecast Modeling"
+      }
+    ],
+    "methodologies": [
+      {
+        "en": "Lean Manufacturing",
+        "id": "Lean Manufacturing"
       },
-      "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+      {
+        "en": "Measurement System Analysis",
+        "id": "Measurement System Analysis"
       },
-      "summary": {
-        "en": "Intensive training in JIT, Heijunka, Jidoka and Kaizen, with hands-on operational simulations.",
-        "id": "Pelatihan intensif JIT, Heijunka, Jidoka dan Kaizen dengan simulasi operasional langsung."
+      {
+        "en": "Toyota Production System",
+        "id": "Toyota Production System"
       },
-      "skills": ["JIT", "Heijunka", "Jidoka", "Kaizen"],
-      "photos": []
-    },
-    {
-      "title": {
-        "en": "Bootcamp: name TBA",
-        "id": "Bootcamp: nama belum diisi"
+      {
+        "en": "Kaizen / Continuous Improvement",
+        "id": "Kaizen / Continuous Improvement"
       },
-      "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+      {
+        "en": "Just In Time (JIT)",
+        "id": "Just In Time (JIT)"
       },
-      "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
-      },
-      "summary": {
-        "en": "Topic, course scope and learning outcomes TBA.",
-        "id": "Topik, cakupan pelatihan dan hasil pembelajaran belum diisi."
-      },
-      "skills": [],
-      "photos": []
-    }
-  ],
+      {
+        "en": "Root Cause Analysis (RCA)",
+        "id": "Root Cause Analysis (RCA)"
+      }
+    ]
+  },
   "skillGroups": [
     {
       "title": {
@@ -387,46 +381,33 @@
       ]
     }
   ],
-  "education": {
-    "academicAreas": {
-      "en": "Lean Manufacturing, Quality Engineering and Supply Chain Management.",
-      "id": "Lean Manufacturing, Rekayasa Kualitas dan Manajemen Rantai Pasok."
+  "projectGroupLabels": {
+    "all": {
+      "en": "All",
+      "id": "Semua"
     },
-    "activities": [
-      {
-        "en": "HMTI FT-UH: Head of Entrepreneurship Division, July 2024 to February 2025. Led INCREASE and START-UP business development programs.",
-        "id": "HMTI FT-UH: Ketua Divisi Kewirausahaan, Juli 2024 hingga Februari 2025. Memimpin program pengembangan bisnis INCREASE dan START-UP."
-      },
-      {
-        "en": "ISLI CAMP: Event Organizing Committee, August to October 2024. Coordinated participants, schedules and event flow.",
-        "id": "ISLI CAMP: Panitia Pelaksana Acara, Agustus hingga Oktober 2024. Mengoordinasikan peserta, jadwal dan alur acara."
-      },
-      {
-        "en": "Manufacturing Systems Laboratory Assistant and TPS module coordinator: practicum coordination and Lean learning materials.",
-        "id": "Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS: koordinasi praktikum dan materi pembelajaran Lean."
-      },
-      {
-        "en": "Basic Physics Laboratory Assistant: mentored 100+ engineering students with an emphasis on safety and analytical precision.",
-        "id": "Asisten Laboratorium Fisika Dasar: membimbing lebih dari 100 mahasiswa teknik dengan fokus pada keselamatan dan ketelitian analisis."
-      }
-    ],
-    "thesis": {
-      "title": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      },
-      "abstract": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      },
-      "method": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      },
-      "result": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      }
+    "lean": {
+      "en": "Lean & Process",
+      "id": "Lean & Proses"
+    },
+    "scm": {
+      "en": "Supply Chain",
+      "id": "Rantai Pasok"
+    },
+    "quality": {
+      "en": "Quality",
+      "id": "Kualitas"
     }
+  },
+  "languageProgress": {
+    "indonesian": 100,
+    "english": 85
+  },
+  "radar": {
+    "data": 92,
+    "scm": 89,
+    "process": 95,
+    "lean": 88,
+    "reporting": 87
   }
 }
