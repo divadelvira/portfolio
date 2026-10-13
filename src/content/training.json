@@ -74,22 +74,24 @@
     {
       "id": "training-4",
       "title": {
-        "en": "Bootcamp: name TBA",
-        "id": "Bootcamp: nama belum diisi"
+        "en": "Business Intelligence Bootcamp",
+        "id": "Business Intelligence Bootcamp"
       },
       "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+        "en": "Digital Skola",
+        "id": "Digital Skola"
       },
       "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+        "en": "May - July 2026",
+        "id": "Mei - Juli 2026"
       },
       "summary": {
-        "en": "Topic, course scope and learning outcomes TBA.",
-        "id": "Topik, cakupan pelatihan dan hasil pembelajaran belum diisi."
+        "en": "Completed Digital Skola’s Business Intelligence Bootcamp, covering Python, SQL, Excel, data analytics, BI dashboarding, and machine learning fundamentals, with hands-on projects in data automation, dashboard development, and data-driven decision-making.",
+        "id": "Menyelesaikan Bootcamp Business Intelligence di Digital Skola dengan pembelajaran Python, SQL, Excel, analisis data, dashboard Business Intelligence, dan dasar machine learning. Menerapkan keterampilan tersebut melalui proyek otomasi data, pengembangan dashboard, dan pengambilan keputusan berbasis data."
       },
-      "skills": [],
+      "skills": [
+        null
+      ],
       "photos": []
     }
   ]
