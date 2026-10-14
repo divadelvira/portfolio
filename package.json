@@ -12,6 +12,7 @@
     "check:ui": "node scripts/check-ui.cjs",
     "check:cms": "node scripts/check-cms.cjs && node scripts/check-admin-hooks.cjs && node scripts/check-cms-runtime.cjs && tsx --test scripts/check-cms-auth.test.ts scripts/check-cms-metadata.test.ts",
     "check:cms:ui": "node scripts/check-cms-ui.cjs",
+    "check:cms:save": "node scripts/check-cms-save.cjs",
     "check:admin:ui": "node scripts/check-admin-ui.cjs",
     "check:dev": "node scripts/check-dev.cjs"
   },

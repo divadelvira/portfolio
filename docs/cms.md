@@ -8,7 +8,7 @@ Production CMS URL: `https://portfolio-divadelvira.vercel.app/admin`.
 2. Click **Login with GitHub** and approve the app for `divadelvira/portfolio`.
 3. Choose a section in website order: **Beranda**, **Tentang saya**, **Pengalaman**, **Proyek**, **Kompetensi**, **Penghargaan**, **Pendidikan**, **Pelatihan**, **Kontak**, then **Teks dan pengaturan**. Bilingual fields show English and Bahasa Indonesia together; use image fields to upload photos.
 4. Use **Tambah** to add list entries, drag entries to reorder, and remove entries to delete. Core sections cannot be deleted. Projects, awards, rotating roles, experience, training, and their photos are stored with each item's stable internal ID, so moving an item keeps its evidence attached.
-5. Click **Simpan** to save. The production GitHub backend commits changes to `main`; wait for the Vercel redeploy, then refresh the public site.
+5. Click **Simpan**, then **Simpan perubahan** in its menu. The production GitHub backend commits changes to `main`; wait for the Vercel redeploy, then refresh the public site.
 
 Indonesian quick guide for Diva:
 
@@ -16,7 +16,7 @@ Indonesian quick guide for Diva:
 2. Masuk dengan GitHub akun pemilik repo `divadelvira/portfolio`.
 3. Pilih bagian yang ingin diubah. Isi kolom **English** dan **Bahasa Indonesia** bila kontennya bilingual; klik kolom gambar untuk mengunggah foto.
 4. Gunakan **Tambah** untuk menambah daftar, seret untuk mengurutkan, dan hapus entri yang tidak diperlukan. Bagian utama tidak dapat dihapus; bukti foto tetap melekat pada entri melalui ID internal yang stabil.
-5. Klik **Simpan** untuk menyimpan perubahan, lalu tunggu Vercel selesai deploy.
+5. Klik **Simpan**, lalu **Simpan perubahan** pada menu yang muncul; tunggu Vercel selesai deploy.
 
 ## Local editing
 
@@ -32,6 +32,10 @@ Buka **http://localhost:3000/admin**. `npm run dev` otomatis menyalakan Vite di 
 Mode lokal menggunakan filesystem: **tidak membuat commit, tidak push, dan tidak mengubah website online**. Perubahan tersimpan di `src/content/*.json` serta `public/uploads`; cek dengan `git diff` sebelum commit. Kedua server terikat ke `127.0.0.1`, bukan jaringan publik. Tekan **Ctrl+C** pada terminal dev untuk menghentikan keduanya. Port 3000 dan 8081 harus bebas; jika salah satu server gagal, runner menghentikan server lainnya.
 
 Untuk mengecek startup otomatis, hentikan server dev dulu lalu jalankan `npm run check:dev`. Pengujian ini tidak mengubah konten.
+
+Untuk menguji penyimpanan sungguhan, jalankan `npm run check:cms:save` setelah `npx playwright install chromium` (sekali untuk menyiapkan browser). Tes membuka Decap di salinan sementara, mengubah nama tanpa mengubah gambar, memilih **Simpan → Simpan perubahan**, memeriksa file dan website lokal setelah reload, lalu mengembalikan nama awal. Konten checkout dan production tidak disentuh. Tes memerlukan akses CDN Decap; port 3000 dan 8081 harus bebas.
+
+Validasi path gambar dilakukan pada nilai asli di `preSave`, karena widget gambar Decap 3.16.3 menerapkan `pattern` hanya pada nama file. `npm run check:cms` juga memeriksa pola pada konten sumber; keduanya tidak menggantikan tes simpan browser. GitHub Actions menjalankan checks ini pada push dan PR ke `dev`/`main`.
 
 ## GitHub OAuth App setup
 

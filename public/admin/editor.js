@@ -115,6 +115,27 @@ function missingIdPatches(data, fields, makeId = () => crypto.randomUUID()) {
   return patches;
 }
 
+function validateFieldPatterns(data, fields) {
+  for (const field of fields) {
+    const value = data?.[field.name];
+    if (value == null || value === '') continue;
+    if (field.widget === 'object') validateFieldPatterns(value, field.fields);
+    else if (field.widget === 'list') {
+      for (const item of value) {
+        if (field.fields) validateFieldPatterns(item, field.fields);
+        else {
+          if (typeof item !== 'string' || !item.trim()) {
+            throw new Error(`${field.label || field.name}: isi item daftar atau hapus item yang kosong.`);
+          }
+          validateFieldPatterns({ [field.field.name]: item }, [field.field]);
+        }
+      }
+    } else if (field.pattern && !new RegExp(field.pattern[0]).test(value)) {
+      throw new Error(`${field.label || field.name}: ${field.pattern[1]}`);
+    }
+  }
+}
+
 window.startPortfolioEditor = async function () {
   const loading = document.getElementById('cms-loading');
   try {
@@ -165,6 +186,7 @@ window.startPortfolioEditor = async function () {
         const file = config.collections.flatMap(collection => collection.files).find(candidate => candidate.file === entry.get('path'));
         if (!file) throw new Error('Bagian tidak dikenali. Muat ulang editor sebelum menyimpan.');
         const data = entry.get('data');
+        validateFieldPatterns(data.toJS(), file.fields);
         return missingIdPatches(data.toJS(), file.fields).reduce((updated, patch) => updated.setIn(patch.path, patch.value), data);
       },
     });
@@ -200,7 +222,10 @@ window.startPortfolioEditor = async function () {
         event.stopPropagation();
       }
     }, true);
-    window.CMS.init({ config: { ...config, locale: 'id', load_config_file: false } });
+    // Decap image widgets validate only the basename; preSave validates the original full paths.
+    const editorConfig = JSON.parse(JSON.stringify(config, (_key, value) =>
+      value?.widget === 'image' ? { ...value, pattern: undefined } : value));
+    window.CMS.init({ config: { ...editorConfig, locale: 'id', load_config_file: false } });
     loading.remove();
   } catch (error) {
     console.error('Portfolio editor initialization failed:', error);
