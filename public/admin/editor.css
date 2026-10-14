@@ -71,7 +71,7 @@ a { text-underline-offset: 4px; }
 #nc-root [class*="-AppMainContainer"] { margin: 28px 32px 0 calc(var(--cms-sidebar) + 32px); }
 .cms-authenticated[data-cms-view="index"] #nc-root [class*="-AppMainContainer"] { display: none; }
 #nc-root [class*="-SidebarContainer"] { display: none; }
-#nc-root [class*="-EditorContainer"] { top: var(--cms-header); left: var(--cms-sidebar); width: calc(100% - var(--cms-sidebar)); height: calc(100dvh - var(--cms-header)); background: var(--cms-paper); }
+#nc-root [class*="-EditorContainer"] { min-width: 0; top: var(--cms-header); left: var(--cms-sidebar); width: calc(100% - var(--cms-sidebar)); height: calc(100dvh - var(--cms-header)); background: var(--cms-paper); }
 #nc-root [class*="-ToolbarContainer"] { width: 100%; min-width: 0; background: var(--cms-paper); border-bottom: 1px solid var(--cms-line); box-shadow: none; }
 #nc-root [class*="-ToolbarSectionBackLink"] { border-color: var(--cms-line); }
 #nc-root [class*="-ToolbarSectionMain"] { flex: 1; min-width: 0; }

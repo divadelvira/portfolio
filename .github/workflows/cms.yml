@@ -1,0 +1,40 @@
+name: CMS verification
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  cms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run lint
+      - run: npm run check:cms
+      - run: npm run build
+      - run: npm run check:dev
+      - run: npm run check:cms:save
+      - name: Browser regression checks
+        run: |
+          node scripts/dev.mjs > "$RUNNER_TEMP/portfolio-dev.log" 2>&1 &
+          dev_pid=$!
+          trap 'kill "$dev_pid"; wait "$dev_pid" || true' EXIT
+          for attempt in {1..60}; do
+            if curl --fail --silent http://localhost:3000 > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run check:ui
+          npm run check:cms:ui
+          npm run check:admin:ui
