@@ -17,21 +17,39 @@
       "en": [
         "Focusing academic concentration on Lean Manufacturing, Quality Engineering, and Supply Chain Management (SCM) to design optimized operational systems.",
         "Completed intensive Toyota Production System (TPS) training, mastering JIT, Heijunka, Jidoka, Kaizen, and hands-on operational simulations.",
-        "Served as a Manufacturing Systems Laboratory Assistant and PIC of the TPS module, coordinating practicum sessions and developing learning materials for Lean Manufacturing concepts.",
+        "Served as a Manufacturing Systems Laboratory Assistant and PIC of the TPS module, coordinating practicum sessions for 101 participants and developing learning materials for Lean Manufacturing concepts.",
+        "Built a laboratory administration information system adopted by 179 participants, digitizing activity recaps and paperwork and adding an assistant performance evaluation feature.",
         "Served as a Basic Physics Laboratory Assistant, mentoring 100+ engineering students in physics practicum while ensuring safety and analytical precision."
       ],
       "id": [
         "Berfokus pada konsentrasi akademik di bidang Lean Manufacturing, Quality Engineering, dan Supply Chain Management (SCM) untuk merancang sistem operasional yang teroptimasi.",
         "Selesai mengikuti pelatihan intensif Toyota Production System (TPS) yang mencakup pemahaman mendalam tentang JIT, Heijunka, Jidoka, Kaizen, serta simulasi operasional.",
-        "Menjabat sebagai Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS, mengoordinasikan sesi praktikum serta mengembangkan materi pembelajaran konsep Lean Manufacturing.",
+        "Menjabat sebagai Asisten Laboratorium Sistem Manufaktur dan PIC modul TPS, mengoordinasikan sesi praktikum untuk 101 peserta serta mengembangkan materi pembelajaran konsep Lean Manufacturing.",
+        "Membangun sistem informasi administrasi laboratorium yang digunakan 179 peserta, mendigitalkan rekap kegiatan dan berkas, serta menambahkan fitur evaluasi kinerja asisten.",
         "Menjabat sebagai Asisten Laboratorium Fisika Dasar, membimbing lebih dari 100 mahasiswa teknik dalam praktikum fisika dengan fokus pada keselamatan kerja dan ketelitian analisis."
       ]
     }
   },
   "education": {
     "academicAreas": {
-      "en": "Lean Manufacturing, Quality Engineering and Supply Chain Management.",
-      "id": "Lean Manufacturing, Rekayasa Kualitas dan Manajemen Rantai Pasok."
+      "en": [
+        "Lean Manufacturing",
+        "Quality Engineering",
+        "Supply Chain Management",
+        "Data Analytics",
+        "Industrial Statistics",
+        "Multi-Criteria Decision Making (MCDM)",
+        "Production Planning & Control"
+      ],
+      "id": [
+        "Lean Manufacturing",
+        "Rekayasa Kualitas",
+        "Manajemen Rantai Pasok",
+        "Analitik Data",
+        "Statistika Industri",
+        "Pengambilan Keputusan Multikriteria (MCDM)",
+        "Perencanaan & Pengendalian Produksi"
+      ]
     },
     "activities": [
       {
@@ -53,20 +71,12 @@
     ],
     "thesis": {
       "title": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
+        "en": "Design of a Web-Based Scheduling Information System Using the Design Thinking Framework for Warehouse Distribution Processes",
+        "id": "Perancangan Sistem Informasi Penjadwalan Berbasis Website Menggunakan Framework Design Thinking pada Proses Distribusi di Warehouse"
       },
-      "abstract": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      },
-      "method": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
-      },
-      "result": {
-        "en": "TBA: verified thesis information not yet provided.",
-        "id": "Belum diisi: informasi tugas akhir terverifikasi belum tersedia."
+      "overview": {
+        "en": "Designed and built the Warehouse Appointment Scheduling System (WASS), a web-based vendor arrival scheduling system that replaces manual coordination over chat and phone with centralized time-slot booking. Combining Design Thinking with Rapid Application Development, I traced the root causes of the inbound warehouse bottleneck and developed the solution over three iterations with users, through to deployment on Vercel. Key features include slot booking two days ahead (D-2), a dock capacity monitoring dashboard, admin slot blocking, and digital tickets sent automatically to the vendor's email. The system passed every Black Box Testing scenario and scored 85.45 on the System Usability Scale (Grade A – Excellent).",
+        "id": "Merancang dan membangun Warehouse Appointment Scheduling System (WASS), sistem penjadwalan kedatangan vendor berbasis web yang menggantikan koordinasi manual via chat dan telepon dengan time-slot booking terpusat. Lewat pendekatan Design Thinking yang dipadukan dengan Rapid Application Development, saya menelusuri akar masalah bottleneck di proses inbound warehouse, lalu mengembangkan solusinya dalam tiga iterasi bersama pengguna hingga di-deploy di Vercel. Fitur utamanya meliputi booking slot H-2, dashboard monitoring kapasitas dock, blokir slot oleh admin, dan tiket digital yang otomatis terkirim ke email vendor. Sistem lolos seluruh skenario Black Box Testing dan meraih skor SUS 85,45 (Grade A – Excellent)."
       }
     }
   },
@@ -84,8 +94,8 @@
           "id": "Jul 2024 - Feb 2025"
         },
         "description": {
-          "en": "Led end-to-end program structures to promote startup iterations, managing business development programs like INCREASE and START-UP.",
-          "id": "Memimpin struktur program ujung-ke-ujung untuk mempromosikan iterasi startup, mengelola program pengembangan bisnis mahasiswa seperti INCREASE dan START-UP."
+          "en": "Led end-to-end program structures to promote startup iterations, managing business development programs like INCREASE and START-UP. Led an 8-person team and coordinated with 5 of 9 organizational divisions.",
+          "id": "Memimpin struktur program ujung-ke-ujung untuk mempromosikan iterasi startup, mengelola program pengembangan bisnis mahasiswa seperti INCREASE dan START-UP. Memimpin tim beranggotakan 8 orang dan berkoordinasi dengan 5 dari 9 divisi organisasi."
         },
         "href": "https://www.instagram.com/p/DAjD8sDzF8M/",
         "icon": "users"
@@ -112,8 +122,8 @@
         "key": "mechanical-retreat",
         "title": "Mechanical Retreat XXVII",
         "role": {
-          "en": "Event Coordinator",
-          "id": "Event Coordinator"
+          "en": "Event Division Coordinator",
+          "id": "Koordinator Divisi Acara"
         },
         "date": {
           "en": "Feb 2024 - Mar 2024",
@@ -131,11 +141,11 @@
         "title": "KKN-T 114 UNHAS",
         "role": {
           "en": "Team Secretary",
-          "id": "Team Secretary"
+          "id": "Sekretaris Tim"
         },
         "date": {
           "en": "Jul 2024 - Aug 2024",
-          "id": "Jul 2024 - Aug 2024"
+          "id": "Jul 2024 - Agu 2024"
         },
         "description": {
           "en": "As Team Secretary, I led the administrative coordination and ensured transparent program reporting while actively driving community empowerment initiatives. Specifically, I initiated a 'Moringa-infused Chocolate' training program designed to provide healthy snacks for children and create sustainable economic opportunities for local mothers.",

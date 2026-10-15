@@ -1,5 +1,11 @@
 {
   "email": "divakemur@gmail.com",
+  "resume": "/uploads/documents/CV_Diva_Delvira.pdf",
+  "referenceLetter": "/uploads/documents/reference-letter-pt-vale.pdf",
+  "referenceNote": {
+    "en": "Issued by PT Vale Indonesia Tbk, signed by the Manager of Inventory Management and the Senior Manager of Material Management.",
+    "id": "Diterbitkan PT Vale Indonesia Tbk, ditandatangani Manager Inventory Management dan Senior Manager Material Management."
+  },
   "socialHeading": {
     "en": "OTHER CONNECTION CHANNELS",
     "id": "SALURAN HUBUNGAN LAINNYA"

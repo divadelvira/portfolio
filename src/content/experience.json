@@ -28,17 +28,28 @@
           "Analyzed Inventory, Traffic and Procurement data across 1700+ materials and 2500+ POs to identify stock-out risks, overdue POs, vendor issues, and material priorities, supporting weekly supply chain decision-making.",
           "Developed an automated inventory and procurement monitoring dashboard using Excel and Power Query, integrating MRP, stock, PO, and vendor data to reduce manual reporting time from 2 days to 1 hour.",
           "Coordinated with Procurement and Traffic teams to monitor material availability, procurement status, and delivery risks, supporting timely follow-up of 250+ critical materials.",
+          "Assisted the SCM Sustainability section in building a Power BI dashboard to monitor invoice mismatches, expediting their identification and follow-up.",
           "Assessed internal service quality across 25 attributes and 5 SERVQUAL dimensions from 35 users, identifying an overall service gap of -0.431 and significant gaps in 23 of 25 attributes using SPSS and Python.",
-          "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention."
+          "Prioritized service improvement initiatives by integrating SERVQUAL and Importance-Performance Analysis (IPA), identifying 3 critical attributes requiring immediate intervention, and presented the findings and recommendations to the Senior Manager of Material Management."
         ],
         "id": [
           "Menganalisis data Inventaris, Lalu Lintas Logistik, dan Pengadaan pada lebih dari 1700 material dan 2500 PO untuk mengidentifikasi risiko kehabisan stok, PO yang terlambat, masalah vendor, serta prioritas material, guna mendukung pengambilan keputusan rantai pasok mingguan.",
           "Mengembangkan dasbor pemantauan inventaris dan pengadaan otomatis menggunakan Excel dan Power Query, yang mengintegrasikan data MRP, stok, PO, dan vendor untuk memangkas waktu pelaporan manual dari 2 hari menjadi 1 jam.",
           "Berkoordinasi dengan tim Pengadaan dan Lalu Lintas Logistik untuk memantau ketersediaan material, status pengadaan, dan risiko pengiriman, guna mendukung tindak lanjut yang tepat waktu atas 250+ material kritis.",
+          "Membantu seksi SCM Sustainability membangun dasbor Power BI untuk memantau ketidaksesuaian invoice, sehingga identifikasi dan tindak lanjutnya lebih cepat.",
           "Menilai kualitas layanan internal di 25 atribut dan 5 dimensi SERVQUAL dari 35 pengguna, serta mengidentifikasi kesenjangan layanan keseluruhan sebesar -0.431 dan kesenjangan signifikan pada 23 dari 25 atribut menggunakan SPSS dan Python.",
-          "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera."
+          "Memprioritaskan inisiatif peningkatan layanan dengan mengintegrasikan SERVQUAL dan Importance-Performance Analysis (IPA), serta mengidentifikasi 3 atribut kritis yang membutuhkan intervensi segera, lalu mempresentasikan temuan dan rekomendasinya kepada Senior Manager Material Management."
         ]
-      }
+      },
+      "tools": [
+        "Excel",
+        "Power Query",
+        "Power BI",
+        "SPSS",
+        "Python",
+        "SERVQUAL",
+        "IPA"
+      ]
     },
     {
       "key": "triatra",
@@ -76,7 +87,15 @@
           "Melakukan pemetaan vendor dan penilaian kinerja awal berdasarkan kriteria layanan, pengiriman, dan komersial untuk mendukung pengerucutan daftar (shortlisting) mitra logistik dalam proses tender.",
           "Mendukung persiapan tender dengan menyusun data dan dokumentasi evaluasi vendor, serta berkontribusi pada penyusunan persyaratan SLA dan pemantauan kinerja untuk rute-rute terpilih."
         ]
-      }
+      },
+      "tools": [
+        "Excel",
+        "Canva",
+        "QCD Vendor Evaluation",
+        "Vendor Mapping",
+        "SLA Design",
+        "Freight Data Analysis"
+      ]
     }
   ]
 }

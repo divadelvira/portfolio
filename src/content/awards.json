@@ -19,8 +19,16 @@
         "id": "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam)."
       },
       "photos": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/awards/cmc-manado-certificate.jpg",
+          "/uploads/awards/cmc-manado-1st-champion.jpg",
+          "/uploads/awards/cmc-manado-proposal-cover.jpg"
+        ],
+        "id": [
+          "/uploads/awards/cmc-manado-certificate.jpg",
+          "/uploads/awards/cmc-manado-1st-champion.jpg",
+          "/uploads/awards/cmc-manado-proposal-cover.jpg"
+        ]
       }
     },
     {
@@ -42,8 +50,16 @@
         "id": "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan."
       },
       "photos": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/awards/astra-bcc-2nd-winner.jpg",
+          "/uploads/awards/astra-bcc-team.jpg",
+          "/uploads/awards/astra-bcc-proposal-cover.jpg"
+        ],
+        "id": [
+          "/uploads/awards/astra-bcc-2nd-winner.jpg",
+          "/uploads/awards/astra-bcc-team.jpg",
+          "/uploads/awards/astra-bcc-proposal-cover.jpg"
+        ]
       }
     }
   ]

@@ -26,8 +26,8 @@ const { chromium } = require("playwright");
     await page.getByRole("button", { name: "MSA", exact: true }).click();
     await page.locator(".summer-metric-result").getByText("2.91%", { exact: true }).waitFor();
     await page.getByRole("button", { name: "TENDER", exact: true }).click();
-    await page.getByText("Tender Preparation", { exact: true }).waitFor();
-    const experience = page.getByRole("button", { name: /PT Vale Indonesia Tbk/ });
+    await page.locator(".summer-metric-result").getByText("10", { exact: true }).waitFor();
+    const experience = page.getByRole("button", { name: /^PT Vale Indonesia Tbk/ });
     await experience.focus();
     await page.keyboard.press("Enter");
     assert.equal(await experience.getAttribute("aria-expanded"), "true");
@@ -35,7 +35,7 @@ const { chromium } = require("playwright");
     assert.equal(await experience.getAttribute("aria-expanded"), "false");
     assert.equal(await page.locator('.summer-project-card').count(), 7);
     assert.equal(await page.locator('#project-stage a[href^="https://drive.google.com/"]').count(), 1);
-    await page.locator("canvas").waitFor();
+    assert.equal(await page.locator(".summer-core-item").count(), 5);
     await page.locator("#contact input").nth(0).fill("UI regression check");
     await page.locator("#contact input").nth(1).fill("test@example.com");
     await page.locator("#contact textarea").fill("Offline check only; never send to Firebase.");
@@ -73,10 +73,9 @@ const { chromium } = require("playwright");
         await page
           .locator(".text-justify")
           .evaluateAll((elements) =>
-            elements.every((element) => getComputedStyle(element).textAlign ===
-              (element.closest(".summer-contact-heading") ? "justify" : "start")),
+            elements.every((element) => getComputedStyle(element).textAlign === "justify"),
           ),
-        `Prose must retain the existing reading alignment at ${width}px`,
+        `Prose must be justified at ${width}px`,
       );
       if (width === 390) {
         await page.getByRole("button", { name: "Toggle Menu" }).click();
@@ -131,7 +130,7 @@ const { chromium } = require("playwright");
     await page.getByRole("button", { name: "EN", exact: true }).click();
     await page.getByText("Data-Driven Problem Solver", { exact: true }).waitFor();
     console.log(
-      "PASS: language persistence, metrics, keyboard expansion, project links, radar, offline form, admin dialog, mobile menu, viewport overflow (320–1440px). No Firebase writes.",
+      "PASS: language persistence, metrics, keyboard expansion, project links, core competencies, offline form, admin dialog, mobile menu, viewport overflow (320–1440px). No Firebase writes.",
     );
   } finally {
     await browser.close();

@@ -22,8 +22,12 @@
             "value": "85.45",
             "note": "Grade A (Excellent), 12/12 Black Box tests"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/wass-main.jpg",
+          "gallery": [
+            "/uploads/projects/wass-admin-dashboard.jpg",
+            "/uploads/projects/wass-2-en.jpg",
+            "/uploads/projects/wass-3-en.jpg"
+          ]
         },
         {
           "title": "Kaizen Project for Tuyere Material Delivery",
@@ -32,7 +36,7 @@
           "link": "https://drive.google.com/file/d/1BXCU3QOt1M8CNwPIOM84ODhyssk6Ydb5/view?usp=sharing",
           "tags": [
             "kaizen",
-            "PDCA",
+            "pdca",
             "problemsolving"
           ],
           "group": "lean",
@@ -43,14 +47,18 @@
             "ratio": 0.6666666666666666,
             "note": "+50% labor efficiency"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/kaizen-tuyere-main.jpg",
+          "gallery": [
+            "/uploads/projects/kaizen-tuyere-1-en.jpg",
+            "/uploads/projects/kaizen-tuyere-2-en.jpg",
+            "/uploads/projects/kaizen-tuyere-3-en.jpg"
+          ]
         },
         {
           "title": "Improvement Monitoring of Priority Materials",
           "cat": "Excel & Power Query Integration",
           "desc": "Faced with high rates of material stock-outs due to a lack of integrated inventory and procurement visibility across the supply chain, I developed a data-driven automated monitoring dashboard using Excel and Power Query to track inventory risks, order status, and vendor delivery performance in real time. This initiative successfully reduced operational monitoring time from 2 days to less than 1 hour and facilitated more proactive and targeted decision-making.",
-          "link": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
+          "link": "https://drive.google.com/file/d/1bcrP1LgEo_kZRCjrkECx6uSXxN_HrYES/view?usp=drive_link",
           "tags": [
             "dashboard",
             "automation",
@@ -64,8 +72,12 @@
             "after": "< 1 hour",
             "ratio": 0.020833333333333332
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/priority-materials-main.jpg",
+          "gallery": [
+            "/uploads/projects/priority-materials-1-en.jpg",
+            "/uploads/projects/priority-materials-2-en.jpg",
+            "/uploads/projects/priority-materials-3-en.jpg"
+          ]
         },
         {
           "title": "Vendor Selection & Tender Preparation",
@@ -85,17 +97,21 @@
             "value": "QCD",
             "note": "Monthly scorecard with penalty scheme"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/vendor-selection-main.jpg",
+          "gallery": [
+            "/uploads/projects/vendor-selection-1-en.jpg",
+            "/uploads/projects/vendor-selection-2-en.jpg",
+            "/uploads/projects/vendor-selection-3-en.jpg"
+          ]
         },
         {
           "title": "Measurement System Analysis (MSA)",
           "cat": "Statistical Quality Engineering",
-          "desc": "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy.",
+          "desc": "To determine the suitability of raw materials for animal feed, JAPFA (the case-study company for this course project) needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy.",
           "link": "https://drive.google.com/file/d/18VRQzoig-ltFOdykqzcO7-WGgMpC2_jf/view?usp=sharing",
           "tags": [
-            "SPSS",
-            "Minitab",
+            "spss",
+            "minitab",
             "qualitycontrol"
           ],
           "group": "quality",
@@ -104,8 +120,12 @@
             "value": "2.91%",
             "note": "Crossed Gage R&R (ANOVA)"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/msa-japfa-main-en.jpg",
+          "gallery": [
+            "/uploads/projects/msa-japfa-1-en.jpg",
+            "/uploads/projects/msa-japfa-2-en.jpg",
+            "/uploads/projects/msa-japfa-3-en.jpg"
+          ]
         },
         {
           "title": "Internal Service Quality Analysis of a Material Management Division",
@@ -125,8 +145,12 @@
             "value": "−0.431",
             "note": "23 of 25 attributes significant"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/servqual-main-en.jpg",
+          "gallery": [
+            "/uploads/projects/servqual-1-en.jpg",
+            "/uploads/projects/servqual-2-en.jpg",
+            "/uploads/projects/servqual-3-en.jpg"
+          ]
         },
         {
           "title": "SMART FEED Capstone Project",
@@ -134,7 +158,7 @@
           "desc": "The high cost of commercial fish feed accounts for 60–70% of fish farmers’ operating expenses, while industrial waste such as tofu pulp has not yet been fully utilized. I integrated the principles of Production Planning and Lean Manufacturing to design and develop a high-nutrient, environmentally friendly alternative fish feed product made from tofu residue. This product successfully reduced production costs, allowing it to be sold at a very affordable price (Rp7,000 per 100 grams), and was empirically proven to maintain a positive growth trend in tilapia during a three-week monitoring period.",
           "link": "https://drive.google.com/file/d/1SvJ3Xd9yge0r6bEsKrJ1fgHwo3NjBglN/view?usp=sharing",
           "tags": [
-            "designproduct",
+            "productdesign",
             "leanmanufacturing",
             "productionplanning"
           ],
@@ -144,8 +168,12 @@
             "value": "Rp7,000",
             "note": "per 100 grams"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/smart-feed-main-en.jpg",
+          "gallery": [
+            "/uploads/projects/smart-feed-1-en.jpg",
+            "/uploads/projects/smart-feed-2-en.jpg",
+            "/uploads/projects/smart-feed-3-en.jpg"
+          ]
         }
       ]
     },
@@ -171,8 +199,12 @@
             "value": "85,45",
             "note": "Grade A (Excellent), 12/12 uji Black Box"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/wass-main.jpg",
+          "gallery": [
+            "/uploads/projects/wass-admin-dashboard.jpg",
+            "/uploads/projects/wass-2-id.jpg",
+            "/uploads/projects/wass-3-id.jpg"
+          ]
         },
         {
           "title": "Kaizen Project for Tuyere Material Delivery",
@@ -181,7 +213,7 @@
           "link": "https://drive.google.com/file/d/1pmIR8LrwtvomHuQFXOi9nwodL6cFYUcC/view?usp=sharing",
           "tags": [
             "kaizen",
-            "PDCA",
+            "pdca",
             "problemsolving"
           ],
           "group": "lean",
@@ -192,14 +224,18 @@
             "ratio": 0.6666666666666666,
             "note": "+50% efisiensi tenaga kerja"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/kaizen-tuyere-main.jpg",
+          "gallery": [
+            "/uploads/projects/kaizen-tuyere-1-id.jpg",
+            "/uploads/projects/kaizen-tuyere-2-id.jpg",
+            "/uploads/projects/kaizen-tuyere-3-id.jpg"
+          ]
         },
         {
           "title": "Improvement Monitoring of Priority Materials",
           "cat": "Excel & Power Query Integration",
           "desc": "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah.",
-          "link": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
+          "link": "https://drive.google.com/file/d/12n4Kdco_DK9943bryn1fxkRhrOZEQ5Ro/view?usp=drive_link",
           "tags": [
             "dashboard",
             "automation",
@@ -213,8 +249,12 @@
             "after": "< 1 jam",
             "ratio": 0.020833333333333332
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/priority-materials-main.jpg",
+          "gallery": [
+            "/uploads/projects/priority-materials-1-id.jpg",
+            "/uploads/projects/priority-materials-2-id.jpg",
+            "/uploads/projects/priority-materials-3-id.jpg"
+          ]
         },
         {
           "title": "Vendor Selection & Tender Preparation",
@@ -234,17 +274,21 @@
             "value": "QCD",
             "note": "Penilaian bulanan dengan skema penalti"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/vendor-selection-main.jpg",
+          "gallery": [
+            "/uploads/projects/vendor-selection-1-id.jpg",
+            "/uploads/projects/vendor-selection-2-id.jpg",
+            "/uploads/projects/vendor-selection-3-id.jpg"
+          ]
         },
         {
           "title": "Measurement System Analysis (MSA)",
           "cat": "Statistical Quality Engineering",
-          "desc": "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen.",
+          "desc": "Untuk menentukan kelayakan bahan baku pakan ternak, JAPFA (perusahaan studi kasus pada proyek perkuliahan ini) perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen.",
           "link": "https://drive.google.com/file/d/1jvySSHcmohOKzhZ4mQZaoqGpll1xULBO/view?usp=sharing",
           "tags": [
-            "SPSS",
-            "Minitab",
+            "spss",
+            "minitab",
             "qualitycontrol"
           ],
           "group": "quality",
@@ -253,8 +297,12 @@
             "value": "2,91%",
             "note": "Crossed Gage R&R (ANOVA)"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/msa-japfa-main-id.jpg",
+          "gallery": [
+            "/uploads/projects/msa-japfa-1-id.jpg",
+            "/uploads/projects/msa-japfa-2-id.jpg",
+            "/uploads/projects/msa-japfa-3-id.jpg"
+          ]
         },
         {
           "title": "Internal Service Quality Analysis of a Material Management Division",
@@ -264,7 +312,7 @@
           "tags": [
             "servqual",
             "ipa",
-            "statistika",
+            "statistics",
             "python",
             "inventorymanagement"
           ],
@@ -274,8 +322,12 @@
             "value": "−0,431",
             "note": "23 dari 25 atribut signifikan"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/servqual-main-id.jpg",
+          "gallery": [
+            "/uploads/projects/servqual-1-id.jpg",
+            "/uploads/projects/servqual-2-id.jpg",
+            "/uploads/projects/servqual-3-id.jpg"
+          ]
         },
         {
           "title": "SMART FEED Capstone Project",
@@ -283,7 +335,7 @@
           "desc": "Tingginya biaya pakan ikan komersial menyumbang 60–70% dari pengeluaran operasional pembudidaya ikan, sementara limbah industri seperti ampas tahu belum dimanfaatkan secara optimal. Saya mengintegrasikan prinsip Perencanaan Produksi dan Lean Manufacturing untuk merancang dan mengembangkan produk pakan ikan alternatif bernutrisi tinggi dan ramah lingkungan dari ampas tahu. Produk ini sukses mengurangi biaya produksi, sehingga dapat dijual dengan harga terjangkau (Rp7.000 per 100 gram), dan terbukti secara empiris menjaga tren pertumbuhan positif pada ikan nila selama periode pemantauan tiga minggu.",
           "link": "https://drive.google.com/file/d/1DyDkeZYXNrB5xl_rnlIyBRh4xAdC1J6n/view?usp=sharing",
           "tags": [
-            "designproduct",
+            "productdesign",
             "leanmanufacturing",
             "productionplanning"
           ],
@@ -293,8 +345,12 @@
             "value": "Rp7.000",
             "note": "per 100 gram"
           },
-          "image": "",
-          "gallery": []
+          "image": "/uploads/projects/smart-feed-main-id.jpg",
+          "gallery": [
+            "/uploads/projects/smart-feed-1-id.jpg",
+            "/uploads/projects/smart-feed-2-id.jpg",
+            "/uploads/projects/smart-feed-3-id.jpg"
+          ]
         }
       ]
     }
@@ -307,14 +363,22 @@
           "rank": "1st Place",
           "title": "Content Marketing Competition 2025, Manado",
           "sponsor": "Awarded by Markplus Institute in collaboration with PT Aneka Tambang (Antam).",
-          "photos": []
+          "photos": [
+            "/uploads/awards/cmc-manado-certificate.jpg",
+            "/uploads/awards/cmc-manado-1st-champion.jpg",
+            "/uploads/awards/cmc-manado-proposal-cover.jpg"
+          ]
         },
         {
           "category": "Regional Competition, 2025",
           "rank": "2nd Place",
           "title": "Astra Motor Business Case Competition",
           "sponsor": "Secured second place inside the South Sulawesi Regional competitive division.",
-          "photos": []
+          "photos": [
+            "/uploads/awards/astra-bcc-2nd-winner.jpg",
+            "/uploads/awards/astra-bcc-team.jpg",
+            "/uploads/awards/astra-bcc-proposal-cover.jpg"
+          ]
         }
       ]
     },
@@ -325,14 +389,22 @@
           "rank": "Juara 1",
           "title": "Content Marketing Competition 2025, Manado",
           "sponsor": "Diberikan oleh Markplus Institute bekerja sama dengan PT Aneka Tambang (Antam).",
-          "photos": []
+          "photos": [
+            "/uploads/awards/cmc-manado-certificate.jpg",
+            "/uploads/awards/cmc-manado-1st-champion.jpg",
+            "/uploads/awards/cmc-manado-proposal-cover.jpg"
+          ]
         },
         {
           "category": "Kompetisi Tingkat Regional, 2025",
           "rank": "Juara 2",
           "title": "Astra Motor Business Case Competition",
           "sponsor": "Berhasil meraih posisi kedua dalam divisi kompetitif Regional Sulawesi Selatan.",
-          "photos": []
+          "photos": [
+            "/uploads/awards/astra-bcc-2nd-winner.jpg",
+            "/uploads/awards/astra-bcc-team.jpg",
+            "/uploads/awards/astra-bcc-proposal-cover.jpg"
+          ]
         }
       ]
     }

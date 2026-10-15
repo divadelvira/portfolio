@@ -469,6 +469,19 @@
                       }
                     }
                   ]
+                },
+                {
+                  "name": "tools",
+                  "label": "Tools & metode",
+                  "required": false,
+                  "widget": "list",
+                  "collapsed": true,
+                  "field": {
+                    "widget": "string",
+                    "name": "item",
+                    "label": "Entri",
+                    "required": true
+                  }
                 }
               ],
               "summary": "{{fields.company}} — {{fields.role.id}} / {{fields.role.en}}",
@@ -985,75 +998,94 @@
           "format": "json",
           "fields": [
             {
-              "name": "skillHighlights",
-              "label": "Sorotan kompetensi",
+              "name": "coreCompetencies",
+              "label": "Kompetensi inti",
               "required": false,
-              "widget": "object",
-              "collapsed": false,
+              "widget": "list",
+              "collapsed": true,
+              "summary": "{{fields.title.id}} / {{fields.title.en}}",
               "fields": [
                 {
-                  "name": "tools",
-                  "label": "Tools",
+                  "name": "key",
+                  "label": "ID",
                   "required": false,
-                  "widget": "list",
-                  "collapsed": true,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
+                {
+                  "name": "title",
+                  "label": "Judul",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
                   "fields": [
                     {
                       "name": "en",
                       "label": "Bahasa Inggris",
-                      "required": false,
+                      "required": true,
                       "widget": "string"
                     },
                     {
                       "name": "id",
                       "label": "Bahasa Indonesia",
-                      "required": false,
-                      "widget": "hidden",
-                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                      "required": true,
+                      "widget": "string"
                     }
                   ]
                 },
                 {
-                  "name": "supplyChain",
-                  "label": "Supply Chain",
+                  "name": "summary",
+                  "label": "Ringkasan",
                   "required": false,
-                  "widget": "list",
-                  "collapsed": true,
+                  "widget": "object",
+                  "collapsed": false,
                   "fields": [
                     {
                       "name": "en",
                       "label": "Bahasa Inggris",
-                      "required": false,
-                      "widget": "string"
+                      "required": true,
+                      "widget": "text"
                     },
                     {
                       "name": "id",
                       "label": "Bahasa Indonesia",
-                      "required": false,
-                      "widget": "hidden",
-                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                      "required": true,
+                      "widget": "text"
                     }
                   ]
                 },
                 {
-                  "name": "methodologies",
-                  "label": "Methodologies",
+                  "name": "proof",
+                  "label": "Bukti",
                   "required": false,
-                  "widget": "list",
-                  "collapsed": true,
+                  "widget": "object",
+                  "collapsed": false,
                   "fields": [
                     {
                       "name": "en",
                       "label": "Bahasa Inggris",
-                      "required": false,
-                      "widget": "string"
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
                     },
                     {
                       "name": "id",
                       "label": "Bahasa Indonesia",
-                      "required": false,
-                      "widget": "hidden",
-                      "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                      "required": true,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
                     }
                   ]
                 }
@@ -1065,7 +1097,15 @@
               "required": false,
               "widget": "list",
               "collapsed": true,
+              "summary": "{{fields.title.id}} / {{fields.title.en}}",
               "fields": [
+                {
+                  "name": "key",
+                  "label": "ID",
+                  "required": false,
+                  "widget": "hidden",
+                  "hint": "ID stabil internal. Diisi otomatis; jangan diubah."
+                },
                 {
                   "name": "title",
                   "label": "Judul",
@@ -1089,10 +1129,11 @@
                 },
                 {
                   "name": "items",
-                  "label": "Daftar entri",
+                  "label": "Daftar skill",
                   "required": false,
                   "widget": "list",
                   "collapsed": true,
+                  "summary": "{{fields.skill.en}}",
                   "fields": [
                     {
                       "name": "skill",
@@ -1116,8 +1157,8 @@
                       ]
                     },
                     {
-                      "name": "evidence",
-                      "label": "Evidence",
+                      "name": "description",
+                      "label": "Deskripsi",
                       "required": false,
                       "widget": "object",
                       "collapsed": false,
@@ -1126,24 +1167,51 @@
                           "name": "en",
                           "label": "Bahasa Inggris",
                           "required": true,
-                          "widget": "string"
+                          "widget": "text"
                         },
                         {
                           "name": "id",
                           "label": "Bahasa Indonesia",
                           "required": true,
-                          "widget": "string"
+                          "widget": "text"
                         }
                       ]
                     },
                     {
-                      "name": "kind",
-                      "label": "Kind",
+                      "name": "evidence",
+                      "label": "Bukti",
                       "required": false,
-                      "widget": "string"
+                      "widget": "object",
+                      "collapsed": false,
+                      "fields": [
+                        {
+                          "name": "en",
+                          "label": "Bahasa Inggris",
+                          "required": true,
+                          "widget": "text"
+                        },
+                        {
+                          "name": "id",
+                          "label": "Bahasa Indonesia",
+                          "required": true,
+                          "widget": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "tools",
+                      "label": "Tools / metode",
+                      "required": false,
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
                     }
-                  ],
-                  "summary": "{{fields.title.id}} / {{fields.title.en}}"
+                  ]
                 }
               ]
             },
@@ -1266,53 +1334,11 @@
               ]
             },
             {
-              "name": "radar",
-              "label": "Nilai radar",
+              "name": "englishCertificate",
+              "label": "Sertifikat bahasa Inggris (PDF)",
               "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "data",
-                  "label": "Data",
-                  "required": false,
-                  "widget": "number",
-                  "min": 0,
-                  "max": 100
-                },
-                {
-                  "name": "scm",
-                  "label": "Scm",
-                  "required": false,
-                  "widget": "number",
-                  "min": 0,
-                  "max": 100
-                },
-                {
-                  "name": "process",
-                  "label": "Process",
-                  "required": false,
-                  "widget": "number",
-                  "min": 0,
-                  "max": 100
-                },
-                {
-                  "name": "lean",
-                  "label": "Lean",
-                  "required": false,
-                  "widget": "number",
-                  "min": 0,
-                  "max": 100
-                },
-                {
-                  "name": "reporting",
-                  "label": "Reporting",
-                  "required": false,
-                  "widget": "number",
-                  "min": 0,
-                  "max": 100
-                }
-              ]
+              "widget": "file",
+              "hint": "Opsional. Tautan sertifikat tampil di kartu Bahasa Inggris jika diisi."
             }
           ]
         }
@@ -1620,7 +1646,7 @@
               "fields": [
                 {
                   "name": "academicAreas",
-                  "label": "Academic Areas",
+                  "label": "Bidang akademik utama",
                   "required": false,
                   "widget": "object",
                   "collapsed": false,
@@ -1629,13 +1655,27 @@
                       "name": "en",
                       "label": "Bahasa Inggris",
                       "required": true,
-                      "widget": "string"
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
                     },
                     {
                       "name": "id",
                       "label": "Bahasa Indonesia",
                       "required": true,
-                      "widget": "string"
+                      "widget": "list",
+                      "collapsed": true,
+                      "field": {
+                        "widget": "string",
+                        "name": "item",
+                        "label": "Entri",
+                        "required": true
+                      }
                     }
                   ]
                 },
@@ -1691,8 +1731,8 @@
                       ]
                     },
                     {
-                      "name": "abstract",
-                      "label": "Abstract",
+                      "name": "overview",
+                      "label": "Ringkasan",
                       "required": false,
                       "widget": "object",
                       "collapsed": false,
@@ -1701,55 +1741,13 @@
                           "name": "en",
                           "label": "Bahasa Inggris",
                           "required": true,
-                          "widget": "string"
+                          "widget": "text"
                         },
                         {
                           "name": "id",
                           "label": "Bahasa Indonesia",
                           "required": true,
-                          "widget": "string"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "method",
-                      "label": "Method",
-                      "required": false,
-                      "widget": "object",
-                      "collapsed": false,
-                      "fields": [
-                        {
-                          "name": "en",
-                          "label": "Bahasa Inggris",
-                          "required": true,
-                          "widget": "string"
-                        },
-                        {
-                          "name": "id",
-                          "label": "Bahasa Indonesia",
-                          "required": true,
-                          "widget": "string"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "result",
-                      "label": "Hasil proyek",
-                      "required": false,
-                      "widget": "object",
-                      "collapsed": false,
-                      "fields": [
-                        {
-                          "name": "en",
-                          "label": "Bahasa Inggris",
-                          "required": true,
-                          "widget": "string"
-                        },
-                        {
-                          "name": "id",
-                          "label": "Bahasa Indonesia",
-                          "required": true,
-                          "widget": "string"
+                          "widget": "text"
                         }
                       ]
                     }
@@ -1997,6 +1995,20 @@
                   }
                 },
                 {
+                  "name": "document",
+                  "label": "Sertifikat / dokumen (PDF)",
+                  "required": false,
+                  "widget": "file",
+                  "hint": "Opsional. Tombol Lihat sertifikat hanya tampil jika file ini diisi."
+                },
+                {
+                  "name": "credentialId",
+                  "label": "ID kredensial",
+                  "required": false,
+                  "widget": "string",
+                  "hint": "Opsional. Tampil di dialog pelatihan."
+                },
+                {
                   "name": "photos",
                   "label": "Foto bukti",
                   "required": false,
@@ -2042,6 +2054,41 @@
               "pattern": [
                 "^[^@ ]+@[^@ ]+.[^@ ]+$",
                 "Enter a valid email address."
+              ]
+            },
+            {
+              "name": "resume",
+              "label": "File CV (PDF)",
+              "required": false,
+              "widget": "file",
+              "hint": "Unggah CV dalam PDF. Tombol Unduh CV hanya tampil jika file ini diisi."
+            },
+            {
+              "name": "referenceLetter",
+              "label": "Surat rekomendasi (PDF)",
+              "required": false,
+              "widget": "file",
+              "hint": "Unggah surat rekomendasi. Kartu surat rekomendasi di bagian Let's Connect hanya tampil jika file ini diisi."
+            },
+            {
+              "name": "referenceNote",
+              "label": "Keterangan surat rekomendasi",
+              "required": false,
+              "widget": "object",
+              "collapsed": false,
+              "fields": [
+                {
+                  "name": "en",
+                  "label": "Bahasa Inggris",
+                  "required": true,
+                  "widget": "text"
+                },
+                {
+                  "name": "id",
+                  "label": "Bahasa Indonesia",
+                  "required": true,
+                  "widget": "text"
+                }
               ]
             },
             {
@@ -2525,36 +2572,6 @@
                   "widget": "string"
                 },
                 {
-                  "name": "skillsCategory1",
-                  "label": "Skills Category1",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "skillsCategory2",
-                  "label": "Skills Category2",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "skillsCategory3",
-                  "label": "Skills Category3",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "chartHeading",
-                  "label": "Chart Heading",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "chartFooter",
-                  "label": "Chart Footer",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
                   "name": "achievementsTitle",
                   "label": "Achievements Title",
                   "required": false,
@@ -2623,48 +2640,6 @@
                 {
                   "name": "leaderNetworkLabel",
                   "label": "Leader Network Label",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisData",
-                  "label": "Axis Data",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisScm",
-                  "label": "Axis Scm",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisProcess",
-                  "label": "Axis Process",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisLean",
-                  "label": "Axis Lean",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisReporting",
-                  "label": "Axis Reporting",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "mobileAxisProcess",
-                  "label": "Mobile Axis Process",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "competencyScore",
-                  "label": "Competency Score",
                   "required": false,
                   "widget": "string"
                 },
@@ -2767,6 +2742,42 @@
                 {
                   "name": "educationGpaLabel",
                   "label": "Education Gpa Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "coreIntro",
+                  "label": "Core Intro",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "downloadCv",
+                  "label": "Download CV",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "toolsUsed",
+                  "label": "Tools Used",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "referenceHeading",
+                  "label": "Reference Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewReferenceLetter",
+                  "label": "View Reference Letter",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewToeflCertificate",
+                  "label": "View TOEFL Certificate",
                   "required": false,
                   "widget": "string"
                 }
@@ -3170,36 +3181,6 @@
                   "widget": "string"
                 },
                 {
-                  "name": "skillsCategory1",
-                  "label": "Skills Category1",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "skillsCategory2",
-                  "label": "Skills Category2",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "skillsCategory3",
-                  "label": "Skills Category3",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "chartHeading",
-                  "label": "Chart Heading",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "chartFooter",
-                  "label": "Chart Footer",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
                   "name": "achievementsTitle",
                   "label": "Achievements Title",
                   "required": false,
@@ -3268,48 +3249,6 @@
                 {
                   "name": "leaderNetworkLabel",
                   "label": "Leader Network Label",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisData",
-                  "label": "Axis Data",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisScm",
-                  "label": "Axis Scm",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisProcess",
-                  "label": "Axis Process",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisLean",
-                  "label": "Axis Lean",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "axisReporting",
-                  "label": "Axis Reporting",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "mobileAxisProcess",
-                  "label": "Mobile Axis Process",
-                  "required": false,
-                  "widget": "string"
-                },
-                {
-                  "name": "competencyScore",
-                  "label": "Competency Score",
                   "required": false,
                   "widget": "string"
                 },
@@ -3412,6 +3351,42 @@
                 {
                   "name": "educationGpaLabel",
                   "label": "Education Gpa Label",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "coreIntro",
+                  "label": "Core Intro",
+                  "required": false,
+                  "widget": "text"
+                },
+                {
+                  "name": "downloadCv",
+                  "label": "Download CV",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "toolsUsed",
+                  "label": "Tools Used",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "referenceHeading",
+                  "label": "Reference Heading",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewReferenceLetter",
+                  "label": "View Reference Letter",
+                  "required": false,
+                  "widget": "string"
+                },
+                {
+                  "name": "viewToeflCertificate",
+                  "label": "View TOEFL Certificate",
                   "required": false,
                   "widget": "string"
                 }
@@ -3858,8 +3833,8 @@
               ]
             },
             {
-              "name": "thesisAbstract",
-              "label": "Thesis Abstract",
+              "name": "thesisOverview",
+              "label": "Thesis Overview",
               "required": false,
               "widget": "object",
               "collapsed": false,
@@ -3879,8 +3854,8 @@
               ]
             },
             {
-              "name": "thesisMethod",
-              "label": "Thesis Method",
+              "name": "evidenceLabel",
+              "label": "Evidence Label",
               "required": false,
               "widget": "object",
               "collapsed": false,
@@ -3900,8 +3875,8 @@
               ]
             },
             {
-              "name": "thesisResult",
-              "label": "Thesis Result",
+              "name": "viewCertificate",
+              "label": "View Certificate",
               "required": false,
               "widget": "object",
               "collapsed": false,
@@ -3921,8 +3896,8 @@
               ]
             },
             {
-              "name": "projectKind",
-              "label": "Project Kind",
+              "name": "openFullSize",
+              "label": "Open Full Size",
               "required": false,
               "widget": "object",
               "collapsed": false,
@@ -3942,113 +3917,8 @@
               ]
             },
             {
-              "name": "workKind",
-              "label": "Work Kind",
-              "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "en",
-                  "label": "Bahasa Inggris",
-                  "required": true,
-                  "widget": "string"
-                },
-                {
-                  "name": "id",
-                  "label": "Bahasa Indonesia",
-                  "required": true,
-                  "widget": "string"
-                }
-              ]
-            },
-            {
-              "name": "trainingKind",
-              "label": "Training Kind",
-              "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "en",
-                  "label": "Bahasa Inggris",
-                  "required": true,
-                  "widget": "string"
-                },
-                {
-                  "name": "id",
-                  "label": "Bahasa Indonesia",
-                  "required": true,
-                  "widget": "string"
-                }
-              ]
-            },
-            {
-              "name": "campusKind",
-              "label": "Campus Kind",
-              "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "en",
-                  "label": "Bahasa Inggris",
-                  "required": true,
-                  "widget": "string"
-                },
-                {
-                  "name": "id",
-                  "label": "Bahasa Indonesia",
-                  "required": true,
-                  "widget": "string"
-                }
-              ]
-            },
-            {
-              "name": "awardKind",
-              "label": "Award Kind",
-              "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "en",
-                  "label": "Bahasa Inggris",
-                  "required": true,
-                  "widget": "string"
-                },
-                {
-                  "name": "id",
-                  "label": "Bahasa Indonesia",
-                  "required": true,
-                  "widget": "string"
-                }
-              ]
-            },
-            {
-              "name": "toolKind",
-              "label": "Tool Kind",
-              "required": false,
-              "widget": "object",
-              "collapsed": false,
-              "fields": [
-                {
-                  "name": "en",
-                  "label": "Bahasa Inggris",
-                  "required": true,
-                  "widget": "string"
-                },
-                {
-                  "name": "id",
-                  "label": "Bahasa Indonesia",
-                  "required": true,
-                  "widget": "string"
-                }
-              ]
-            },
-            {
-              "name": "fallbackKind",
-              "label": "Fallback Kind",
+              "name": "credentialId",
+              "label": "Credential ID",
               "required": false,
               "widget": "object",
               "collapsed": false,

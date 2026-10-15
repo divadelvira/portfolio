@@ -25,15 +25,23 @@ import {
   Music,
   Calendar,
   Trash2,
+  BadgeCheck,
   Download,
+  FileDown,
+  FileText,
   LogOut,
   Lock,
   Menu,
   X,
   LayoutGrid,
   Table,
+  BarChart3,
+  Truck,
+  SearchCheck,
+  RefreshCw,
+  LayoutDashboard,
+  ShieldCheck,
 } from "lucide-react";
-import Chart from "chart.js/auto";
 import { EduOverview, SkillsInventory, TrainingSection } from "./components/Credentials";
 import { db } from "./firebase";
 import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
@@ -121,6 +129,14 @@ function leadershipIcon(icon: string) {
   return <Users size={24} />;
 }
 
+function coreIcon(key: string) {
+  if (key === "data") return <BarChart3 size={28} />;
+  if (key === "scm") return <Truck size={28} />;
+  if (key === "process") return <SearchCheck size={28} />;
+  if (key === "lean") return <RefreshCw size={28} />;
+  return <LayoutDashboard size={28} />;
+}
+
 function socialIcon(key: string) {
   if (key === "linkedin") return <Linkedin size={16} />;
   if (key === "instagram") return <Instagram size={16} />;
@@ -199,16 +215,6 @@ export default function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState<"success" | "error">("success");
 
-  // Track window width for real-time responsiveness
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200,
-  );
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   // Auto-hide toast notification after 5 seconds
   useEffect(() => {
@@ -220,7 +226,6 @@ export default function App() {
     }
   }, [showToast]);
 
-  const chartRef = useRef<HTMLCanvasElement>(null);
   const shelfRef = useRef<HTMLDivElement>(null);
   const [shelfEdge, setShelfEdge] = useState({ start: true, end: false });
   const updateShelfEdge = () => {
@@ -236,7 +241,6 @@ export default function App() {
     window.addEventListener("resize", updateShelfEdge);
     return () => window.removeEventListener("resize", updateShelfEdge);
   }, [projectFilter, lang]);
-  const chartInstance = useRef<Chart | null>(null);
 
   const t = translations[lang];
   const profile = profileContent;
@@ -345,106 +349,6 @@ export default function App() {
     document.querySelectorAll(".summer-section").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
-
-  // Render Skill Radar Chart using Chart.js on competency tab / language change
-  useEffect(() => {
-    if (chartRef.current) {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-
-      const ctx = chartRef.current.getContext("2d");
-      const isMobileScreen = windowWidth < 640;
-
-      const chartLabels = [
-        t.axisData,
-        isMobileScreen ? "SCM" : t.axisScm,
-        isMobileScreen ? (t.mobileAxisProcess) : t.axisProcess,
-        t.axisLean,
-        t.axisReporting,
-      ];
-
-      if (ctx) {
-        chartInstance.current = new Chart(ctx, {
-          type: "radar",
-          data: {
-            labels: chartLabels,
-            datasets: [
-              {
-                label: t.competencyScore,
-                data: [presentation.radar.data, presentation.radar.scm, presentation.radar.process, presentation.radar.lean, presentation.radar.reporting],
-                backgroundColor: "rgba(75, 139, 128, 0.16)",
-                borderColor: "#4b8b80",
-                pointBackgroundColor: "#ffffff",
-                pointBorderColor: "#4b8b80",
-                pointHoverBackgroundColor: "#c44832",
-                pointHoverBorderColor: "#ffffff",
-                borderWidth: 2,
-                pointRadius: 4,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-              padding: 20,
-            },
-            scales: {
-              r: {
-                angleLines: {
-                  color: "rgba(10, 22, 40, 0.1)",
-                },
-                grid: {
-                  color: "rgba(10, 22, 40, 0.08)",
-                },
-                pointLabels: {
-                  callback: (label: string) =>
-                    label.length > 16
-                      ? label.split(" ").reduce<string[]>((lines, word) => {
-                          const last = lines.length - 1;
-                          if (last >= 0 && `${lines[last]} ${word}`.length <= 16)
-                            lines[last] += ` ${word}`;
-                          else lines.push(word);
-                          return lines;
-                        }, [])
-                      : label,
-                  color: "#0A1628",
-                  font: {
-                    family: "Nunito Sans",
-                    size: isMobileScreen ? 9 : 11,
-                    weight: "normal",
-                  },
-                },
-                ticks: {
-                  display: false,
-                  maxTicksLimit: 5,
-                },
-                suggestedMin: 50,
-                suggestedMax: 100,
-              },
-            },
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                callbacks: {
-                  label: (context) => ` ${context.raw}%`,
-                },
-              },
-            },
-          },
-        });
-      }
-    }
-
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-    };
-  }, [lang, t, windowWidth]);
 
   // Custom contact submission to online Firebase Firestore
   const handleContactSubmit = async (e: FormEvent) => {
@@ -787,6 +691,11 @@ export default function App() {
                 <button onClick={() => scrollToSection("contact")} className="summer-secondary">
                   {t.ctaContact} <Mail size={17} aria-hidden="true" />
                 </button>
+                {profile.resume && (
+                  <a href={profile.resume} download className="summer-secondary">
+                    {t.downloadCv} <FileDown size={17} aria-hidden="true" />
+                  </a>
+                )}
               </div>
               <p className="summer-availability">
                 <span aria-hidden="true" />
@@ -938,6 +847,17 @@ export default function App() {
                         <div className="h-2 bg-brand-soft/60 rounded-full overflow-hidden">
                           <div className="h-full bg-[#0A1628] rounded-full" style={{ width: `${presentation.languageProgress.english}%` }} />
                         </div>
+                        {presentation.englishCertificate && (
+                          <a
+                            href={presentation.englishCertificate}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="summer-language-cert"
+                          >
+                            <FileText size={14} aria-hidden="true" />
+                            {t.viewToeflCertificate}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -953,6 +873,9 @@ export default function App() {
                   <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">
                     {t.stat1Lbl}
                   </p>
+                  <span className="summer-stat-icon" aria-hidden="true">
+                    <Users size={26} />
+                  </span>
                 </div>
                 <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-white border border-brand-soft/20 rounded-2xl shadow-sm flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-lg transition-all duration-300">
                   <p className="text-xl sm:text-3xl font-serif font-bold text-[#0A1628]">
@@ -961,6 +884,9 @@ export default function App() {
                   <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-[#C9A84C] uppercase tracking-wider leading-snug">
                     {t.stat2Lbl}
                   </p>
+                  <span className="summer-stat-icon" aria-hidden="true">
+                    <GraduationCap size={26} />
+                  </span>
                 </div>
                 <div className="p-2.5 min-[380px]:p-4 sm:p-6 bg-[#0A1628] border border-white/5 rounded-2xl shadow-md flex flex-col justify-center gap-1 sm:gap-2 text-center lg:text-left hover:shadow-xl transition-all duration-300 text-white">
                   <p className="text-xl sm:text-3xl font-serif font-bold text-[#C9A84C]">
@@ -969,6 +895,9 @@ export default function App() {
                   <p className="text-[8px] min-[360px]:text-[10px] sm:text-xs font-semibold text-gray-300 uppercase tracking-wider leading-snug">
                     {t.stat3Lbl}
                   </p>
+                  <span className="summer-stat-icon" aria-hidden="true">
+                    <BarChart3 size={26} />
+                  </span>
                 </div>
               </div>
             </div>
@@ -1052,6 +981,16 @@ export default function App() {
                           {t.industryTag}: {experience.sector[lang]}
                         </span>
                       </div>
+                      {experience.tools.length > 0 && (
+                        <div className="summer-experience-tools">
+                          <span>{t.toolsUsed}</span>
+                          <ul>
+                            {experience.tools.map((tool) => (
+                              <li key={tool}>{tool}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
                       {/* Expander Trigger */}
                       <div className="flex justify-between items-center text-xs text-[#0A1628]/60 font-mono uppercase tracking-widest pt-2 border-t border-brand-soft/40">
@@ -1176,7 +1115,15 @@ export default function App() {
             >
               <div className="summer-project-media">
                 {stageProject.image ? (
-                  <img src={stageProject.image} alt={stageProject.title} loading="lazy" />
+                  <button
+                    type="button"
+                    className="summer-project-main"
+                    aria-haspopup="dialog"
+                    aria-label={`${t.openEvidencePhoto}: ${stageProject.title}`}
+                    onClick={(event) => openEvidence(stageProject.title, [stageProject.image], 0, event.currentTarget)}
+                  >
+                    <img src={stageProject.image} alt={stageProject.title} loading="lazy" />
+                  </button>
                 ) : (
                   <div className="summer-project-photo-placeholder">
                     <ImageIcon size={28} aria-hidden="true" />
@@ -1260,92 +1207,47 @@ export default function App() {
           </div>
         </section>
 
-        {/* --- SECTION 5: COMPETENCY MATRIX / RADAR CHART --- */}
+        {/* --- SECTION 5: CORE COMPETENCIES --- */}
         <section id="skills" className="summer-section summer-skills">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-              <div className="col-span-1 lg:col-span-6 space-y-6">
-                <div className="summer-heading">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
-                    {t.skillsSubtitle}
-                  </span>
-                  <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
-                    {t.skillsTitle}
-                  </h2>
-                </div>
-
-                {/* Competency Group 1: Tools */}
-                <div className="space-y-4">
-                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
-                    {t.skillsCategory1}
-                  </h4>
-                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {credentialsContent.skillHighlights.tools.map((skill) => (
-                        <span
-                          key={`${skill.en}-${skill.id}`}
-                          className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white border border-brand-soft/50 text-xs font-mono rounded-full text-brand-primary hover:border-brand-accent transition-colors duration-300"
-                        >
-                          {skill[lang]}
-                        </span>
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                {/* Competency Group 2: SCM */}
-                <div className="space-y-4">
-                  <h4 className="text-xs font-mono uppercase text-gray-400 tracking-widest">
-                    {t.skillsCategory2}
-                  </h4>
-                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {credentialsContent.skillHighlights.supplyChain.map((skill) => (
-                      <span
-                        key={`${skill.en}-${skill.id}`}
-                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#0A1628] text-white text-xs font-mono rounded-full hover:bg-brand-accent transition-colors duration-300"
-                      >
-                        {skill[lang]}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Competency Group 3: Methodologies */}
-                <div className="space-y-4">
-                  <h4 className="text-xs font-mono uppercase text-[#C9A84C] tracking-widest">
-                    {t.skillsCategory3}
-                  </h4>
-                  <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {credentialsContent.skillHighlights.methodologies.map((skill) => (
-                      <span
-                        key={`${skill.en}-${skill.id}`}
-                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-[#F3EFE6] text-brand-primary border border-[#C9A84C]/20 text-xs font-mono rounded-full hover:border-[#C9A84C] transition-colors duration-300"
-                      >
-                        {skill[lang]}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Interactive Core Radar Canvas */}
-              <div className="summer-radar col-span-1 lg:col-span-6 flex flex-col items-center mt-6 lg:mt-0 w-full">
-                <h4 className="text-sm font-mono uppercase text-[#C9A84C] tracking-[0.2em] mb-8 text-center">
-                  {t.chartHeading}
-                </h4>
-                <div className="w-full aspect-square relative max-w-[260px] min-[380px]:max-w-[310px] sm:max-w-[420px]">
-                  <canvas
-                    ref={chartRef}
-                    id="competencyChart"
-                    className="w-full h-full"
-                    role="img"
-                    aria-label={`${t.axisData}: ${presentation.radar.data}%; ${t.axisScm}: ${presentation.radar.scm}%; ${t.axisProcess}: ${presentation.radar.process}%; ${t.axisLean}: ${presentation.radar.lean}%; ${t.axisReporting}: ${presentation.radar.reporting}%`}
-                  />
-                </div>
-                <p className="text-[11px] text-gray-400 text-justify font-mono mt-8 leading-relaxed max-w-sm">
-                  {t.chartFooter}
-                </p>
-              </div>
+            <div className="summer-heading max-w-3xl">
+              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                {t.skillsSubtitle}
+              </span>
+              <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic text-brand-primary font-light">
+                {t.skillsTitle}
+              </h2>
+              <p className="summer-core-intro">{t.coreIntro}</p>
             </div>
+            <ol className="summer-core-list">
+              {presentation.coreCompetencies.map((item, index) => (
+                <li key={item.key || index} className={`summer-core-item is-c${index % 5}`}>
+                  <div className="summer-core-head">
+                    <span className="summer-core-icon" aria-hidden="true">
+                      {coreIcon(item.key)}
+                    </span>
+                    <div>
+                      <span className="summer-core-index" aria-hidden="true">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h3>{item.title[lang]}</h3>
+                      <p>{item.summary[lang]}</p>
+                    </div>
+                  </div>
+                  <ul className="summer-core-proof">
+                    {item.proof[lang].map((proof) => {
+                      const split = proof.indexOf(": ");
+                      return (
+                        <li key={proof}>
+                          {split > 0 && <strong>{proof.slice(0, split)}</strong>}
+                          <span>{split > 0 ? proof.slice(split + 2) : proof}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              ))}
+            </ol>
             <SkillsInventory lang={lang} />
           </div>
         </section>
@@ -1360,7 +1262,8 @@ export default function App() {
               <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl font-serif italic font-light text-brand-soft">
                 {t.achievementsTitle}
               </h2>
-              <p className="text-xs text-white/50 font-mono tracking-widest uppercase">
+              <p className="summer-honors-badge">
+                <ShieldCheck size={16} aria-hidden="true" />
                 {t.achievementsContext}
               </p>
             </div>
@@ -1389,7 +1292,7 @@ export default function App() {
                     <span className="text-sm">{award.sponsor}</span>
                     <span className="summer-project-link">
                       {t.viewAwardPhoto}{" "}
-                      <ImageIcon size={16} aria-hidden="true" />
+                      <FileText size={16} aria-hidden="true" />
                     </span>
                   </span>
                 </button>
@@ -1439,9 +1342,9 @@ export default function App() {
 
                     <div className="h-px bg-brand-soft/50 my-1 w-full" />
 
-                    <ul className="space-y-1 text-xs text-gray-500 leading-relaxed font-light text-justify">
+                    <ul className="summer-edu-focus">
                       {education.focus[lang].map((item) => (
-                        <li key={item}>• {item}</li>
+                        <li key={item}>{item}</li>
                       ))}
                     </ul>
                     <span className="summer-project-link pt-1">
@@ -1535,6 +1438,23 @@ export default function App() {
               <p className="text-gray-600 max-w-xl mx-auto font-light leading-relaxed text-sm text-[#0A1628]/80 text-justify px-2">
                 {t.contactPrompt}
               </p>
+              {profile.referenceLetter && (
+                <a
+                  href={profile.referenceLetter}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="summer-reference"
+                >
+                  <FileText size={22} aria-hidden="true" />
+                  <span className="summer-reference-copy">
+                    <strong>{t.referenceHeading}</strong>
+                    <span>{profile.referenceNote[lang]}</span>
+                  </span>
+                  <span className="summer-reference-cta">
+                    {t.viewReferenceLetter} <ExternalLink size={14} aria-hidden="true" />
+                  </span>
+                </a>
+              )}
             </div>
 
             {/* Centered Elegant Dialogue Form */}

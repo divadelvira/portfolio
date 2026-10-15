@@ -3,61 +3,84 @@
     {
       "id": "training-1",
       "title": {
-        "en": "Slimstock training",
-        "id": "Pelatihan Slimstock"
+        "en": "Slim4 (Slimstock) Training",
+        "id": "Pelatihan Slim4 (Slimstock)"
       },
       "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+        "en": "PT Vale Indonesia Tbk. · Mentored by Slimstock",
+        "id": "PT Vale Indonesia Tbk. · Mentor dari Slimstock"
       },
       "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+        "en": "March 2026",
+        "id": "Maret 2026"
       },
       "summary": {
-        "en": "Course scope and learning outcomes TBA.",
-        "id": "Cakupan pelatihan dan hasil pembelajaran belum diisi."
+        "en": "Training on using Slim4 (Slimstock) for inventory planning and optimization. Covered exception management through the To-do dashboard, prioritization with the Covey matrix, order parameter calculation (order level, cover period, EOQ/MOQ), stocked/non-stocked policies, and phase-out and substitute item management.",
+        "id": "Pelatihan penggunaan Slim4 (Slimstock) untuk perencanaan dan optimasi persediaan. Materi meliputi pengelolaan exception melalui To-do dashboard, penentuan prioritas dengan matriks Covey, perhitungan parameter pemesanan (order level, cover period, EOQ/MOQ), kebijakan stok stocked/non-stocked, serta pengelolaan phase-out dan item pengganti."
       },
-      "skills": [],
-      "photos": []
+      "skills": [
+        "Slim4",
+        "Inventory Optimization",
+        "Exception Management",
+        "EOQ/MOQ",
+        "Stocking Policy"
+      ],
+      "document": "",
+      "credentialId": "",
+      "photos": [
+        "/uploads/training/slim4-training-agenda.jpg",
+        "/uploads/training/slim4-training-session.jpg",
+        "/uploads/training/slim4-training-hands-on.jpg"
+      ]
     },
     {
       "id": "training-2",
       "title": {
-        "en": "SAP S/4HANA training",
+        "en": "SAP S/4HANA Training",
         "id": "Pelatihan SAP S/4HANA"
       },
       "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+        "en": "PT Vale Indonesia Tbk. · Delivered by CBS consultants",
+        "id": "PT Vale Indonesia Tbk. · Dibawakan konsultan CBS"
       },
       "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+        "en": "May 2026",
+        "id": "Mei 2026"
       },
       "summary": {
-        "en": "Covers the MM (Materials Management) module in SAP S/4HANA.",
-        "id": "Mencakup modul MM (Materials Management) di SAP S/4HANA."
+        "en": "Attended SAP S/4HANA MM module end-user training delivered by CBS consultants as part of PT Vale Indonesia's ERP system migration (carve-out). Covered material master data, MRP, Business Partner & Manufacturer Code, and E-Catalogue.",
+        "id": "Mengikuti pelatihan end-user SAP S/4HANA modul MM yang dibawakan konsultan CBS, sebagai bagian dari migrasi sistem ERP PT Vale Indonesia (carve-out). Materi meliputi material master data, MRP, Business Partner & Manufacturer Code, serta E-Catalogue."
       },
       "skills": [
         "SAP S/4HANA",
-        "MM (Materials Management)"
+        "MM (Materials Management)",
+        "Material Master Data",
+        "MRP",
+        "Business Partner",
+        "E-Catalogue"
       ],
-      "photos": []
+      "document": "",
+      "credentialId": "",
+      "photos": [
+        "/uploads/training/sap-training-group.jpg",
+        "/uploads/training/sap-training-what-i-learned.jpg",
+        "/uploads/training/sap-training-takeaways.jpg",
+        "/uploads/training/sap-training-tcode-practice.jpg"
+      ]
     },
     {
       "id": "training-3",
       "title": {
-        "en": "Toyota Production System (TPS) training",
-        "id": "Pelatihan Toyota Production System (TPS)"
+        "en": "Toyota Production System Training Refreshment",
+        "id": "Toyota Production System Training Refreshment"
       },
       "provider": {
-        "en": "Provider TBA",
-        "id": "Penyelenggara belum diisi"
+        "en": "PT Toyota Motor Manufacturing Indonesia (TMMIN)",
+        "id": "PT Toyota Motor Manufacturing Indonesia (TMMIN)"
       },
       "date": {
-        "en": "Date TBA",
-        "id": "Tanggal belum diisi"
+        "en": "December 2025",
+        "id": "Desember 2025"
       },
       "summary": {
         "en": "Intensive training in JIT, Heijunka, Jidoka and Kaizen, with hands-on operational simulations.",
@@ -69,7 +92,13 @@
         "Jidoka",
         "Kaizen"
       ],
-      "photos": []
+      "document": "",
+      "credentialId": "",
+      "photos": [
+        "/uploads/training/tps-training-group.jpg",
+        "/uploads/training/tps-training-kanban.jpg",
+        "/uploads/training/tps-training-simulation.jpg"
+      ]
     },
     {
       "id": "training-4",
@@ -89,8 +118,53 @@
         "en": "Completed Digital Skola’s Business Intelligence Bootcamp, covering Python, SQL, Excel, data analytics, BI dashboarding, and machine learning fundamentals, with hands-on projects in data automation, dashboard development, and data-driven decision-making.",
         "id": "Menyelesaikan Bootcamp Business Intelligence di Digital Skola dengan pembelajaran Python, SQL, Excel, analisis data, dashboard Business Intelligence, dan dasar machine learning. Menerapkan keterampilan tersebut melalui proyek otomasi data, pengembangan dashboard, dan pengambilan keputusan berbasis data."
       },
-      "skills": [],
-      "photos": []
+      "skills": [
+        "Python",
+        "SQL",
+        "Excel",
+        "Data Analytics",
+        "BI Dashboarding",
+        "Machine Learning Fundamentals"
+      ],
+      "document": "",
+      "credentialId": "",
+      "photos": [
+        "/uploads/005-bc-grd-bi9-viii-2026.png",
+        "/uploads/training/bi-bootcamp-powerbi-dashboards.jpg",
+        "/uploads/training/bi-bootcamp-excel-pivot-dashboard.jpg",
+        "/uploads/training/bi-bootcamp-sql-monthly-shipper.jpg",
+        "/uploads/training/bi-bootcamp-sql-products-salesrep.jpg",
+        "/uploads/training/bi-bootcamp-sql-customer-segment.jpg"
+      ]
+    },
+    {
+      "id": "training-5",
+      "title": {
+        "en": "Microsoft Power BI Skill Specialization",
+        "id": "Spesialisasi Microsoft Power BI"
+      },
+      "provider": {
+        "en": "MySkill E-Learning",
+        "id": "MySkill E-Learning"
+      },
+      "date": {
+        "en": "January 2026",
+        "id": "Januari 2026"
+      },
+      "summary": {
+        "en": "Completed the Microsoft Power BI specialization in MySkill’s Data Science & Data Analysis learning path: 12 courses over 12 hours of study.",
+        "id": "Menyelesaikan spesialisasi Microsoft Power BI pada learning path Data Science & Data Analysis di MySkill: 12 kursus dengan total 12 jam belajar."
+      },
+      "skills": [
+        "Power BI",
+        "Data Visualization",
+        "Dashboard Development"
+      ],
+      "document": "",
+      "credentialId": "MS-24/1/2026-YHy6fUNaP4OfQy3DZ9Cw",
+      "photos": [
+        "/uploads/training/myskill-power-bi-certificate.jpg"
+      ]
     }
   ]
 }

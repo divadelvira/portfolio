@@ -61,12 +61,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/wass-main.jpg",
+        "id": "/uploads/projects/wass-main.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/wass-admin-dashboard.jpg",
+          "/uploads/projects/wass-2-en.jpg",
+          "/uploads/projects/wass-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/wass-admin-dashboard.jpg",
+          "/uploads/projects/wass-2-id.jpg",
+          "/uploads/projects/wass-3-id.jpg"
+        ]
       }
     },
     {
@@ -90,12 +98,12 @@
       "tags": {
         "en": [
           "kaizen",
-          "PDCA",
+          "pdca",
           "problemsolving"
         ],
         "id": [
           "kaizen",
-          "PDCA",
+          "pdca",
           "problemsolving"
         ]
       },
@@ -126,12 +134,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/kaizen-tuyere-main.jpg",
+        "id": "/uploads/projects/kaizen-tuyere-main.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/kaizen-tuyere-1-en.jpg",
+          "/uploads/projects/kaizen-tuyere-2-en.jpg",
+          "/uploads/projects/kaizen-tuyere-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/kaizen-tuyere-1-id.jpg",
+          "/uploads/projects/kaizen-tuyere-2-id.jpg",
+          "/uploads/projects/kaizen-tuyere-3-id.jpg"
+        ]
       }
     },
     {
@@ -149,8 +165,8 @@
         "id": "Menghadapi tingginya tingkat stock-out material akibat kurangnya integrasi visibilitas inventaris dan pengadaan di seluruh rantai pasok, saya mengembangkan dasbor pemantauan otomatis berbasis data menggunakan Excel dan Power Query untuk melacak risiko inventaris, status pesanan, dan kinerja pengiriman vendor secara real-time. Inisiatif ini berhasil memangkas waktu pemantauan operasional dari 2 hari menjadi kurang dari 1 jam serta memfasilitasi pengambilan keputusan yang lebih proaktif dan terarah."
       },
       "link": {
-        "en": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link",
-        "id": "https://drive.google.com/file/d/1lcocQxpyzs46adu8bAI8jhrZHWiOQf5G/view?usp=drive_link"
+        "en": "https://drive.google.com/file/d/1bcrP1LgEo_kZRCjrkECx6uSXxN_HrYES/view?usp=drive_link",
+        "id": "https://drive.google.com/file/d/12n4Kdco_DK9943bryn1fxkRhrOZEQ5Ro/view?usp=drive_link"
       },
       "tags": {
         "en": [
@@ -189,12 +205,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/priority-materials-main.jpg",
+        "id": "/uploads/projects/priority-materials-main.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/priority-materials-1-en.jpg",
+          "/uploads/projects/priority-materials-2-en.jpg",
+          "/uploads/projects/priority-materials-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/priority-materials-1-id.jpg",
+          "/uploads/projects/priority-materials-2-id.jpg",
+          "/uploads/projects/priority-materials-3-id.jpg"
+        ]
       }
     },
     {
@@ -250,12 +274,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/vendor-selection-main.jpg",
+        "id": "/uploads/projects/vendor-selection-main.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/vendor-selection-1-en.jpg",
+          "/uploads/projects/vendor-selection-2-en.jpg",
+          "/uploads/projects/vendor-selection-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/vendor-selection-1-id.jpg",
+          "/uploads/projects/vendor-selection-2-id.jpg",
+          "/uploads/projects/vendor-selection-3-id.jpg"
+        ]
       }
     },
     {
@@ -269,8 +301,8 @@
         "id": "Statistical Quality Engineering"
       },
       "desc": {
-        "en": "To determine the suitability of raw materials for animal feed, the company needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy.",
-        "id": "Untuk menentukan kelayakan bahan baku pakan ternak, perusahaan perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen."
+        "en": "To determine the suitability of raw materials for animal feed, JAPFA (the case-study company for this course project) needs to evaluate the reliability of the Grain Moisture Tester (PM-410) used to control the moisture content of corn. I performed a Measurement System Analysis (MSA) using the Crossed Gage R&R (ANOVA) statistical test approach to analyze and separate the sources of variation between the measuring instrument, the operator, and the test samples. This analysis validated that the instrument has excellent precision with a %GRR value of 2.91%, proving conclusively that the variation in readings stems purely from differences in sample characteristics and is not due to human error or instrument inaccuracy.",
+        "id": "Untuk menentukan kelayakan bahan baku pakan ternak, JAPFA (perusahaan studi kasus pada proyek perkuliahan ini) perlu mengevaluasi keandalan Grain Moisture Tester (PM-410) yang digunakan untuk mengontrol kadar air jagung. Saya melakukan Analisis Sistem Pengukuran (MSA) menggunakan pendekatan uji statistik Crossed Gage R&R (ANOVA) untuk menganalisis dan memisahkan sumber variasi antara alat ukur, operator, dan sampel uji. Analisis ini memvalidasi bahwa instrumen memiliki presisi luar biasa dengan nilai %GRR sebesar 2,91%, membuktikan secara konklusif bahwa variasi pembacaan murni berasal dari perbedaan karakteristik sampel dan bukan karena kesalahan manusia atau ketidakakuratan instrumen."
       },
       "link": {
         "en": "https://drive.google.com/file/d/18VRQzoig-ltFOdykqzcO7-WGgMpC2_jf/view?usp=sharing",
@@ -278,13 +310,13 @@
       },
       "tags": {
         "en": [
-          "SPSS",
-          "Minitab",
+          "spss",
+          "minitab",
           "qualitycontrol"
         ],
         "id": [
-          "SPSS",
-          "Minitab",
+          "spss",
+          "minitab",
           "qualitycontrol"
         ]
       },
@@ -307,12 +339,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/msa-japfa-main-en.jpg",
+        "id": "/uploads/projects/msa-japfa-main-id.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/msa-japfa-1-en.jpg",
+          "/uploads/projects/msa-japfa-2-en.jpg",
+          "/uploads/projects/msa-japfa-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/msa-japfa-1-id.jpg",
+          "/uploads/projects/msa-japfa-2-id.jpg",
+          "/uploads/projects/msa-japfa-3-id.jpg"
+        ]
       }
     },
     {
@@ -344,7 +384,7 @@
         "id": [
           "servqual",
           "ipa",
-          "statistika",
+          "statistics",
           "python",
           "inventorymanagement"
         ]
@@ -368,12 +408,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/servqual-main-en.jpg",
+        "id": "/uploads/projects/servqual-main-id.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/servqual-1-en.jpg",
+          "/uploads/projects/servqual-2-en.jpg",
+          "/uploads/projects/servqual-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/servqual-1-id.jpg",
+          "/uploads/projects/servqual-2-id.jpg",
+          "/uploads/projects/servqual-3-id.jpg"
+        ]
       }
     },
     {
@@ -396,12 +444,12 @@
       },
       "tags": {
         "en": [
-          "designproduct",
+          "productdesign",
           "leanmanufacturing",
           "productionplanning"
         ],
         "id": [
-          "designproduct",
+          "productdesign",
           "leanmanufacturing",
           "productionplanning"
         ]
@@ -425,12 +473,20 @@
         }
       },
       "image": {
-        "en": "",
-        "id": ""
+        "en": "/uploads/projects/smart-feed-main-en.jpg",
+        "id": "/uploads/projects/smart-feed-main-id.jpg"
       },
       "gallery": {
-        "en": [],
-        "id": []
+        "en": [
+          "/uploads/projects/smart-feed-1-en.jpg",
+          "/uploads/projects/smart-feed-2-en.jpg",
+          "/uploads/projects/smart-feed-3-en.jpg"
+        ],
+        "id": [
+          "/uploads/projects/smart-feed-1-id.jpg",
+          "/uploads/projects/smart-feed-2-id.jpg",
+          "/uploads/projects/smart-feed-3-id.jpg"
+        ]
       }
     }
   ]
