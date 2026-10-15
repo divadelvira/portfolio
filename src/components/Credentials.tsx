@@ -1,35 +1,54 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import { ArrowRight, BadgeCheck, BarChart3, ImageIcon, Monitor, Truck, Users, Workflow } from "lucide-react";
+import { ArrowRight, BadgeCheck, BarChart3, ImageIcon, Monitor, FileText, Truck, Users, Workflow, Wrench } from "lucide-react";
 import { credentials, profile } from "../content";
 import "./credentials.css";
 
 type Lang = "en" | "id";
 type Copy = Record<Lang, string>;
 type Education = {
-  academicAreas: Copy;
+  academicAreas: Record<Lang, string[]>;
   activities: Copy[];
-  thesis: Record<"title" | "abstract" | "method" | "result", Copy>;
+  thesis: Record<"title" | "overview", Copy>;
 };
 const { training, skillGroups, education, ui } = credentials;
 const profileEducation = profile.education;
 
-const groupIcons = [Monitor, BarChart3, Truck, Workflow, Users];
-const evidenceKinds: Record<string, Copy> = {
-  project: ui.projectKind,
-  work: ui.workKind,
-  training: ui.trainingKind,
-  campus: ui.campusKind,
-  award: ui.awardKind,
-  tool: ui.toolKind,
+const groupIcons: Record<string, typeof Monitor> = {
+  scm: Truck,
+  data: BarChart3,
+  process: Workflow,
+  systems: Monitor,
+  tools: Wrench,
+  leadership: Users,
 };
-const fallbackKind = ui.fallbackKind;
 
 export function SkillsInventory({ lang }: { lang: "en" | "id" }) {
-  const [filter, setFilter] = useState(-1);
+  // -1 shows every group; otherwise the index of the selected group.
+  const [active, setActive] = useState(-1);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ start: true, end: true });
+  const updateEdge = () => {
+    const rail = railRef.current;
+    if (!rail) return;
+    setEdge({
+      start: rail.scrollLeft <= 4,
+      end: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4,
+    });
+  };
+  useEffect(() => {
+    updateEdge();
+    window.addEventListener("resize", updateEdge);
+    return () => window.removeEventListener("resize", updateEdge);
+  }, [lang]);
   const cards = skillGroups.flatMap((group, g) =>
-    filter === -1 || filter === g ? group.items.map((item) => ({ g, ...item })) : [],
+    active === -1 || active === g ? group.items.map((item) => ({ g, ...item })) : [],
   );
+  const total = skillGroups.reduce((sum, group) => sum + group.items.length, 0);
+  const tabs = [
+    { label: ui.allFilter, count: total, index: -1 },
+    ...skillGroups.map((group, g) => ({ label: group.title, count: group.items.length, index: g })),
+  ];
   return (
     <div className="credentials-inventory">
       <div className="credentials-inventory-head">
@@ -39,41 +58,57 @@ export function SkillsInventory({ lang }: { lang: "en" | "id" }) {
             {ui.skillsSubtitle[lang]}
           </p>
         </div>
-        <div
-          className="credentials-skill-filter"
-          role="group"
-          aria-label={ui.skillFilterLabel[lang]}
-        >
-          {[ui.allFilter, ...skillGroups.map((group) => group.title)].map((label, i) => (
-            <button
-              key={label.en}
-              type="button"
-              aria-pressed={filter === i - 1}
-              onClick={() => setFilter(i - 1)}
-            >
-              {label[lang]}
-            </button>
-          ))}
-        </div>
       </div>
-      <ul className="credentials-skill-cards">
-        {cards.map(({ g, skill, evidence, kind }) => {
-          const Icon = groupIcons[g] ?? BadgeCheck;
-          const styleGroup = groupIcons.length === 0 ? 0 : g % groupIcons.length;
+      <div
+        ref={railRef}
+        onScroll={updateEdge}
+        className={`credentials-skill-filter${edge.start ? "" : " fade-start"}${edge.end ? "" : " fade-end"}`}
+        role="group"
+        aria-label={ui.skillFilterLabel[lang]}
+      >
+        {tabs.map(({ label, count, index }) => (
+          <button
+            key={label.en}
+            type="button"
+            aria-pressed={active === index}
+            className={index === -1 ? "is-all" : `is-g${index % 6}`}
+            onClick={(event) => {
+              setActive(index);
+              event.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+            }}
+          >
+            {label[lang]}
+            <span aria-hidden="true">{count}</span>
+          </button>
+        ))}
+      </div>
+      <ul key={active} className="credentials-skill-cards">
+        {cards.map(({ g, skill, description, evidence, tools }) => {
+          const Icon = groupIcons[skillGroups[g].key] ?? BadgeCheck;
           return (
-            <li key={`${skill.en}-${evidence.en}`} className={`credentials-skill-card is-g${styleGroup}`}>
-              <div className="credentials-skill-meta">
-                <span>
-                  <Icon size={14} aria-hidden="true" />
-                  {skillGroups[g].title[lang]}
-                </span>
-                <em>{(evidenceKinds[kind] ?? fallbackKind)[lang]}</em>
+            <li key={`${g}-${skill.en}`} className={`credentials-skill-card is-g${g % 6}`}>
+              {active === -1 && (
+                <span className="credentials-skill-group">{skillGroups[g].title[lang]}</span>
+              )}
+              <div className="credentials-skill-title">
+                <Icon size={16} aria-hidden="true" />
+                <strong>{skill[lang]}</strong>
               </div>
-              <strong>{skill[lang]}</strong>
-              <span className="credentials-skill-evidence">
+              <p className="credentials-skill-desc">{description[lang]}</p>
+              {tools.length > 0 && (
+                <ul className="credentials-tags">
+                  {tools.map((tool) => (
+                    <li key={tool}>{tool}</li>
+                  ))}
+                </ul>
+              )}
+              <p className="credentials-skill-evidence">
                 <BadgeCheck size={14} aria-hidden="true" />
-                {evidence[lang]}
-              </span>
+                <span>
+                  <em>{ui.evidenceLabel[lang]}</em>
+                  {evidence[lang]}
+                </span>
+              </p>
             </li>
           );
         })}
@@ -178,6 +213,11 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
             <p className="credentials-muted">
               {entry.provider[lang]} · {entry.date[lang]}
             </p>
+            {entry.credentialId && (
+              <p className="credentials-muted credentials-credential">
+                {ui.credentialId[lang]}: <code>{entry.credentialId}</code>
+              </p>
+            )}
             <h3>{ui.overview[lang]}</h3>
             <p>{entry.summary[lang]}</p>
             {entry.skills.length > 0 && (
@@ -188,10 +228,20 @@ export function TrainingSection({ lang }: { lang: "en" | "id" }) {
               </ul>
             )}
             <h3>{ui.documentation[lang]}</h3>
-            <div className="credentials-docs">
+            {entry.document && (
+              <a className="credentials-doc-link" href={entry.document} target="_blank" rel="noreferrer">
+                <FileText size={16} aria-hidden="true" />
+                {ui.viewCertificate[lang]}
+              </a>
+            )}
+            <div
+              className={`credentials-docs${entry.photos.length === 1 ? " is-single" : entry.photos.length % 2 === 0 && entry.photos.length < 6 ? " is-pair" : ""}`}
+            >
               {entry.photos.length > 0
                 ? entry.photos.map((src, i) => (
-                    <img key={src} src={src} loading="lazy" alt={`${entry.title[lang]} ${i + 1}`} />
+                    <a key={src} href={src} target="_blank" rel="noreferrer" title={ui.openFullSize[lang]}>
+                      <img src={src} loading="lazy" alt={`${entry.title[lang]} ${i + 1}`} />
+                    </a>
                   ))
                 : [0, 1, 2].map((i) => (
                     <div key={i} className="credentials-doc-placeholder">
@@ -220,9 +270,7 @@ export function EduOverview({
   const heading = useId();
   const thesisLabels: [keyof Education["thesis"], Copy][] = [
     ["title", ui.thesisTitle],
-    ["abstract", ui.thesisAbstract],
-    ["method", ui.thesisMethod],
-    ["result", ui.thesisResult],
+    ["overview", ui.thesisOverview],
   ];
   const degree = profileEducation.degree[lang].replace(/^(Bachelor of |S1 )/, "");
   const gpa = lang === "id" ? profileEducation.gpa.replace(/\./g, ",") : profileEducation.gpa;
@@ -247,7 +295,11 @@ export function EduOverview({
         {degree} · {ui.gpa[lang]} {gpa}
       </p>
       <h3>{ui.keyAcademicAreas[lang]}</h3>
-      <p>{education.academicAreas[lang]}</p>
+      <ul className="credentials-tags">
+        {education.academicAreas[lang].map((area) => (
+          <li key={area}>{area}</li>
+        ))}
+      </ul>
       <h3>{ui.activitiesOrganizations[lang]}</h3>
       <ul className="credentials-activities">
         {education.activities.map((activity) => (

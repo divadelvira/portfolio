@@ -1,186 +1,124 @@
 {
-  "skillHighlights": {
-    "tools": [
-      {
-        "en": "Power BI",
-        "id": "Power BI"
+  "coreCompetencies": [
+    {
+      "key": "data",
+      "title": {
+        "en": "Data Analysis",
+        "id": "Analisis Data"
       },
-      {
-        "en": "Microsoft Excel",
-        "id": "Microsoft Excel"
+      "summary": {
+        "en": "Turning large operational datasets into statistically sound decisions.",
+        "id": "Mengolah dataset operasional berskala besar menjadi keputusan yang teruji secara statistik."
       },
-      {
-        "en": "Minitab",
-        "id": "Minitab"
-      },
-      {
-        "en": "SPSS",
-        "id": "SPSS"
-      },
-      {
-        "en": "Canva",
-        "id": "Canva"
-      },
-      {
-        "en": "SAP S/4HANA",
-        "id": "SAP S/4HANA"
+      "proof": {
+        "en": [
+          "PT Vale: Analyzed 1,700+ materials and 2,500+ POs",
+          "PT Vale: SERVQUAL and IPA across 25 service attributes",
+          "JAPFA case study: Gage R&R ANOVA with a %GRR of 2.91%"
+        ],
+        "id": [
+          "PT Vale: Menganalisis 1.700+ material dan 2.500+ PO",
+          "PT Vale: SERVQUAL dan IPA pada 25 atribut layanan",
+          "Studi kasus JAPFA: Gage R&R ANOVA dengan %GRR 2,91%"
+        ]
       }
-    ],
-    "supplyChain": [
-      {
-        "en": "Inventory Analysis",
-        "id": "Inventory Analysis"
+    },
+    {
+      "key": "scm",
+      "title": {
+        "en": "Supply Chain Management",
+        "id": "Manajemen Rantai Pasok"
       },
-      {
-        "en": "Vendor Evaluation",
-        "id": "Vendor Evaluation"
+      "summary": {
+        "en": "Keeping materials available through inventory, procurement and vendor control.",
+        "id": "Menjaga ketersediaan material melalui pengendalian inventaris, pengadaan, dan vendor."
       },
-      {
-        "en": "MRP Control",
-        "id": "MRP Control"
-      },
-      {
-        "en": "Lead Time Optimization",
-        "id": "Lead Time Optimization"
-      },
-      {
-        "en": "Forecast Modeling",
-        "id": "Forecast Modeling"
+      "proof": {
+        "en": [
+          "PT Vale: Followed up 250+ critical materials",
+          "PT Triatra: QCD vendor framework for 20 shipment routes",
+          "Training: Slim4 and SAP S/4HANA MM"
+        ],
+        "id": [
+          "PT Vale: Menindaklanjuti 250+ material kritis",
+          "PT Triatra: Kerangka vendor QCD untuk 20 rute pengiriman",
+          "Pelatihan: Slim4 dan SAP S/4HANA MM"
+        ]
       }
-    ],
-    "methodologies": [
-      {
-        "en": "Lean Manufacturing",
-        "id": "Lean Manufacturing"
+    },
+    {
+      "key": "process",
+      "title": {
+        "en": "Problem Solving",
+        "id": "Pemecahan Masalah"
       },
-      {
-        "en": "Measurement System Analysis",
-        "id": "Measurement System Analysis"
+      "summary": {
+        "en": "Tracing problems to their root cause before designing the fix.",
+        "id": "Menelusuri masalah hingga akar penyebabnya sebelum merancang solusi."
       },
-      {
-        "en": "Toyota Production System",
-        "id": "Toyota Production System"
-      },
-      {
-        "en": "Kaizen / Continuous Improvement",
-        "id": "Kaizen / Continuous Improvement"
-      },
-      {
-        "en": "Just In Time (JIT)",
-        "id": "Just In Time (JIT)"
-      },
-      {
-        "en": "Root Cause Analysis (RCA)",
-        "id": "Root Cause Analysis (RCA)"
+      "proof": {
+        "en": [
+          "Thesis (WASS): Inbound bottleneck traced with 5 Whys",
+          "Tuyere Kaizen: Process mapping and root cause analysis",
+          "Astra Motor Business Case Competition: 2nd place"
+        ],
+        "id": [
+          "Tugas akhir (WASS): Bottleneck inbound ditelusuri dengan 5 Whys",
+          "Kaizen Tuyere: Process mapping dan root cause analysis",
+          "Astra Motor Business Case Competition: Juara 2"
+        ]
       }
-    ]
-  },
+    },
+    {
+      "key": "lean",
+      "title": {
+        "en": "Continuous Improvement",
+        "id": "Continuous Improvement"
+      },
+      "summary": {
+        "en": "Removing waste with Lean, TPS and PDCA.",
+        "id": "Mengeliminasi waste dengan Lean, TPS, dan PDCA."
+      },
+      "proof": {
+        "en": [
+          "Tuyere Kaizen: Lead time cut from 12 to 8 days",
+          "TMMIN: Toyota Production System Training Refreshment",
+          "Manufacturing Systems Laboratory: TPS module PIC"
+        ],
+        "id": [
+          "Kaizen Tuyere: Lead time turun dari 12 menjadi 8 hari",
+          "TMMIN: Toyota Production System Training Refreshment",
+          "Laboratorium Sistem Manufaktur: PIC modul TPS"
+        ]
+      }
+    },
+    {
+      "key": "reporting",
+      "title": {
+        "en": "Reporting & BI",
+        "id": "Reporting & BI"
+      },
+      "summary": {
+        "en": "Building dashboards that replace manual reporting.",
+        "id": "Membangun dasbor yang menggantikan pelaporan manual."
+      },
+      "proof": {
+        "en": [
+          "PT Vale: Reporting cut from 2 days to 1 hour",
+          "PT Vale: Power BI invoice-mismatch dashboard",
+          "Digital Skola: Business Intelligence Bootcamp (Excellent)"
+        ],
+        "id": [
+          "PT Vale: Pelaporan dipangkas dari 2 hari menjadi 1 jam",
+          "PT Vale: Dasbor Power BI ketidaksesuaian invoice",
+          "Digital Skola: Bootcamp Business Intelligence (Excellent)"
+        ]
+      }
+    }
+  ],
   "skillGroups": [
     {
-      "title": {
-        "en": "Enterprise Tools",
-        "id": "Perangkat Enterprise"
-      },
-      "items": [
-        {
-          "skill": {
-            "en": "Microsoft Excel & Power Query",
-            "id": "Microsoft Excel & Power Query"
-          },
-          "evidence": {
-            "en": "Priority Materials dashboard",
-            "id": "Dasbor Material Prioritas"
-          },
-          "kind": "project"
-        },
-        {
-          "skill": {
-            "en": "SAP S/4HANA",
-            "id": "SAP S/4HANA"
-          },
-          "evidence": {
-            "en": "SAP S/4HANA training: MM (Materials Management) module",
-            "id": "Pelatihan SAP S/4HANA: modul MM (Materials Management)"
-          },
-          "kind": "training"
-        },
-        {
-          "skill": {
-            "en": "Canva",
-            "id": "Canva"
-          },
-          "evidence": {
-            "en": "Listed in the existing tools inventory",
-            "id": "Tercantum dalam daftar perangkat saat ini"
-          },
-          "kind": "tool"
-        }
-      ]
-    },
-    {
-      "title": {
-        "en": "Data & Analytics",
-        "id": "Data & Analitik"
-      },
-      "items": [
-        {
-          "skill": {
-            "en": "SPSS & Minitab",
-            "id": "SPSS & Minitab"
-          },
-          "evidence": {
-            "en": "Measurement System Analysis (MSA)",
-            "id": "Analisis Sistem Pengukuran (MSA)"
-          },
-          "kind": "project"
-        },
-        {
-          "skill": {
-            "en": "Python & statistical validation",
-            "id": "Python & validasi statistik"
-          },
-          "evidence": {
-            "en": "Internal Service Quality Analysis",
-            "id": "Analisis Kualitas Layanan Internal"
-          },
-          "kind": "project"
-        },
-        {
-          "skill": {
-            "en": "Power BI & SQL",
-            "id": "Power BI & SQL"
-          },
-          "evidence": {
-            "en": "Demand forecast pipeline shown in portfolio",
-            "id": "Alur peramalan permintaan dalam portofolio"
-          },
-          "kind": "project"
-        },
-        {
-          "skill": {
-            "en": "Forecast modeling",
-            "id": "Pemodelan peramalan"
-          },
-          "evidence": {
-            "en": "Demand forecast / safety stock widget",
-            "id": "Widget peramalan permintaan / stok pengaman"
-          },
-          "kind": "project"
-        },
-        {
-          "skill": {
-            "en": "Dashboard automation & reporting",
-            "id": "Otomasi dasbor & pelaporan"
-          },
-          "evidence": {
-            "en": "PT Vale Indonesia: material monitoring",
-            "id": "PT Vale Indonesia: pemantauan material"
-          },
-          "kind": "work"
-        }
-      ]
-    },
-    {
+      "key": "scm",
       "title": {
         "en": "Supply Chain & Logistics",
         "id": "Rantai Pasok & Logistik"
@@ -188,195 +126,707 @@
       "items": [
         {
           "skill": {
-            "en": "Inventory analysis & MRP control",
-            "id": "Analisis inventaris & pengendalian MRP"
+            "en": "Inventory Management",
+            "id": "Inventory Management"
+          },
+          "description": {
+            "en": "Inventory monitoring, stock-out risk identification, MRP analysis and material availability tracking.",
+            "id": "Pemantauan inventaris, identifikasi risiko stock-out, analisis MRP, dan pelacakan ketersediaan material."
           },
           "evidence": {
-            "en": "PT Vale Indonesia: inventory and procurement",
-            "id": "PT Vale Indonesia: inventaris dan pengadaan"
+            "en": "PT Vale Indonesia: analyzed 1,700+ materials and monitored 250+ critical materials.",
+            "id": "PT Vale Indonesia: menganalisis 1.700+ material dan memantau 250+ material kritis."
           },
-          "kind": "work"
+          "tools": [
+            "MRP",
+            "Slim4"
+          ]
         },
         {
           "skill": {
-            "en": "Vendor evaluation, QCD & SLA",
-            "id": "Evaluasi vendor, QCD & SLA"
+            "en": "Procurement Monitoring",
+            "id": "Procurement Monitoring"
+          },
+          "description": {
+            "en": "Purchase order monitoring, overdue PO identification, procurement issue tracking and follow-up coordination.",
+            "id": "Pemantauan purchase order, identifikasi PO terlambat, pelacakan masalah pengadaan, dan koordinasi tindak lanjut."
           },
           "evidence": {
-            "en": "Vendor Selection & Tender Preparation",
-            "id": "Seleksi Vendor & Persiapan Tender"
+            "en": "PT Vale Indonesia: analyzed 2,500+ POs and flagged overdue POs and vendor issues.",
+            "id": "PT Vale Indonesia: menganalisis 2.500+ PO serta menandai PO terlambat dan masalah vendor."
           },
-          "kind": "project"
+          "tools": []
         },
         {
           "skill": {
-            "en": "Freight, routing & fleet analysis",
-            "id": "Analisis pengiriman, rute & armada"
+            "en": "Logistics Analysis",
+            "id": "Logistics Analysis"
+          },
+          "description": {
+            "en": "Analyzing shipment data across transportation modes to evaluate delivery performance.",
+            "id": "Menganalisis data pengiriman lintas moda transportasi untuk mengevaluasi kinerja pengiriman."
           },
           "evidence": {
-            "en": "PT Triatra: warehouse and distribution",
-            "id": "PT Triatra: pergudangan dan distribusi"
+            "en": "PT Triatra: analyzed 1+ year of air, land and sea shipment data across 20 routes.",
+            "id": "PT Triatra: menganalisis 1+ tahun data pengiriman udara, darat, dan laut pada 20 rute."
           },
-          "kind": "work"
+          "tools": []
         },
         {
           "skill": {
-            "en": "Warehousing & dock scheduling",
-            "id": "Pergudangan & penjadwalan dock"
+            "en": "Vendor Evaluation",
+            "id": "Vendor Evaluation"
+          },
+          "description": {
+            "en": "Structured assessment and comparison of logistics vendors to support supplier selection and tender preparation.",
+            "id": "Penilaian dan perbandingan vendor logistik secara terstruktur untuk mendukung seleksi pemasok dan persiapan tender."
           },
           "evidence": {
-            "en": "Warehouse Appointment Scheduling System (WASS)",
-            "id": "Sistem Penjadwalan Janji Temu Gudang (WASS)"
+            "en": "PT Triatra: evaluated 10+ vendors and built a QCD evaluation framework.",
+            "id": "PT Triatra: mengevaluasi 10+ vendor dan menyusun kerangka evaluasi QCD."
           },
-          "kind": "project"
+          "tools": [
+            "SLA"
+          ]
         },
         {
           "skill": {
-            "en": "Production planning & product design",
-            "id": "Perencanaan produksi & desain produk"
+            "en": "Route & Shipment Analysis",
+            "id": "Route & Shipment Analysis"
+          },
+          "description": {
+            "en": "Analyzing route performance and shipment patterns to support route and fleet utilization decisions.",
+            "id": "Menganalisis kinerja rute dan pola pengiriman untuk mendukung keputusan pemanfaatan rute dan armada."
           },
           "evidence": {
-            "en": "SMART FEED capstone",
-            "id": "Proyek akhir SMART FEED"
+            "en": "PT Triatra: analyzed delivery patterns across 20 routes.",
+            "id": "PT Triatra: menganalisis pola pengiriman pada 20 rute."
           },
-          "kind": "project"
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "QCD Evaluation",
+            "id": "QCD Evaluation"
+          },
+          "description": {
+            "en": "Evaluating suppliers on Quality, Cost and Delivery criteria.",
+            "id": "Mengevaluasi pemasok berdasarkan kriteria Quality, Cost, dan Delivery."
+          },
+          "evidence": {
+            "en": "PT Triatra: 10-criteria framework weighted Cost 40%, Delivery 35% and Quality 25%.",
+            "id": "PT Triatra: kerangka 10 kriteria dengan bobot Cost 40%, Delivery 35%, dan Quality 25%."
+          },
+          "tools": []
         }
       ]
     },
     {
+      "key": "data",
       "title": {
-        "en": "Methodologies & Quality",
-        "id": "Metodologi & Kualitas"
+        "en": "Data Analytics & Business Intelligence",
+        "id": "Analitik Data & Business Intelligence"
       },
       "items": [
         {
           "skill": {
-            "en": "Lean Manufacturing & TPS",
-            "id": "Lean Manufacturing & TPS"
+            "en": "Data Analysis",
+            "id": "Data Analysis"
+          },
+          "description": {
+            "en": "Analyzing operational datasets to find patterns, risks, performance gaps and improvement opportunities.",
+            "id": "Menganalisis data operasional untuk menemukan pola, risiko, kesenjangan kinerja, dan peluang perbaikan."
           },
           "evidence": {
-            "en": "TPS training and manufacturing laboratory",
-            "id": "Pelatihan TPS dan laboratorium manufaktur"
+            "en": "Inventory, procurement, shipment, vendor and service-quality analysis at PT Vale and PT Triatra.",
+            "id": "Analisis inventaris, pengadaan, pengiriman, vendor, dan kualitas layanan di PT Vale dan PT Triatra."
           },
-          "kind": "training"
+          "tools": []
         },
         {
           "skill": {
-            "en": "JIT, Heijunka, Jidoka & Kaizen",
-            "id": "JIT, Heijunka, Jidoka & Kaizen"
+            "en": "Data Integration",
+            "id": "Data Integration"
+          },
+          "description": {
+            "en": "Combining multiple operational datasets into one structured analysis and monitoring framework.",
+            "id": "Menggabungkan berbagai dataset operasional ke dalam satu kerangka analisis dan pemantauan yang terstruktur."
           },
           "evidence": {
-            "en": "TPS operational simulations",
-            "id": "Simulasi operasional TPS"
+            "en": "PT Vale Indonesia: integrated MRP, stock, PO and vendor data.",
+            "id": "PT Vale Indonesia: mengintegrasikan data MRP, stok, PO, dan vendor."
           },
-          "kind": "training"
+          "tools": [
+            "Power Query"
+          ]
         },
         {
           "skill": {
-            "en": "PDCA, process mapping & root cause analysis",
-            "id": "PDCA, pemetaan proses & analisis akar masalah"
+            "en": "Data Transformation",
+            "id": "Data Transformation"
+          },
+          "description": {
+            "en": "Cleaning, transforming and structuring operational data for reporting and analysis.",
+            "id": "Membersihkan, mentransformasi, dan menstrukturkan data operasional untuk pelaporan dan analisis."
           },
           "evidence": {
-            "en": "Tuyere Material Delivery Kaizen project",
-            "id": "Proyek Kaizen Pengiriman Material Tuyere"
+            "en": "PT Vale Indonesia: cleaned and structured the source data for the monitoring dashboard.",
+            "id": "PT Vale Indonesia: membersihkan dan menstrukturkan data sumber untuk dasbor pemantauan."
           },
-          "kind": "project"
+          "tools": [
+            "Excel",
+            "Power Query"
+          ]
         },
         {
           "skill": {
-            "en": "Lead time optimization",
-            "id": "Optimasi waktu tunggu"
+            "en": "Dashboard Development",
+            "id": "Dashboard Development"
+          },
+          "description": {
+            "en": "Building monitoring dashboards that improve operational visibility and reporting.",
+            "id": "Membangun dasbor pemantauan yang meningkatkan visibilitas operasional dan pelaporan."
           },
           "evidence": {
-            "en": "Tuyere Material Delivery Kaizen project",
-            "id": "Proyek Kaizen Pengiriman Material Tuyere"
+            "en": "PT Vale Indonesia: inventory & procurement monitoring dashboard and a Power BI invoice-mismatch dashboard.",
+            "id": "PT Vale Indonesia: dasbor pemantauan inventaris & pengadaan serta dasbor Power BI untuk ketidaksesuaian invoice."
           },
-          "kind": "project"
+          "tools": [
+            "Excel",
+            "Power BI"
+          ]
         },
         {
           "skill": {
-            "en": "MSA, Crossed Gage R&R & ANOVA",
-            "id": "MSA, Crossed Gage R&R & ANOVA"
+            "en": "Reporting Automation",
+            "id": "Reporting Automation"
+          },
+          "description": {
+            "en": "Automating recurring reports to make reporting faster and more reliable.",
+            "id": "Mengotomasi laporan rutin agar pelaporan lebih cepat dan andal."
           },
           "evidence": {
-            "en": "Measurement System Analysis project",
-            "id": "Proyek Analisis Sistem Pengukuran"
+            "en": "PT Vale Indonesia: cut reporting time from 2 days to 1 hour.",
+            "id": "PT Vale Indonesia: memangkas waktu pelaporan dari 2 hari menjadi 1 jam."
           },
-          "kind": "project"
+          "tools": [
+            "Power Query"
+          ]
         },
         {
           "skill": {
-            "en": "SERVQUAL & Importance-Performance Analysis",
-            "id": "SERVQUAL & Importance-Performance Analysis"
+            "en": "Statistical Analysis",
+            "id": "Statistical Analysis"
+          },
+          "description": {
+            "en": "Applying statistical methods to test datasets and identify significant differences or gaps.",
+            "id": "Menerapkan metode statistik untuk menguji data dan mengidentifikasi perbedaan atau kesenjangan yang signifikan."
           },
           "evidence": {
-            "en": "Internal Service Quality Analysis",
-            "id": "Analisis Kualitas Layanan Internal"
+            "en": "Significance testing in the PT Vale SERVQUAL study and ANOVA in the MSA project.",
+            "id": "Uji signifikansi pada studi SERVQUAL PT Vale dan ANOVA pada proyek MSA."
           },
-          "kind": "project"
+          "tools": [
+            "SPSS",
+            "Python",
+            "Minitab"
+          ]
         },
         {
           "skill": {
-            "en": "Design Thinking, RAD & usability testing",
-            "id": "Design Thinking, RAD & pengujian kegunaan"
+            "en": "Measurement System Analysis",
+            "id": "Measurement System Analysis"
+          },
+          "description": {
+            "en": "Evaluating how reliable a measurement system is and where its variation comes from.",
+            "id": "Mengevaluasi keandalan sistem pengukuran dan sumber variasinya."
           },
           "evidence": {
-            "en": "WASS: prototypes, Black Box tests and SUS",
-            "id": "WASS: prototipe, uji Black Box dan SUS"
+            "en": "JAPFA case study (course project): Crossed Gage R&R ANOVA with a %GRR of 2.91%.",
+            "id": "Studi kasus JAPFA (proyek kuliah): Crossed Gage R&R ANOVA dengan %GRR 2,91%."
           },
-          "kind": "project"
+          "tools": [
+            "Minitab"
+          ]
+        },
+        {
+          "skill": {
+            "en": "Service Quality Analysis",
+            "id": "Service Quality Analysis"
+          },
+          "description": {
+            "en": "Evaluating service performance from structured user feedback and service-quality dimensions.",
+            "id": "Mengevaluasi kinerja layanan dari umpan balik pengguna yang terstruktur dan dimensi kualitas layanan."
+          },
+          "evidence": {
+            "en": "PT Vale Indonesia: 25 attributes and 35 users, with significant gaps in 23 attributes.",
+            "id": "PT Vale Indonesia: 25 atribut dan 35 pengguna, dengan kesenjangan signifikan pada 23 atribut."
+          },
+          "tools": [
+            "SERVQUAL",
+            "IPA"
+          ]
         }
       ]
     },
     {
+      "key": "process",
       "title": {
-        "en": "Soft Skills",
-        "id": "Keterampilan Interpersonal"
+        "en": "Process Improvement & Quality",
+        "id": "Perbaikan Proses & Kualitas"
       },
       "items": [
         {
           "skill": {
-            "en": "Leadership & entrepreneurship",
-            "id": "Kepemimpinan & kewirausahaan"
+            "en": "Process Improvement",
+            "id": "Process Improvement"
+          },
+          "description": {
+            "en": "Finding process bottlenecks and building solutions that improve efficiency and coordination.",
+            "id": "Menemukan bottleneck proses dan membangun solusi yang meningkatkan efisiensi dan koordinasi."
           },
           "evidence": {
-            "en": "HMTI FT-UH: INCREASE and START-UP",
-            "id": "HMTI FT-UH: INCREASE dan START-UP"
+            "en": "Manufacturing Systems Laboratory: identified administrative bottlenecks and built an information system adopted by 179 participants.",
+            "id": "Laboratorium Sistem Manufaktur: mengidentifikasi bottleneck administrasi dan membangun sistem informasi yang digunakan 179 peserta."
           },
-          "kind": "campus"
+          "tools": []
         },
         {
           "skill": {
-            "en": "Coordination & teamwork",
-            "id": "Koordinasi & kerja sama tim"
+            "en": "Process Digitization",
+            "id": "Process Digitization"
+          },
+          "description": {
+            "en": "Turning manual administrative work into digital workflows.",
+            "id": "Mengubah pekerjaan administratif manual menjadi alur kerja digital."
           },
           "evidence": {
-            "en": "ISLI CAMP event committee; procurement teams",
-            "id": "Panitia ISLI CAMP; tim pengadaan"
+            "en": "Laboratory system: digitized activity recaps and paperwork, removing in-person submissions and printing.",
+            "id": "Sistem laboratorium: mendigitalkan rekap kegiatan dan berkas, menghapus pengumpulan tatap muka dan pencetakan."
           },
-          "kind": "campus"
+          "tools": []
         },
         {
           "skill": {
-            "en": "Mentoring & facilitation",
-            "id": "Pendampingan & fasilitasi"
+            "en": "Continuous Improvement",
+            "id": "Continuous Improvement"
+          },
+          "description": {
+            "en": "Using structured feedback, performance evaluation and PDCA to drive ongoing improvement.",
+            "id": "Menggunakan umpan balik terstruktur, evaluasi kinerja, dan PDCA untuk mendorong perbaikan berkelanjutan."
           },
           "evidence": {
-            "en": "Physics and manufacturing laboratory assistant",
-            "id": "Asisten laboratorium fisika dan manufaktur"
+            "en": "Assistant performance evaluation feature for practicum quality; Tuyere Kaizen project cut lead time from 12 to 8 days.",
+            "id": "Fitur evaluasi kinerja asisten untuk kualitas praktikum; proyek Kaizen Tuyere memangkas lead time dari 12 menjadi 8 hari."
           },
-          "kind": "campus"
+          "tools": [
+            "PDCA",
+            "Process Mapping",
+            "Root Cause Analysis"
+          ]
         },
         {
           "skill": {
-            "en": "Communication & business problem solving",
-            "id": "Komunikasi & pemecahan masalah bisnis"
+            "en": "Lean Manufacturing",
+            "id": "Lean Manufacturing"
+          },
+          "description": {
+            "en": "Applying Lean principles to spot waste and improvement opportunities in operations.",
+            "id": "Menerapkan prinsip Lean untuk menemukan waste dan peluang perbaikan operasional."
           },
           "evidence": {
-            "en": "Content Marketing and Astra Motor Business Case competitions",
-            "id": "Kompetisi Content Marketing dan Astra Motor Business Case"
+            "en": "Developed Lean learning materials and practicum sessions as TPS module PIC.",
+            "id": "Menyusun materi pembelajaran dan sesi praktikum Lean sebagai PIC modul TPS."
           },
-          "kind": "award"
+          "tools": [
+            "JIT",
+            "Heijunka",
+            "Jidoka",
+            "Kaizen"
+          ]
+        },
+        {
+          "skill": {
+            "en": "Toyota Production System",
+            "id": "Toyota Production System"
+          },
+          "description": {
+            "en": "Understanding and facilitating TPS concepts in manufacturing systems education.",
+            "id": "Memahami dan memfasilitasi konsep TPS dalam pembelajaran sistem manufaktur."
+          },
+          "evidence": {
+            "en": "Toyota Production System Training Refreshment by TMMIN (December 2025).",
+            "id": "Toyota Production System Training Refreshment oleh TMMIN (Desember 2025)."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Quality Analysis",
+            "id": "Quality Analysis"
+          },
+          "description": {
+            "en": "Assessing quality performance, finding gaps and prioritizing improvement areas.",
+            "id": "Menilai kinerja kualitas, menemukan kesenjangan, dan memprioritaskan area perbaikan."
+          },
+          "evidence": {
+            "en": "SERVQUAL study at PT Vale and QCD vendor evaluation at PT Triatra.",
+            "id": "Studi SERVQUAL di PT Vale dan evaluasi vendor QCD di PT Triatra."
+          },
+          "tools": []
+        }
+      ]
+    },
+    {
+      "key": "systems",
+      "title": {
+        "en": "Information Systems & Engineering Methods",
+        "id": "Sistem Informasi & Metode Rekayasa"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Design Thinking",
+            "id": "Design Thinking"
+          },
+          "description": {
+            "en": "Using a user-centered approach to define problems, understand user needs and develop solutions.",
+            "id": "Pendekatan berpusat pada pengguna untuk merumuskan masalah, memahami kebutuhan pengguna, dan mengembangkan solusi."
+          },
+          "evidence": {
+            "en": "Thesis: Warehouse Appointment Scheduling System (WASS).",
+            "id": "Tugas akhir: Warehouse Appointment Scheduling System (WASS)."
+          },
+          "tools": [
+            "User Persona",
+            "Journey Map",
+            "Affinity Diagram",
+            "5 Whys"
+          ]
+        },
+        {
+          "skill": {
+            "en": "Rapid Application Development",
+            "id": "Rapid Application Development"
+          },
+          "description": {
+            "en": "Building a system iteratively together with its users.",
+            "id": "Membangun sistem secara iteratif bersama penggunanya."
+          },
+          "evidence": {
+            "en": "Thesis: three prototype iterations with warehouse users.",
+            "id": "Tugas akhir: tiga iterasi prototipe bersama pengguna gudang."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Information System Design",
+            "id": "Information System Design"
+          },
+          "description": {
+            "en": "Designing information systems from operational and user requirements.",
+            "id": "Merancang sistem informasi berdasarkan kebutuhan operasional dan pengguna."
+          },
+          "evidence": {
+            "en": "WASS (thesis) and the Manufacturing Systems Laboratory administration system.",
+            "id": "WASS (tugas akhir) dan sistem administrasi Laboratorium Sistem Manufaktur."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Requirements Analysis",
+            "id": "Requirements Analysis"
+          },
+          "description": {
+            "en": "Translating operational problems and user needs into system requirements and features.",
+            "id": "Menerjemahkan masalah operasional dan kebutuhan pengguna menjadi kebutuhan dan fitur sistem."
+          },
+          "evidence": {
+            "en": "WASS: turned user personas and journey maps into features such as D-2 booking, dock capacity monitoring and admin slot blocking.",
+            "id": "WASS: menerjemahkan user persona dan journey map menjadi fitur seperti booking H-2, monitoring kapasitas dock, dan blokir slot oleh admin."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Black Box Testing",
+            "id": "Black Box Testing"
+          },
+          "description": {
+            "en": "Testing system functions against defined requirements.",
+            "id": "Menguji fungsi sistem terhadap kebutuhan yang telah ditetapkan."
+          },
+          "evidence": {
+            "en": "Thesis: WASS passed 12 of 12 test scenarios.",
+            "id": "Tugas akhir: WASS lolos 12 dari 12 skenario uji."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Usability Evaluation",
+            "id": "Usability Evaluation"
+          },
+          "description": {
+            "en": "Measuring system usability with a structured instrument.",
+            "id": "Mengukur usability sistem dengan instrumen terstruktur."
+          },
+          "evidence": {
+            "en": "Thesis: SUS score of 85.45 (Grade A, Excellent) from 11 users.",
+            "id": "Tugas akhir: skor SUS 85,45 (Grade A, Excellent) dari 11 pengguna."
+          },
+          "tools": [
+            "System Usability Scale"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "tools",
+      "title": {
+        "en": "Software & Digital Tools",
+        "id": "Software & Perangkat Digital"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Microsoft Excel",
+            "id": "Microsoft Excel"
+          },
+          "description": {
+            "en": "Data analysis, reporting and dashboarding.",
+            "id": "Analisis data, pelaporan, dan dasbor."
+          },
+          "evidence": {
+            "en": "Inventory & procurement monitoring and automated reporting at PT Vale; shipment analysis at PT Triatra.",
+            "id": "Pemantauan inventaris & pengadaan serta pelaporan otomatis di PT Vale; analisis pengiriman di PT Triatra."
+          },
+          "tools": [
+            "Pivot Tables",
+            "Lookup Functions",
+            "Power Query"
+          ]
+        },
+        {
+          "skill": {
+            "en": "Power Query",
+            "id": "Power Query"
+          },
+          "description": {
+            "en": "Data transformation, data integration and reporting automation.",
+            "id": "Transformasi data, integrasi data, dan otomasi pelaporan."
+          },
+          "evidence": {
+            "en": "Built the automated inventory & procurement monitoring dashboard at PT Vale.",
+            "id": "Membangun dasbor pemantauan inventaris & pengadaan otomatis di PT Vale."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Power BI",
+            "id": "Power BI"
+          },
+          "description": {
+            "en": "Dashboard development and data visualization.",
+            "id": "Pengembangan dasbor dan visualisasi data."
+          },
+          "evidence": {
+            "en": "PT Vale: invoice-mismatch dashboard for SCM Sustainability; MySkill Power BI specialization and Business Intelligence Bootcamp.",
+            "id": "PT Vale: dasbor ketidaksesuaian invoice untuk SCM Sustainability; spesialisasi Power BI MySkill dan Bootcamp Business Intelligence."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "SAP S/4HANA MM",
+            "id": "SAP S/4HANA MM"
+          },
+          "description": {
+            "en": "Material master, MRP, Business Partner and E-Catalogue in the Materials Management module.",
+            "id": "Material master, MRP, Business Partner, dan E-Catalogue pada modul Materials Management."
+          },
+          "evidence": {
+            "en": "End-user training by CBS consultants during PT Vale's ERP migration.",
+            "id": "Pelatihan end-user oleh konsultan CBS saat migrasi ERP PT Vale."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Python",
+            "id": "Python"
+          },
+          "description": {
+            "en": "Data analysis and statistical analysis.",
+            "id": "Analisis data dan analisis statistik."
+          },
+          "evidence": {
+            "en": "Service-quality study at PT Vale; Business Intelligence Bootcamp.",
+            "id": "Studi kualitas layanan di PT Vale; Bootcamp Business Intelligence."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "SPSS",
+            "id": "SPSS"
+          },
+          "description": {
+            "en": "Statistical and survey data analysis.",
+            "id": "Analisis statistik dan data survei."
+          },
+          "evidence": {
+            "en": "SERVQUAL analysis of 35 users across 25 attributes at PT Vale.",
+            "id": "Analisis SERVQUAL terhadap 35 pengguna pada 25 atribut di PT Vale."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Minitab",
+            "id": "Minitab"
+          },
+          "description": {
+            "en": "Measurement System Analysis and Gage R&R.",
+            "id": "Measurement System Analysis dan Gage R&R."
+          },
+          "evidence": {
+            "en": "MSA project (JAPFA case study) with a %GRR of 2.91%.",
+            "id": "Proyek MSA (studi kasus JAPFA) dengan %GRR 2,91%."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Microsoft Word",
+            "id": "Microsoft Word"
+          },
+          "description": {
+            "en": "Reports and business or technical documentation.",
+            "id": "Laporan serta dokumen bisnis dan teknis."
+          },
+          "evidence": {
+            "en": "Internship reports, laboratory learning materials and academic projects.",
+            "id": "Laporan magang, materi pembelajaran laboratorium, dan proyek akademik."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Microsoft PowerPoint",
+            "id": "Microsoft PowerPoint"
+          },
+          "description": {
+            "en": "Presenting analytical findings and project results.",
+            "id": "Presentasi temuan analisis dan hasil proyek."
+          },
+          "evidence": {
+            "en": "Internship result presentations and business case competitions.",
+            "id": "Presentasi hasil magang dan kompetisi business case."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Microsoft Outlook",
+            "id": "Microsoft Outlook"
+          },
+          "description": {
+            "en": "Professional communication, scheduling and coordination.",
+            "id": "Komunikasi profesional, penjadwalan, dan koordinasi."
+          },
+          "evidence": {
+            "en": "Day-to-day scheduling and email coordination during the PT Vale internship.",
+            "id": "Penjadwalan dan koordinasi email sehari-hari selama magang di PT Vale."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Canva",
+            "id": "Canva"
+          },
+          "description": {
+            "en": "Visual design for presentations and documents.",
+            "id": "Desain visual untuk presentasi dan dokumen."
+          },
+          "evidence": {
+            "en": "Used during the PT Triatra internship.",
+            "id": "Digunakan selama magang di PT Triatra."
+          },
+          "tools": []
+        }
+      ]
+    },
+    {
+      "key": "leadership",
+      "title": {
+        "en": "Leadership & Coordination",
+        "id": "Kepemimpinan & Koordinasi"
+      },
+      "items": [
+        {
+          "skill": {
+            "en": "Team Leadership",
+            "id": "Team Leadership"
+          },
+          "description": {
+            "en": "Leading a team toward shared program goals and keeping the work on track.",
+            "id": "Memimpin tim menuju target program bersama dan menjaga pekerjaan tetap sesuai rencana."
+          },
+          "evidence": {
+            "en": "HMTI FT-UH: led an 8-person team as Head of Entrepreneurship Division.",
+            "id": "HMTI FT-UH: memimpin tim 8 orang sebagai Ketua Divisi Kewirausahaan."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Cross-functional Coordination",
+            "id": "Cross-functional Coordination"
+          },
+          "description": {
+            "en": "Aligning work across teams and functions with different priorities.",
+            "id": "Menyelaraskan pekerjaan lintas tim dan fungsi dengan prioritas yang berbeda."
+          },
+          "evidence": {
+            "en": "PT Vale: followed up material and delivery risks with Procurement and Traffic teams. HMTI: coordinated with 5 of 9 divisions.",
+            "id": "PT Vale: menindaklanjuti risiko material dan pengiriman bersama tim Procurement dan Traffic. HMTI: berkoordinasi dengan 5 dari 9 divisi."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Training & Facilitation",
+            "id": "Training & Facilitation"
+          },
+          "description": {
+            "en": "Delivering technical learning sessions and guiding participants through structured activities.",
+            "id": "Membawakan sesi pembelajaran teknis dan memandu peserta melalui kegiatan terstruktur."
+          },
+          "evidence": {
+            "en": "Taught Lean principles to 101 participants as TPS module PIC; mentored 100+ Basic Physics students.",
+            "id": "Mengajarkan prinsip Lean kepada 101 peserta sebagai PIC modul TPS; membimbing 100+ mahasiswa Fisika Dasar."
+          },
+          "tools": []
+        },
+        {
+          "skill": {
+            "en": "Stakeholder Communication",
+            "id": "Stakeholder Communication"
+          },
+          "description": {
+            "en": "Communicating findings and recommendations clearly to different stakeholder groups.",
+            "id": "Menyampaikan temuan dan rekomendasi secara jelas kepada berbagai kelompok pemangku kepentingan."
+          },
+          "evidence": {
+            "en": "PT Vale: presented service-quality findings and recommendations to the Senior Manager of Material Management.",
+            "id": "PT Vale: mempresentasikan temuan dan rekomendasi kualitas layanan kepada Senior Manager Material Management."
+          },
+          "tools": []
         }
       ]
     }
@@ -401,13 +851,7 @@
   },
   "languageProgress": {
     "indonesian": 100,
-    "english": 85
+    "english": 84
   },
-  "radar": {
-    "data": 92,
-    "scm": 89,
-    "process": 95,
-    "lean": 88,
-    "reporting": 87
-  }
+  "englishCertificate": "/uploads/documents/toefl-certificate-brighten-english.pdf"
 }

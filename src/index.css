@@ -164,9 +164,10 @@
 .text-red-600 {
   color: #b33227;
 }
-/* Left-aligned, no auto hyphenation: justify + hyphens split words differently on every screen. */
+/* Justified body copy; no auto hyphenation so words never split differently per screen. */
 .text-justify {
-  text-align: start;
+  text-align: justify;
+  text-justify: inter-word;
   text-wrap: pretty;
   hyphens: manual;
 }
@@ -719,6 +720,22 @@
 .summer-project-media img {
   object-fit: cover;
 }
+.summer-project-main {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--summer-line);
+  border-radius: 12px;
+  background: #fff;
+  cursor: zoom-in;
+}
+.summer-project-main:hover {
+  outline: 2px solid var(--summer-coral);
+  outline-offset: 2px;
+}
+.summer-project-media .summer-project-main img {
+  object-fit: contain;
+}
 .summer-project-photo-placeholder {
   display: grid;
   place-content: center;
@@ -839,20 +856,147 @@
     transform: scaleX(0);
   }
 }
-.summer-radar {
-  padding: 24px 16px;
+.summer-core-intro {
+  max-width: 40rem;
+  color: var(--summer-muted);
+  line-height: 1.6;
+}
+.summer-core-list {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.summer-core-item {
+  --accent: var(--color-brand-primary);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 2fr);
+  gap: 24px;
+  align-items: center;
+  padding: 18px 22px;
+  background: var(--color-bg-base);
+  border: 1px solid var(--summer-line);
+  border-left: 5px solid var(--accent);
   border-radius: 16px;
-  background: #edf5f3;
 }
-.summer-radar > h4 {
-  color: #254e52;
-  text-transform: none;
-  letter-spacing: 0;
+.summer-core-item.is-c1 { --accent: #297d91; }
+.summer-core-item.is-c2 { --accent: var(--summer-coral); }
+.summer-core-item.is-c3 { --accent: #a8862c; }
+.summer-core-item.is-c4 { --accent: #4f8a5f; }
+.summer-core-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.summer-core-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+.summer-core-icon svg { width: 22px; height: 22px; }
+.summer-core-index {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: var(--accent);
+}
+.summer-core-head h3 {
+  margin-top: 4px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-brand-primary);
+}
+.summer-core-head p {
+  margin-top: 4px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--summer-muted);
+}
+.summer-core-proof {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.summer-core-proof li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px 18px;
+  border-left: 1px solid var(--summer-line);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--color-brand-primary);
+}
+.summer-core-proof strong {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+@media (max-width: 1023px) {
+  .summer-core-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .summer-core-proof {
+    padding-top: 14px;
+    border-top: 1px dashed var(--summer-line);
+  }
+  .summer-core-proof li:first-child { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 639px) {
+  .summer-core-item { padding: 16px; }
+  .summer-core-proof {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .summer-core-proof li,
+  .summer-core-proof li:first-child {
+    padding: 0 0 0 12px;
+    border-left: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+}
+.summer-experience-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 24px;
+}
+.summer-experience-tools > span {
+  font-size: 0.66rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--summer-muted);
 }
-.summer-radar > p {
-  color: #536f70;
-  font-size: 0.8rem;
+.summer-experience-tools ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.summer-experience-tools li {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--color-brand-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-brand-primary);
 }
 .summer-skills .rounded-full {
   border-radius: 8px;
@@ -872,10 +1016,24 @@
 .summer-honors .summer-heading > span {
   color: #6a664e;
 }
-.summer-honors .summer-heading > p {
-  color: #6a664e;
+.summer-honors .summer-heading > p.summer-honors-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 7px 14px;
+  border: 1px solid #dccfaa;
+  border-radius: 999px;
+  background: #fffaf0;
+  color: #6b5418;
+  font-size: 0.82rem;
+  font-weight: 700;
   text-transform: none;
   letter-spacing: 0;
+}
+.summer-honors-badge svg {
+  flex-shrink: 0;
+  color: var(--summer-coral);
 }
 .summer-honors .text-white,
 .summer-honors .text-brand-soft,
@@ -1224,9 +1382,6 @@
   .summer-experience-record > div:first-child {
     gap: 0;
   }
-  .summer-radar {
-    padding: 28px 12px;
-  }
   .summer-contact > div {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -1328,8 +1483,6 @@
 .summer-footer .grid a:hover { color: #a53b28; }
 .summer-contact-form > * + * { margin-top: 16px; }
 .summer-honors .summer-heading { margin-bottom: 24px; }
-.summer-radar > h4 { margin-bottom: 16px; }
-.summer-radar > p { margin-top: 16px; }
 .summer-section .grid > * { min-width: 0; }
 .typing-cursor {
   animation: typing-blink 1s steps(1) infinite;
@@ -1447,3 +1600,135 @@
 .summer-typing > p { grid-area: 1 / 1; margin: 0; overflow-wrap: break-word; }
 .summer-typing { margin-bottom: 18px; }
 .summer-typing-ghost { visibility: hidden; }
+.summer-reference {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  width: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--summer-line);
+  border-left: 5px solid #5d9b6e;
+  border-radius: 16px;
+  background: var(--color-bg-base);
+  color: var(--color-brand-primary);
+  text-align: left;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.summer-reference:hover {
+  border-color: #5d9b6e;
+  box-shadow: 0 10px 24px #254e521a;
+}
+.summer-reference > svg {
+  flex-shrink: 0;
+  color: #3f7a50;
+}
+.summer-reference-copy {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--summer-muted);
+}
+.summer-reference-copy strong {
+  font-size: 1rem;
+  color: var(--color-brand-primary);
+}
+.summer-reference-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--summer-coral);
+}
+/* Body copy outside the .text-justify utility. */
+.summer-core-intro,
+.summer-award-copy .text-sm,
+.summer-reference-copy,
+.summer-edu-focus li {
+  text-align: justify;
+  text-justify: inter-word;
+}
+.summer-stats > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-content: center;
+}
+.summer-stats > div > p { grid-column: 1; }
+.summer-stat-icon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-primary);
+}
+.summer-stats > div:last-child .summer-stat-icon {
+  background: var(--summer-butter);
+  color: #8a6d1f;
+}
+/* Stat cards sit three across below desktop, so the icon only shows when cards are wide. */
+@media (max-width: 1023px) {
+  .summer-stats > div { grid-template-columns: minmax(0, 1fr); }
+  .summer-stat-icon { display: none; }
+}
+.summer-edu-focus {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #6b7280;
+}
+.summer-edu-focus li {
+  position: relative;
+  padding-left: 18px;
+}
+.summer-edu-focus li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #c9a84c;
+}
+/* Narrow screens: let justified copy hyphenate so word gaps stay even. */
+@media (max-width: 639px) {
+  .text-justify,
+  .summer-core-intro,
+  .summer-award-copy .text-sm,
+  .summer-reference-copy,
+  .summer-edu-focus li,
+  .credentials-skill-desc,
+  .credentials-skill-evidence,
+  .credentials-training-summary,
+  .credentials-dialog p,
+  .credentials-thesis dd,
+  .credentials-activities li {
+    hyphens: auto;
+  }
+}
+.summer-language-cert {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--summer-coral);
+}
+.summer-language-cert:hover {
+  text-decoration: underline;
+}

@@ -71,21 +71,21 @@
         "id": "TRIATRA: VENDOR EVALUATION"
       },
       "value": {
-        "en": "Tender Preparation",
-        "id": "Persiapan Tender"
+        "en": "10",
+        "id": "10"
       },
       "caption": {
-        "en": "",
-        "id": ""
+        "en": "QCD Criteria",
+        "id": "Kriteria QCD"
       },
       "progress": 100,
       "description": {
-        "en": "Evaluating logistics vendors and structuring comprehensive scoring metrics to optimize new tender processes.",
-        "id": "Mengevaluasi performa vendor logistik dan menyusun metrik penilaian komprehensif untuk mempermudah proses seleksi tender baru."
+        "en": "Built a QCD vendor evaluation matrix (Quality 25%, Delivery 35%, Cost 40%) across 20 shipment routes to support objective forwarder selection for the tender.",
+        "id": "Menyusun matriks evaluasi vendor QCD (Quality 25%, Delivery 35%, Cost 40%) untuk 20 rute pengiriman guna mendukung seleksi forwarder yang objektif dalam tender."
       },
       "tools": {
-        "en": "Root Cause Analysis, Problem Solving",
-        "id": "Root Cause Analysis, Problem Solving"
+        "en": "QCD Matrix, Vendor Evaluation, SLA Design",
+        "id": "QCD Matrix, Vendor Evaluation, SLA Design"
       }
     },
     {

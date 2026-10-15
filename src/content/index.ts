@@ -17,15 +17,15 @@ export const profile = {
   name: hero.name, monogram: hero.monogram, heroImage: hero.heroImage, heroImageAlt: hero.heroImageAlt,
   profileImage: about.profileImage, profileAlt: about.profileAlt,
   experience, education: education.profile, leadership: education.leadership,
-  email: contact.email, socialHeading: contact.socialHeading, socials: contact.socials,
+  email: contact.email, resume: contact.resume, referenceLetter: contact.referenceLetter, referenceNote: contact.referenceNote, socialHeading: contact.socialHeading, socials: contact.socials,
 };
 export const credentials = {
   training: training.training, skillGroups: skills.skillGroups, education: education.education,
-  ui: credentialsUi, skillHighlights: skills.skillHighlights,
+  ui: credentialsUi,
 };
 export const presentation = {
   heroMetrics: hero.metrics, projectGroupLabels: skills.projectGroupLabels,
-  languageProgress: skills.languageProgress, radar: skills.radar,
+  languageProgress: skills.languageProgress, englishCertificate: skills.englishCertificate, coreCompetencies: skills.coreCompetencies,
   copyrightYear: presentationSettings.copyrightYear,
 };
 export const roles = { items: hero.roles };
