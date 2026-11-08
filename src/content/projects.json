@@ -151,6 +151,83 @@
       }
     },
     {
+      "id": "projects-08",
+      "title": {
+        "en": "SIMPRAK Lab: Practicum Administration System",
+        "id": "SIMPRAK Lab: Practicum Administration System"
+      },
+      "cat": {
+        "en": "Lean Process Digitization",
+        "id": "Digitalisasi Proses Lean"
+      },
+      "desc": {
+        "en": "Practicum administration in the Manufacturing Systems Laboratory of Industrial Engineering at Universitas Hasanuddin (UNHAS) was scattered across spreadsheets, chat groups and paper cards: attendance, activity proof, grade recaps and rankings were compiled by hand for every module, and nobody had one place to see where things stood. Together with my fellow lab assistants, I mapped the practicum workflow of all three roles and turned it into SIMPRAK Lab, a paperless administration system that runs every step of the practicum in one place. Students check in to attendance in one tap, submit activities with proof, and see their grades and progress at a glance. Assistants approve activities in PIN-secured batches and enter grades in a spreadsheet-style table that saves only the cells that changed. The coordinator manages schedules, accounts, modules, grade weights and exports from a single control center, and every data change and export is logged. The combined ranking updates automatically and weighs four factors equally (grades, attendance, ethics and peer review), so every student is assessed by the same rules. The system reached version 10 through repeated rounds of testing and revision with the lab assistant team.",
+        "id": "Administrasi praktikum di Laboratorium Sistem Manufaktur Teknik Industri UNHAS tersebar di spreadsheet, grup chat, dan kartu kertas: presensi, bukti kegiatan, rekap nilai, dan peringkat disusun manual di setiap modul, dan tidak ada satu tempat untuk melihat posisi terkini. Bersama rekan-rekan asisten laboratorium, saya memetakan alur kerja praktikum ketiga peran lalu mengubahnya menjadi SIMPRAK Lab, sistem administrasi tanpa kertas yang menjalankan setiap langkah praktikum di satu tempat. Praktikan cukup sekali ketuk untuk presensi, mengumpulkan kegiatan beserta buktinya, dan melihat nilai serta progresnya secara sekilas. Asisten menyetujui kegiatan secara massal dengan pengaman PIN dan menginput nilai dalam tabel bergaya spreadsheet yang hanya menyimpan sel yang berubah. Koordinator mengelola jadwal, akun, modul, bobot nilai, dan ekspor dari satu pusat kendali, dan setiap perubahan data serta ekspor tercatat oleh sistem. Peringkat gabungan diperbarui otomatis dan menimbang empat faktor dengan bobot sama (nilai, presensi, etika, dan peer review), sehingga setiap praktikan dinilai dengan aturan yang sama. Sistem ini mencapai versi 10 melalui putaran pengujian dan revisi berulang bersama tim asisten laboratorium."
+      },
+      "link": {
+        "en": "https://simpraklab-demo.pages.dev/#/login",
+        "id": "https://simpraklab-demo.pages.dev/#/login"
+      },
+      "linkLabel": {
+        "en": "View Live Demo",
+        "id": "Lihat Demo"
+      },
+      "tags": {
+        "en": [
+          "problemsolving",
+          "processimprovement",
+          "paperless",
+          "workflowdesign",
+          "usertesting"
+        ],
+        "id": [
+          "problemsolving",
+          "processimprovement",
+          "paperless",
+          "workflowdesign",
+          "usertesting"
+        ]
+      },
+      "group": {
+        "en": "lean",
+        "id": "lean"
+      },
+      "result": {
+        "label": {
+          "en": "Roles in one workflow",
+          "id": "Peran dalam satu alur"
+        },
+        "value": {
+          "en": "3",
+          "id": "3"
+        },
+        "note": {
+          "en": "Student · Assistant · Coordinator",
+          "id": "Praktikan · Asisten · Koordinator"
+        }
+      },
+      "image": {
+        "en": "/uploads/projects/simpraklab-main.jpg",
+        "id": "/uploads/projects/simpraklab-main.jpg"
+      },
+      "video": {
+        "en": "/uploads/projects/simpraklab-demo.mp4",
+        "id": "/uploads/projects/simpraklab-demo.mp4"
+      },
+      "gallery": {
+        "en": [
+          "/uploads/projects/simpraklab-1-en.png",
+          "/uploads/projects/simpraklab-2-en.png",
+          "/uploads/projects/simpraklab-3-en.png"
+        ],
+        "id": [
+          "/uploads/projects/simpraklab-1-id.png",
+          "/uploads/projects/simpraklab-2-id.png",
+          "/uploads/projects/simpraklab-3-id.png"
+        ]
+      }
+    },
+    {
       "id": "projects-03",
       "title": {
         "en": "Improvement Monitoring of Priority Materials",

@@ -91,6 +91,7 @@ type FeaturedProject = {
   group: ProjectGroup;
   result: ProjectResult;
   image: string;
+  video?: string;
   gallery: string[];
 };
 
@@ -1114,7 +1115,21 @@ export default function App() {
               className={`summer-project-stage tone-${stageProjectTone}`}
             >
               <div className="summer-project-media">
-                {stageProject.image ? (
+                {stageProject.video ? (
+                  <div className="summer-project-main">
+                    <video
+                      src={stageProject.video}
+                      poster={stageProject.image || undefined}
+                      aria-label={stageProject.title}
+                      autoPlay={!window.matchMedia("(prefers-reduced-motion: reduce)").matches}
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      preload="metadata"
+                    />
+                  </div>
+                ) : stageProject.image ? (
                   <button
                     type="button"
                     className="summer-project-main"

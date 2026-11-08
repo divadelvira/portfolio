@@ -114,6 +114,33 @@
         "en": "Design Thinking, RAD",
         "id": "Design Thinking, RAD"
       }
+    },
+    {
+      "name": {
+        "en": "LAB",
+        "id": "LAB"
+      },
+      "heading": {
+        "en": "SIMPRAK LAB: PRACTICUM ADMIN",
+        "id": "SIMPRAK LAB: PRACTICUM ADMIN"
+      },
+      "value": {
+        "en": "3",
+        "id": "3"
+      },
+      "caption": {
+        "en": "Roles, 1 Flow",
+        "id": "Peran, 1 Alur"
+      },
+      "progress": 100,
+      "description": {
+        "en": "Mapped a practicum workflow scattered across spreadsheets, chat groups and paper, then moved attendance, activity verification, grading and ranking into one system for students, assistants and the coordinator.",
+        "id": "Memetakan alur praktikum yang tersebar di spreadsheet, grup chat, dan kertas, lalu memindahkan presensi, verifikasi kegiatan, penilaian, dan peringkat ke satu sistem untuk praktikan, asisten, dan koordinator."
+      },
+      "tools": {
+        "en": "Process Mapping, Workflow Design, User Testing",
+        "id": "Process Mapping, Workflow Design, User Testing"
+      }
     }
   ],
   "roles": [
