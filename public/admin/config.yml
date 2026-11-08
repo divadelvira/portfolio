@@ -935,6 +935,36 @@
                   ]
                 },
                 {
+                  "name": "video",
+                  "label": "Video utama (opsional)",
+                  "required": false,
+                  "widget": "object",
+                  "collapsed": false,
+                  "hint": "Jika diisi, video tampil menggantikan gambar utama; gambar utama dipakai sebagai poster.",
+                  "fields": [
+                    {
+                      "name": "en",
+                      "label": "Bahasa Inggris",
+                      "required": false,
+                      "widget": "file",
+                      "pattern": [
+                        "^(?:|/(?!/)[^\\s]*\\.(?:mp4|webm)|https://[^\\s]+\\.(?:mp4|webm))$",
+                        "Gunakan unggahan video .mp4/.webm atau URL HTTPS, bukan URL //."
+                      ]
+                    },
+                    {
+                      "name": "id",
+                      "label": "Bahasa Indonesia",
+                      "required": false,
+                      "widget": "file",
+                      "pattern": [
+                        "^(?:|/(?!/)[^\\s]*\\.(?:mp4|webm)|https://[^\\s]+\\.(?:mp4|webm))$",
+                        "Gunakan unggahan video .mp4/.webm atau URL HTTPS, bukan URL //."
+                      ]
+                    }
+                  ]
+                },
+                {
                   "name": "gallery",
                   "label": "Foto dokumentasi",
                   "required": false,

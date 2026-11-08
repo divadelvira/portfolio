@@ -1,6 +1,50 @@
 {
   "items": [
     {
+      "key": "cimory",
+      "company": "PT Cisarua Mountain Dairy Tbk.",
+      "role": {
+        "en": "Operation Administration Staff - Project",
+        "id": "Operation Administration Staff - Project"
+      },
+      "period": {
+        "en": "Nov 2026 - Present",
+        "id": "Nov 2026 - Sekarang"
+      },
+      "location": {
+        "en": "Sentul, West Java",
+        "id": "Sentul, Jawa Barat"
+      },
+      "description": {
+        "en": "PT Cisarua Mountain Dairy Tbk. (Cimory) is an Indonesian dairy and processed food producer. In the Engineering Project division, I support the administrative side of projects: purchasing, project records and material control.",
+        "id": "PT Cisarua Mountain Dairy Tbk. (Cimory) adalah produsen susu dan makanan olahan di Indonesia. Di divisi Engineering Project, saya mendukung sisi administrasi proyek: pembelian, catatan proyek, dan kontrol material."
+      },
+      "sector": {
+        "en": "Dairy & Processed Food",
+        "id": "Susu & Makanan Olahan"
+      },
+      "bullets": {
+        "en": [
+          "Create Purchase Requisitions (PR) and post Goods Receipts (GR) in SAP for project materials and services, supporting the purchasing flow with Procurement.",
+          "Support the Project Supervisor with administration for incoming Engineering projects, including weekly project updates.",
+          "Help keep project documentation and the project database complete, including PWO and Improvement Project records.",
+          "Onboarding into project material inventory monitoring, stock opname, and machine asset control in SAP with the Finance team."
+        ],
+        "id": [
+          "Membuat Purchase Requisition (PR) dan memposting Goods Receipt (GR) di SAP untuk material dan jasa proyek, guna mendukung alur pembelian bersama tim Procurement.",
+          "Mendukung Project Supervisor dalam administrasi proyek Engineering yang masuk, termasuk weekly update proyek.",
+          "Membantu menjaga kelengkapan dokumentasi dan database proyek, termasuk catatan PWO dan Improvement Project.",
+          "Sedang mempelajari monitoring inventory material proyek, stock opname, dan kontrol aset mesin di SAP bersama tim Finance."
+        ]
+      },
+      "tools": [
+        "SAP",
+        "Purchase Requisition (PR)",
+        "Goods Receipt (GR)",
+        "Project Administration"
+      ]
+    },
+    {
       "key": "vale",
       "company": "PT Vale Indonesia Tbk.",
       "role": {

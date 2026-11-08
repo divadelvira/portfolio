@@ -33,7 +33,7 @@ const { chromium } = require("playwright");
     assert.equal(await experience.getAttribute("aria-expanded"), "true");
     await page.keyboard.press("Space");
     assert.equal(await experience.getAttribute("aria-expanded"), "false");
-    assert.equal(await page.locator('.summer-project-card').count(), 7);
+    assert.equal(await page.locator('.summer-project-card').count(), 8);
     assert.equal(await page.locator('#project-stage a[href^="https://drive.google.com/"]').count(), 1);
     assert.equal(await page.locator(".summer-core-item").count(), 5);
     await page.locator("#contact input").nth(0).fill("UI regression check");

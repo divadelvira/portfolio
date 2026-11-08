@@ -222,9 +222,9 @@ window.startPortfolioEditor = async function () {
         event.stopPropagation();
       }
     }, true);
-    // Decap image widgets validate only the basename; preSave validates the original full paths.
+    // Decap image/file widgets validate only the basename; preSave validates the original full paths.
     const editorConfig = JSON.parse(JSON.stringify(config, (_key, value) =>
-      value?.widget === 'image' ? { ...value, pattern: undefined } : value));
+      value?.widget === 'image' || value?.widget === 'file' ? { ...value, pattern: undefined } : value));
     window.CMS.init({ config: { ...editorConfig, locale: 'id', load_config_file: false } });
     loading.remove();
   } catch (error) {

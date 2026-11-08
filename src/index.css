@@ -563,17 +563,42 @@
   letter-spacing: 0.02em;
 }
 .summer-experience-record {
+  /* Pastel per card, cycling for new entries. Text is darkened below to keep >= 5.4:1 on every tone. */
+  --exp-bg: #e2f2f9;
+  --exp-line: #b9dcea;
   padding: 24px;
-  border: 1px solid var(--summer-line);
+  border: 1px solid var(--exp-line);
   border-radius: 16px;
+  background: var(--exp-bg);
   cursor: pointer;
-  transition: background 180ms ease;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
-.summer-experience-record:hover {
-  background: #f0f7f4;
+.summer-experience-record:nth-child(3n + 2) {
+  --exp-bg: #fff6dc;
+  --exp-line: #f0dca3;
 }
+.summer-experience-record:nth-child(3n + 3) {
+  --exp-bg: #f1ecfa;
+  --exp-line: #d6cbee;
+}
+.summer-experience-record:hover,
 .summer-experience-record[aria-expanded="true"] {
-  background: #edf6f4;
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 6px 18px -12px rgb(37 78 82 / 0.45);
+}
+.summer-experience-record .text-gray-400,
+.summer-experience-record .text-gray-500,
+.summer-experience-record .text-gray-600,
+.summer-experience-record .text-\[\#0A1628\]\/60,
+.summer-experience-record .summer-experience-tools > span {
+  color: #4a6566;
+}
+.summer-experience-record .text-\[\#C9A84C\] {
+  color: #a83a27;
+}
+.summer-experience-record .bg-brand-soft,
+.summer-experience-record .summer-experience-tools li {
+  background: rgb(255 255 255 / 0.75);
 }
 .summer-experience-record > div:first-child {
   gap: 12px 20px;
@@ -735,6 +760,20 @@
 }
 .summer-project-media .summer-project-main img {
   object-fit: contain;
+}
+.summer-project-main video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  object-fit: contain;
+  background: #fff;
+}
+div.summer-project-main {
+  cursor: auto;
+}
+div.summer-project-main:hover {
+  outline: none;
 }
 .summer-project-photo-placeholder {
   display: grid;
